@@ -1415,11 +1415,15 @@ function courseCard(g){const qs=DATA[g],done=qs.filter((q,i)=>answers[g+"-"+i]!=
  w.querySelector("#gm-"+g).onclick=()=>goTo({v:"thi-thu",g});
  return w;}
 /* ===== HOT: đề thi nóng hổi ===== */
-const HOT_PIN=[{cat:"hn",m:"NSHM",id:"S_hn_NSHM_0",badge:"Vừa thi",title:"Học bổng Ngôi Sao Hoàng Mai 2026–2027 · Vòng 1",sub:"Toán lớp 5 · 60 phút · 14 câu · đề mô phỏng"}];
+const HOT_DAYS=60;
+const HOT_PIN=[{cat:"hn",m:"NSHM",id:"S_hn_NSHM_0",date:"2026-11-17",badge:"Vừa thi",title:"Học bổng Ngôi Sao Hoàng Mai 2026–2027 · Vòng 1",sub:"Toán lớp 5 · 60 phút · 14 câu · đề mô phỏng"}];
 function hotItems(){const out=[],seen=new Set();const push=e=>{if(!e||seen.has(e.id))return;seen.add(e.id);out.push(e);};
- HOT_PIN.forEach(push);
- const lots=(window.AUTO_M||[]).slice().reverse();
- lots.forEach(b=>(b.items||[]).forEach(it=>{if(it&&it.hot)push(hotOf(it,"Vừa thi"));}));
+ /* Đề nóng: có "date" (ngày thi) thì chỉ hiện trong HOT_DAYS ngày; mới nhất lên đầu */
+ const fresh=e=>!e.date||(Date.now()-Date.parse(e.date))/864e5<=HOT_DAYS;
+ const lots=(window.AUTO_M||[]).slice().reverse(),hot=[];
+ HOT_PIN.filter(fresh).forEach(e=>hot.push(e));
+ lots.forEach(b=>(b.items||[]).forEach(it=>{if(it&&it.hot&&fresh(it)&&(it.date||hotRecent(it)))hot.push(Object.assign(hotOf(it,"Vừa thi"),{date:it.date||""}));}));
+ hot.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))).forEach(push);
  lots.filter(b=>/^m/.test(String(b.n))).forEach(b=>(b.items||[]).forEach(it=>{if(hotRecent(it))push(hotOf(it,"Mô phỏng đề thật"));}));
  return out;}
 /* Chỉ đề của kỳ thi gần đây: năm diễn ra kỳ thi ≥ năm mốc (từ tháng 6 là năm nay, trước đó là năm ngoái) */
