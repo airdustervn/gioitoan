@@ -1,0 +1,3 @@
+# Chỉ có tác dụng khi Cloudflare Pages đặt "Build output directory" là thư mục gốc:
+# chuyển mọi đường dẫn vào thư mục public/ (và che các thư mục gen/, backend/).
+/*  /public/:splat  200
