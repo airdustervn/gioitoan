@@ -1,0 +1,9 @@
+# Cấu hình Edge Functions. payOS gọi webhook không kèm JWT nên phải tắt kiểm tra JWT cho hàm này.
+[functions.payos-webhook]
+verify_jwt = false
+
+[functions.create-order]
+verify_jwt = true
+
+[functions.check-order]
+verify_jwt = true
