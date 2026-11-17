@@ -559,6 +559,11 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 @media (max-width:640px){.hot{padding:14px}.hot-list{grid-template-columns:1fr}}
 .g-card{max-width:520px}.g-btn{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;background:#fff;border:1px solid var(--line);font-weight:800}
 .adm-kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.v6{margin:18px 0 6px;padding:18px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px rgba(28,26,23,.06)}
+.v6 h2{margin:0;color:var(--ink)}.v6-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.v6-card{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px 14px;border-radius:14px;background:#fbf7ef;border:1px solid var(--line);cursor:pointer;font:inherit;color:inherit;transition:transform .15s,box-shadow .15s}
+.v6-card:hover,.v6-card:focus-visible{transform:translateY(-2px);box-shadow:0 8px 18px rgba(28,26,23,.1);background:#fff}.v6-card b{font-size:1rem}
+.v6-all{margin-top:12px}@media (max-width:640px){.v6{padding:14px}.v6-list{grid-template-columns:1fr 1fr}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -605,6 +610,12 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
       <div class="hot-head"><h2 id="hotH"><svg class="hot-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s5 4.6 5 10a5 5 0 0 1-10 0c0-2.4 1.3-4.2 2.4-5.3.2 1.6 1 2.8 2.1 3.3C11 7.2 12 2 12 2z" fill="currentColor"/></svg>HOT · Đề thi nóng hổi</h2><span class="note">Đề mô phỏng các kỳ thi vừa diễn ra và đề mới nhất – cập nhật liên tục</span></div>
       <div class="hot-list" id="hotList"></div>
       <button type="button" class="btn ghost hot-more" id="hotMore" hidden>Xem thêm đề mới</button>
+    </section>
+
+    <section class="v6" id="v6" aria-labelledby="v6H">
+      <div class="hot-head"><h2 id="v6H">Luyện thi vào lớp 6</h2><span class="note">Đề mô phỏng theo từng trường CLC Hà Nội, đúng cấu trúc và thời gian thi – chấm điểm ngay, có lời giải từng bước</span></div>
+      <div class="v6-list" id="v6List"></div>
+      <a class="btn primary v6-all" href="#vao-lop-6">Vào phòng luyện thi vào lớp 6 →</a>
     </section>
 
     <div class="kpis">
@@ -1425,8 +1436,19 @@ function renderHot(){const box=$("hotList");if(!box)return;const L=hotItems();bo
  const m=$("hotMore");m.hidden=L.length<=hotN;m.onclick=()=>{hotN+=innerWidth<640?4:8;renderHot();};}
 window.addEventListener("load",()=>{if(location.hash==="#hot")setTimeout(()=>{const h=$("hot");if(h)h.scrollIntoView();},200);});
 window.addEventListener("hashchange",()=>{if(location.hash==="#hot")setTimeout(()=>{const h=$("hot");if(h)h.scrollIntoView({behavior:"smooth"});},60);});
+/* ===== Trang chủ: khối Luyện thi vào lớp 6 ===== */
+const V6_ORDER=["NSHM","CG","NTT","LTV","AMS","NS","MC","ARC","NTL","TX","LL","NN","CHUNG"];
+function renderV6(){const box=$("v6List");if(!box)return;box.innerHTML="";
+ V6_ORDER.filter(m=>HN_MODES[m]&&(HN_YEARS[m]||[]).length).slice(0,innerWidth<640?6:99).forEach(m=>{const L=HN_YEARS[m],MD=HN_MODES[m];
+  const real=L.filter(e=>/^\d/.test(e.year)).length,isHot=L.some(e=>/2026/.test(e.year));
+  const b=document.createElement("button");b.type="button";b.className="v6-card";
+  const t=document.createElement("b");t.textContent=MD.name;
+  const sub=document.createElement("span");sub.className="hc-sub";sub.textContent=`${L.length} đề · ${MD.min||L[0].min||60} phút`+(real&&innerWidth>=640?` · ${real} đề theo năm`:"");
+  const g=document.createElement("span");g.className="hc-go";g.textContent="Luyện ngay →";
+  if(isHot){const h=document.createElement("span");h.className="hot-dot";h.textContent="HOT";t.append(" ",h);}
+  b.append(t,sub,g);b.onclick=()=>{hnMode=m;hnYi=0;if(typeof resetHn==="function")resetHn();go("vao-lop-6",renderHn);};box.appendChild(b);});}
 function renderHome(){
- renderHot();
+ renderHot();renderV6();
  $("heroMascot").innerHTML=`<span class="mascot">${mon("#ff8a3d","#ffd2a8","h1")}</span><span class="mascot m2">${mon("#2fa4ff","#bfe4ff","h2")}</span>`;updateStats();
  
  [["gradeCards",[1,2,3,4,5]],["gradeCards2",[6,7,8,9]],["gradeCards3",[10,11,12]]].forEach(([id,gs])=>{const box=$(id);box.innerHTML="";gs.forEach(g=>box.appendChild(courseCard(g)));});
