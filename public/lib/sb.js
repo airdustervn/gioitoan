@@ -8,6 +8,25 @@
     const subs = [];
     let session = null;
     try { session = JSON.parse(localStorage.getItem(SKEY) || "null"); } catch (_) { session = null; }
+    /* Quay về từ đăng nhập Google: phiên nằm trong phần # của địa chỉ (luồng implicit) */
+    let oauthEvent = null;
+    try {
+      const h = location.hash.slice(1);
+      if (/(^|&)(access_token|error)=/.test(h)) {
+        const sp = new URLSearchParams(h);
+        if (sp.get("access_token")) {
+          session = { access_token: sp.get("access_token"), refresh_token: sp.get("refresh_token"),
+            expires_at: +sp.get("expires_at") || Math.floor(Date.now() / 1000) + (+sp.get("expires_in") || 3600) };
+          try { localStorage.setItem(SKEY, JSON.stringify(session)); } catch (_) {}
+          oauthEvent = "SIGNED_IN";
+        } else {
+          window.SB_OAUTH_ERROR = sp.get("error_description") || sp.get("error");
+          oauthEvent = "ERROR";
+        }
+        history.replaceState(null, "", location.pathname + location.search + "#tai-khoan");
+        setTimeout(() => { window.dispatchEvent(new HashChangeEvent("hashchange")); }, 0);
+      }
+    } catch (_) {}
 
     function save(s, ev) {
       session = s;
@@ -59,6 +78,12 @@
         const s = norm(r.data); save(s, "SIGNED_IN");
         return { data: { session: s, user: s && s.user }, error: null };
       },
+      async signInWithOAuth({ provider, options }) {
+        const back = (options && options.redirectTo) || (location.origin + location.pathname);
+        location.href = url + "/auth/v1/authorize?provider=" + encodeURIComponent(provider) +
+          "&redirect_to=" + encodeURIComponent(back);
+        return { data: { provider }, error: null };
+      },
       async signOut() {
         if (session) { try { await req("/auth/v1/logout", { method: "POST" }); } catch (_) {} }
         save(null, "SIGNED_OUT"); return { error: null };
@@ -95,6 +120,7 @@
       }
     };
 
+    if (oauthEvent === "SIGNED_IN") setTimeout(() => subs.forEach(f => { try { f("SIGNED_IN", session); } catch (_) {} }), 0);
     return { auth, rpc, from, functions };
   }
   window.supabase = { createClient };
