@@ -4,4 +4,4 @@ Allow: /auto/manifest.js
 Disallow: /auto/
 Disallow: /data/
 
-Sitemap: https://gioitoan.pages.dev/sitemap.xml
+Sitemap: https://gioitoan.com.vn/sitemap.xml

@@ -4,7 +4,7 @@ Chạy lại mỗi khi đổi tên miền (sửa SITE) hoặc thêm đề:  pyth
 """
 import json, os, re, html, datetime
 ROOT = os.path.join(os.path.dirname(__file__), "..", "public")
-SITE = "https://gioitoan.pages.dev"          # đổi thành https://gioitoan.com.vn khi gắn tên miền
+SITE = "https://gioitoan.com.vn"          # đổi thành https://gioitoan.com.vn khi gắn tên miền
 TODAY = datetime.date.today().isoformat()
 E = html.escape
 idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
