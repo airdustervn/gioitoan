@@ -7,7 +7,7 @@ def paper(seed):
         q=dict(O[i]);q["p"]=0.25;P1.append(q)
     P2=[]
     # G1 hàm bậc ba f = x³ − 3a x² + c
-    a=g.i(1,3);c=g.i(-9,9) or 1
+    a=g.i(1,5);c=g.i(-40,40) or 1
     f=lambda x:x**3-3*a*x*x+c
     fmin=min(f(0),f(2*a),f(3*a)); nroots=3 if f(0)>0 and f(2*a)<0 else (1 if f(0)*f(2*a)>0 else 2)
     stmt_d=g.c([3,1])
@@ -27,13 +27,13 @@ def paper(seed):
       ("d) Đường thẳng AB song song với (P).",False,"So sánh AB với n.","AB = (2; 4; 4) = 2n nên AB vuông góc với (P).")]))
     # G3 xác suất có điều kiện
     D1=lambda x,n=1:f"{x:.{n}f}".replace(".",",")
-    p1=g.c([0.4,0.5,0.6,0.7,0.8]);r1=g.c([0.7,0.8,0.9]);r2=g.c([0.2,0.3,0.4,0.5])
+    p1=g.c([0.2,0.3,0.4,0.5,0.6,0.7,0.8]);r1=g.c([0.6,0.7,0.8,0.9]);r2=g.c([0.1,0.2,0.3,0.4,0.5]);ctx=g.c([("ôn tập đều đặn","ôn đều đặn"),("tham gia câu lạc bộ Toán","tham gia câu lạc bộ"),("làm đủ bài tập về nhà","làm đủ bài tập")])
     pT=p1*r1+(1-p1)*r2;bay=p1*r1/pT
-    P2.append(g.TF(f"Câu 3. Một lớp có {int(round(p1*100))}% học sinh ôn tập đều đặn. Xác suất đạt điểm giỏi của học sinh ôn đều đặn là {D1(r1)}, của học sinh còn lại là {D1(r2)}. Chọn ngẫu nhiên một học sinh.",[
-      (f"a) Xác suất chọn được học sinh ôn đều đặn là {D1(p1)}.",True,"Đọc dữ kiện.",f"{int(round(p1*100))}% = {D1(p1)}."),
-      (f"b) Xác suất học sinh đạt điểm giỏi, biết học sinh đó ôn đều đặn, là {D1(r2)}.",False,"Xác suất có điều kiện đã cho.",f"P(giỏi | ôn đều) = {D1(r1)}."),
+    P2.append(g.TF(f"Câu 3. Một lớp có {int(round(p1*100))}% học sinh {ctx[0]}. Xác suất đạt điểm giỏi của học sinh {ctx[1]} là {D1(r1)}, của học sinh còn lại là {D1(r2)}. Chọn ngẫu nhiên một học sinh.",[
+      (f"a) Xác suất chọn được học sinh {ctx[1]} là {D1(p1)}.",True,"Đọc dữ kiện.",f"{int(round(p1*100))}% = {D1(p1)}."),
+      (f"b) Xác suất học sinh đạt điểm giỏi, biết học sinh đó {ctx[1]}, là {D1(r2)}.",False,"Xác suất có điều kiện đã cho.",f"P(giỏi | {ctx[1]}) = {D1(r1)}."),
       (f"c) Xác suất học sinh đạt điểm giỏi là {D1(pT,2)}.",True,"Công thức xác suất toàn phần.",f"{D1(p1)} × {D1(r1)} + {D1(1-p1)} × {D1(r2)} = {D1(pT,2)}."),
-      (f"d) Biết học sinh đạt điểm giỏi, xác suất học sinh đó ôn đều đặn lớn hơn 0,9.",bay>0.9,"Công thức Bayes.",f"{D1(p1*r1,2)} : {D1(pT,2)} ≈ {D1(bay,3)}.")]))
+      (f"d) Biết học sinh đạt điểm giỏi, xác suất học sinh đó {ctx[1]} lớn hơn 0,9.",bay>0.9,"Công thức Bayes.",f"{D1(p1*r1,2)} : {D1(pT,2)} ≈ {D1(bay,3)}.")]))
     # G4 chuyển động
     v0=g.i(6,30);a_=g.i(1,6)
     T=v0/a_;S=v0*T-a_*T*T/2
@@ -43,9 +43,9 @@ def paper(seed):
       (f"c) Quãng đường ô tô đi được từ lúc hãm phanh đến khi dừng là {vn(Fr(v0*v0,a_))} m.",False,"S = ∫ v(t)dt.",f"S = v₀²/(2a) = {vn(Fr(v0*v0,2*a_))} m."),
       (f"d) Trong 2 giây đầu ô tô đi được {2*v0-2*a_} m.",True,"∫₀² v(t)dt.",f"{2*v0} − {a_} × 2 = {2*v0-2*a_} m.")]))
     P3=[]
-    L=6*g.i(1,50);x=L//6;V=(L-2*x)**2*x
+    L=6*g.i(1,150);x=L//6;V=(L-2*x)**2*x
     P3.append(g.F("Đại số","Tối ưu thực tế",f"Từ tấm bìa hình vuông cạnh {L} dm, cắt bỏ bốn hình vuông bằng nhau ở bốn góc rồi gấp thành hộp không nắp. Thể tích lớn nhất của hộp là bao nhiêu dm³?",V,"V(x) = x(L − 2x)², tìm x.",[f"V′ = 0 tại x = L/6 = {x}.",f"V = {x} × {L-2*x}² = {V}."],"Khảo sát hàm thể tích."))
-    a2=g.i(2,8);h2=g.i(2,9)
+    a2=g.i(2,15);h2=g.i(2,20)
     P3.append(g.F("Hình học","Thể tích lăng trụ",f"Lăng trụ đứng ABC.A′B′C′ có đáy là tam giác vuông cân tại A, AB = {a2}, AA′ = {h2}. Tính thể tích khối lăng trụ.",a2*a2*h2/2,"V = S đáy × chiều cao.",[f"S đáy = {a2}²/2; V = {vn(Fr(a2*a2*h2,2))}."],"Lăng trụ đứng: chiều cao là cạnh bên."))
     pa=g.i(2,9)/100;pb=g.i(1,8)/100;sa=g.i(3,8)/10;sb=round(1-sa,1)
     pd=sa*pa+sb*pb;ans=round(sa*pa/pd,2)
@@ -54,6 +54,6 @@ def paper(seed):
     P3.append(g.F("Hình học","Tọa độ ứng dụng",f"Trong hệ trục Oxyz (đơn vị mét), một flycam bay từ điểm M({o0[0]}; {o0[1]}; {o0[2]}) đến N({o0[0]+d1[0]}; {o0[1]+d1[1]}; {o0[2]+d1[2]}) theo đường thẳng. Quãng đường bay là bao nhiêu mét?",int(math.sqrt(sum(t*t for t in d1))),"MN = √(Δx² + Δy² + Δz²).",[f"√({d1[0]}² + {d1[1]}² + {d1[2]}²) = {int(math.sqrt(sum(t*t for t in d1)))}."],"Khoảng cách hai điểm."))
     k=g.i(1,5);T2=g.i(2,5);c0=g.i(1,9)
     P3.append(g.F("Đại số","Tích phân ứng dụng",f"Một vật chuyển động với vận tốc v(t) = {3*k}t² + {c0} (m/s). Quãng đường vật đi được trong {T2} giây đầu là bao nhiêu mét?",k*T2**3+c0*T2,"S = ∫₀ᵀ v(t)dt.",[f"∫₀^{T2} ({3*k}t² + {c0})dt = {k}·{T2}³ + {c0}·{T2} = {k*T2**3+c0*T2}."],"Quãng đường là tích phân của vận tốc."))
-    n=g.i(4,10);q=g.c([2,3]);u=g.i(1,6)
+    n=g.i(3,12);q=g.c([2,3,4]);u=g.i(1,9)
     P3.append(g.F("Đại số","Cấp số nhân",f"Một loài vi khuẩn cứ mỗi giờ tăng gấp {q} lần. Ban đầu có {u} nghìn con. Sau {n} giờ có bao nhiêu nghìn con?",u*q**n,f"uₙ = u₀ · {q}ⁿ.",[f"{u} × {q}^{n} = {u*q**n}."],f"Mỗi giờ nhân với công bội {q}."))
     return {"P1":P1,"P2":P2,"P3":P3}

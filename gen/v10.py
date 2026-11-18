@@ -5,7 +5,7 @@ def bieu_thuc(g,pts):
     while t==b: t=g.i(4,20)
     xs=t*t
     Aval=Fr(t+a,t-b)
-    k=g.i(2,6);m=g.i(1,4);c=g.i(1,12)
+    k=g.i(2,9);m=g.i(1,4);c=g.i(1,20)
     if c==m*k-k: c+=1
     P=1+m;Qc=m*k-k-c;R=c*k
     num=f"{P}x"+ (f" {'+' if Qc>0 else '−'} {abs(Qc)}√x" if Qc else "")+f" + {R}"
@@ -56,18 +56,18 @@ def viet(g,p):
     s=g.i(3,12);pp=g.i(1,min(20,s*s//4))
     return g.F("Đại số","Hệ thức Vi-ét",f"Phương trình x² − {s}x + {pp} = 0 có hai nghiệm x₁, x₂. Tính x₁² + x₂².",s*s-2*pp,"x₁ + x₂ = "+str(s)+", x₁x₂ = "+str(pp)+".",[f"(x₁ + x₂)² − 2x₁x₂ = {s*s} − {2*pp} = {s*s-2*pp}."],"Không cần giải phương trình.",p=p)
 def circle(g,ps):
-    al=g.i(15,75);tri=g.c([(3,4,5),(5,12,13),(8,15,17),(7,24,25),(20,21,29)]);k=g.i(1,6);R,T,D=tri[0]*k,tri[1]*k,tri[2]*k
+    al=g.i(10,80);tri=g.c([(3,4,5),(5,12,13),(8,15,17),(7,24,25),(20,21,29),(9,40,41),(12,35,37),(11,60,61),(28,45,53),(33,56,65),(16,63,65),(48,55,73)]);k=g.i(1,9);lt=g.c([("A","B","C"),("M","N","P"),("E","F","K")]);R,T,D=tri[0]*k,tri[1]*k,tri[2]*k
     if g.i(0,1): R,T=T,R
     th=g.c([20,30,36,40,45,60,72,80,90,100,120,135,150]);R2=g.i(3,20)
     L=round(3.14*R2*th/180,2)
-    return [g.F("Hình học","Góc nội tiếp",f"Cho đường tròn (O) đường kính AB, điểm C thuộc đường tròn sao cho góc CAB = {al}°. Tính số đo góc ABC (độ).",90-al,"Góc nội tiếp chắn nửa đường tròn.",[f"Góc ACB = 90° ⇒ góc ABC = 90° − {al}° = {90-al}°."],"Góc nội tiếp chắn nửa đường tròn là góc vuông.",p=ps[0]),
+    return [g.F("Hình học","Góc nội tiếp",f"Cho đường tròn (O) đường kính {lt[0]}{lt[1]}, điểm {lt[2]} thuộc đường tròn sao cho góc {lt[2]}{lt[0]}{lt[1]} = {al}°. Tính số đo góc {lt[0]}{lt[1]}{lt[2]} (độ).",90-al,"Góc nội tiếp chắn nửa đường tròn.",[f"Góc {lt[0]}{lt[2]}{lt[1]} = 90° ⇒ góc {lt[0]}{lt[1]}{lt[2]} = 90° − {al}° = {90-al}°."],"Góc nội tiếp chắn nửa đường tròn là góc vuông.",p=ps[0]),
             g.F("Hình học","Tiếp tuyến",f"Từ điểm M nằm ngoài đường tròn (O; {R} cm) kẻ tiếp tuyến MA (A là tiếp điểm). Biết OM = {D} cm. Tính độ dài MA (cm).",T,"OA ⊥ MA.",[f"MA = √(OM² − OA²) = √({D*D} − {R*R}) = {T} cm."],"Bán kính vuông góc với tiếp tuyến tại tiếp điểm.",p=ps[1]),
             g.F("Hình học","Độ dài cung",f"Trên đường tròn (O; {R2} cm), góc ở tâm AOB = {th}°. Tính độ dài cung nhỏ AB (cm), lấy π ≈ 3,14, làm tròn đến hàng phần trăm.",L,"l = πRn/180.",[f"3,14 × {R2} × {th} : 180 ≈ {vn(L)} cm."],"Độ dài cung tỉ lệ với số đo góc ở tâm.",p=ps[2])]
 def cuc_tri_cu(g,p):
-    a=g.i(3,9);c=g.i(2,a*a-1)
+    a=g.i(3,15);c=g.i(2,a*a-1)
     return g.F("Đại số","Giá trị nhỏ nhất",f"Cho x ≥ {a}. Tìm giá trị nhỏ nhất của P = x + {c}/x.",vn(Fr(a*a+c,a)).replace("−","-") if Fr(a*a+c,a).denominator==1 else f"{a*a+c}/{a}","P đồng biến khi x ≥ √"+str(c)+".",[f"Với x ≥ {a} > √{c}, P tăng theo x.",f"Pmin = P({a}) = {a} + {c}/{a} = {vn(Fr(a*a+c,a))}."],"Điểm rơi của Cô-si nằm ngoài miền thì xét tại đầu mút.",p=p)
 def toi_uu_moi(g,p):
-    L=4*g.i(4,100)
+    L=4*g.i(4,250)
     return g.F("Đại số","Tối ưu thực tế",f"Bác An có {L} m lưới để rào một khu vườn hình chữ nhật, một cạnh tựa vào bức tường (không cần rào). Diện tích lớn nhất có thể rào được là bao nhiêu m²?",L*L//8,"Gọi cạnh vuông góc với tường là x.",[f"S = x({L} − 2x), lớn nhất khi x = {L//4}.",f"Smax = {L//4} × {L//2} = {L*L//8} m²."],"Biến đổi về dạng bình phương hoặc dùng Cô-si.",p=p)
 def thong_ke(g,p):
     f=[g.i(4,10) for _ in range(5)];n=sum(f);j=g.i(1,3)
@@ -76,7 +76,7 @@ def thong_ke(g,p):
     tab="; ".join(f"{gr}: {x}" for gr,x in zip(groups,f))
     return g.F("Tổ hợp","Thống kê ghép nhóm",f"Chiều cao (cm) của {n} học sinh được ghép nhóm: {tab}. Tần số tương đối của nhóm {groups[j]} là bao nhiêu phần trăm?",f[j]*100//n,"Tần số tương đối = tần số : tổng × 100%.",[f"{f[j]} : {n} × 100% = {f[j]*100//n}%."],"Tổng tần số bằng số học sinh.",p=p)
 def xs_the(g,p):
-    N=5*g.i(4,16);d=g.i(3,9)
+    N=5*g.i(4,30);d=g.i(3,12)
     cnt=N//d
     return g.F("Tổ hợp","Xác suất",f"Một hộp có {N} tấm thẻ đánh số từ 1 đến {N}. Rút ngẫu nhiên một thẻ. Tính xác suất thẻ rút được mang số chia hết cho {d} (viết dạng a/b tối giản).",f"{Fr(cnt,N).numerator}/{Fr(cnt,N).denominator}","Đếm các bội của "+str(d)+".",[f"Có {cnt} bội của {d} từ 1 đến {N}.",f"P = {cnt}/{N} = {vn(Fr(cnt,N))}."],"Xác suất = số kết quả thuận lợi : số kết quả có thể.",p=p)
 def old(seed):

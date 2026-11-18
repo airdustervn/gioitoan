@@ -7,13 +7,15 @@ def sb(n): return str(n).translate(SUB)
 def paper(seed):
     g=G(seed); Q=[]; A=Q.append
     # 1 counting
-    n=g.i(5,30);k=g.c([2,3,4])
-    A(g.MC("Tổ hợp","Hoán vị – chỉnh hợp",f"Có bao nhiêu cách chọn {k} học sinh từ {n} học sinh và xếp thành một hàng dọc?",str(math.perm(n,k)),[str(math.comb(n,k)),str(n**k),str(math.perm(n,k-1))],"Chọn có thứ tự: chỉnh hợp.",[f"A({n}, {k}) = {math.perm(n,k)}."],"Có thứ tự → chỉnh hợp; không thứ tự → tổ hợp."))
+    n=g.i(5,45);k=g.c([2,3,4]);vv=g.i(0,2)
+    if vv==0: A(g.MC("Tổ hợp","Hoán vị – chỉnh hợp",f"Có bao nhiêu cách chọn {k} học sinh từ {n} học sinh và xếp thành một hàng dọc?",str(math.perm(n,k)),[str(math.comb(n,k)),str(n**k),str(math.perm(n,k-1))],"Chọn có thứ tự: chỉnh hợp.",[f"A({n}, {k}) = {math.perm(n,k)}."],"Có thứ tự → chỉnh hợp; không thứ tự → tổ hợp."))
+    elif vv==1: A(g.MC("Tổ hợp","Hoán vị – chỉnh hợp",f"Một câu lạc bộ có {n} thành viên. Có bao nhiêu cách bầu ra {k} người giữ {k} chức vụ khác nhau?",str(math.perm(n,k)),[str(math.comb(n,k)),str(n**k),str(math.perm(n,k-1))],"Mỗi chức vụ khác nhau nên có thứ tự.",[f"A({n}, {k}) = {math.perm(n,k)}."],"Chức vụ khác nhau → chỉnh hợp."))
+    else: A(g.MC("Tổ hợp","Tổ hợp",f"Có bao nhiêu cách chọn ra {k} học sinh từ một nhóm {n} học sinh để đi trực nhật (không phân biệt thứ tự)?",str(math.comb(n,k)),[str(math.perm(n,k)),str(n*k),str(math.comb(n,k-1)) if math.comb(n,k-1)!=math.comb(n,k) else str(math.comb(n,k)+1)],"Không thứ tự: tổ hợp.",[f"C({n}, {k}) = {math.comb(n,k)}."],"Không thứ tự → tổ hợp."))
     # 2 CSC
     u1=g.i(-3,5);d=g.i(2,5);N=g.c([5,6,7,8])
     A(g.MC("Đại số","Cấp số cộng",f"Cấp số cộng (uₙ) có u₁ = {vn(u1)}, công sai d = {d}. Giá trị u{sb(N)} bằng",vn(u1+(N-1)*d),[vn(u1+N*d),vn(u1*d**(N-1)),vn(u1+(N-2)*d)],"uₙ = u₁ + (n − 1)d.",[f"u{sb(N)} = {vn(u1)} + {N-1} × {d} = {vn(u1+(N-1)*d)}."],"Hệ số của d là n − 1."))
     # 3 đồng biến
-    a=g.i(1,6);cc=g.i(-9,9)
+    a=g.i(1,9);cc=g.i(-30,30)
     A(g.MC("Đại số","Tính đơn điệu",f"Hàm số y = x³ − {3*a}x²{sg(cc) if cc else ''} nghịch biến trên khoảng nào?",f"(0; {2*a})",[f"(−∞; 0)",f"({2*a}; +∞)",f"(−{2*a}; 0)"],"Xét dấu y′.",[f"y′ = 3x² − {6*a}x = 3x(x − {2*a}) < 0 khi 0 < x < {2*a}."],"Nghịch biến khi y′ < 0."))
     # 4 cực đại
     b=g.i(1,6);cc=g.i(-9,9)
@@ -39,13 +41,14 @@ def paper(seed):
     bb=g.c([2,3,5]);r=g.i(1,4);s_=g.i(1,9)
     A(g.MC("Đại số","Phương trình lôgarit",f"Nghiệm của phương trình log_{bb}(x − {s_}) = {r} là",f"x = {bb**r+s_}",[f"x = {bb**r-s_}",f"x = {bb*r+s_}",f"x = {bb**r}"],f"x − {s_} = {bb}^{r}.",[f"x − {s_} = {bb**r} ⇒ x = {bb**r+s_}."],"Kiểm tra điều kiện x > "+str(s_)+"."))
     # 11 nguyên hàm
-    k=g.i(3,9);cc=g.i(1,9);cs=f"{cc}" if cc>1 else ""
-    A(g.MC("Đại số","Nguyên hàm",f"Họ nguyên hàm của f(x) = {k}x{sp(k-1)} + {cs}cos x là",f"x{sp(k)} + {cs}sin x + C",[f"x{sp(k)} − {cs}sin x + C",f"{k}x{sp(k)} + {cs}sin x + C",f"{k*(k-1)}x{sp(k-2)} − {cs}sin x + C"],"Nguyên hàm từng hạng tử.",[f"∫{k}x{sp(k-1)}dx = x{sp(k)}; ∫{cs}cos x dx = {cs}sin x."],"Kiểm tra bằng đạo hàm."))
+    k=g.i(3,12);cc=g.i(1,20);cs=f"{cc}" if cc>1 else ""
+    if g.i(0,1): A(g.MC("Đại số","Nguyên hàm",f"Họ nguyên hàm của f(x) = {k}x{sp(k-1)} + {cs}sin x là",f"x{sp(k)} − {cs}cos x + C",[f"x{sp(k)} + {cs}cos x + C",f"{k}x{sp(k)} − {cs}cos x + C",f"{k*(k-1)}x{sp(k-2)} + {cs}cos x + C"],"Nguyên hàm từng hạng tử.",[f"∫{k}x{sp(k-1)}dx = x{sp(k)}; ∫{cs}sin x dx = −{cs}cos x."],"Nguyên hàm của sin x là −cos x."))
+    else: A(g.MC("Đại số","Nguyên hàm",f"Họ nguyên hàm của f(x) = {k}x{sp(k-1)} + {cs}cos x là",f"x{sp(k)} + {cs}sin x + C",[f"x{sp(k)} − {cs}sin x + C",f"{k}x{sp(k)} + {cs}sin x + C",f"{k*(k-1)}x{sp(k-2)} − {cs}sin x + C"],"Nguyên hàm từng hạng tử.",[f"∫{k}x{sp(k-1)}dx = x{sp(k)}; ∫{cs}cos x dx = {cs}sin x."],"Kiểm tra bằng đạo hàm."))
     # 12 tích phân tính chất
     a1=g.i(1,15);b1=g.i(1,15);ka=g.i(2,4)
     A(g.MC("Đại số","Tích phân",f"Biết ∫₀¹ f(x)dx = {a1} và ∫₀¹ g(x)dx = {b1}. Khi đó ∫₀¹ [{ka}f(x) − g(x)]dx bằng",vn(ka*a1-b1),[vn(a1-b1),vn(ka*a1+b1),vn(ka*(a1-b1))],"Tích phân tuyến tính.",[f"{ka} × {a1} − {b1} = {ka*a1-b1}."],"Tách tổng, đưa hằng số ra ngoài."))
     # 13 tích phân đơn giản
-    u=g.i(2,9);cc=g.i(1,9);val=u*u+cc*u
+    u=g.i(2,15);cc=g.i(1,20);val=u*u+cc*u
     A(g.MC("Đại số","Tích phân",f"∫₀^{u} (2x + {cc})dx bằng",str(val),[str(u*u),str(2*u+cc),str(val+cc)],f"Nguyên hàm x² + {cc}x.",[f"({u}² + {cc}·{u}) − 0 = {val}."],"F(b) − F(a)."))
     # 14 số phức mô đun
     x,y=g.c([(3,4),(5,12),(8,15),(7,24),(20,21)]);kk=g.i(1,6);x,y=x*kk,y*kk
@@ -56,11 +59,12 @@ def paper(seed):
     a2,b2,c2,d2=g.i(1,5),g.i(1,5),g.i(1,5),g.i(1,5)
     A(g.MC("Đại số","Số phức",f"Cho z₁ = {a2} + {b2}i, z₂ = {c2} − {d2}i. Phần ảo của z₁ + z₂ là",vn(b2-d2),[vn(a2+c2),vn(b2+d2),f"{vn(b2-d2)}i"],"Cộng phần ảo với phần ảo.",[f"z₁ + z₂ = {a2+c2} + ({vn(b2-d2)})i."],"Phần ảo là số thực, không kèm i."))
     # 16 điểm biểu diễn
-    a3,b3=g.i(-5,5) or 2,g.i(1,6)
+    a3,b3=g.i(-15,15) or 2,g.i(1,15)
     A(g.MC("Đại số","Số phức",f"Điểm biểu diễn số phức liên hợp của z = {vn(a3)} + {b3}i là",f"({vn(a3)}; −{b3})",[f"({vn(a3)}; {b3})",f"({vn(-a3)}; {b3})",f"({b3}; {vn(a3)})"],"z̄ = a − bi.",[f"z̄ = {vn(a3)} − {b3}i → ({vn(a3)}; −{b3})."],"Liên hợp đổi dấu phần ảo."))
     # 17 khối lập phương
-    a4=g.i(2,60)
-    A(g.MC("Hình học","Thể tích",f"Thể tích khối lập phương cạnh {a4} bằng",str(a4**3),[str(a4**2),str(6*a4*a4),str(3*a4)],"V = a³.",[f"{a4}³ = {a4**3}."],"Diện tích toàn phần mới là 6a²."))
+    a4=g.i(2,99)
+    if g.i(0,2)==0: A(g.MC("Hình học","Diện tích toàn phần",f"Diện tích toàn phần của hình lập phương cạnh {a4} bằng",str(6*a4*a4),[str(a4**3),str(4*a4*a4),str(a4*a4)],"6 mặt là hình vuông.",[f"6 × {a4}² = {6*a4*a4}."],"Stp = 6a²."))
+    else: A(g.MC("Hình học","Thể tích",f"Thể tích khối lập phương cạnh {a4} bằng",str(a4**3),[str(a4**2),str(6*a4*a4),str(3*a4)],"V = a³.",[f"{a4}³ = {a4**3}."],"Diện tích toàn phần mới là 6a²."))
     # 18 chóp
     B=g.i(2,30);h=3*g.i(1,6)
     A(g.MC("Hình học","Thể tích khối chóp",f"Khối chóp có diện tích đáy B = {B} và chiều cao h = {h}. Thể tích khối chóp bằng",str(B*h//3),[str(B*h),str(B*h//2) if B*h%2==0 else str(B*h+1),str(B*h//3+B)],"V = Bh/3.",[f"{B} × {h} : 3 = {B*h//3}."],"Chóp chia 3, lăng trụ không chia."))
@@ -89,12 +93,12 @@ def paper(seed):
     p1,p2,p3=g.i(1,5),g.i(1,5),g.i(1,5);s1,s2,s3=g.i(1,4),g.i(1,4),g.i(1,4)
     A(g.MC("Hình học","Đường thẳng",f"Đường thẳng d: (x − {p1})/{s1} = (y + {p2})/{s2} = (z − {p3})/(−{s3}) có một vectơ chỉ phương là",f"({s1}; {s2}; −{s3})",[f"({p1}; −{p2}; {p3})",f"({s1}; {s2}; {s3})",f"({p1}; {p2}; {p3})"],"Lấy các mẫu số.",[f"u = ({s1}; {s2}; −{s3})."],"Tử số cho điểm, mẫu số cho VTCP."))
     # 27 xác suất
-    nb,nr=g.i(4,12),g.i(3,10)
-    tot=math.comb(nb+nr,2);fav=math.comb(nb,2)
-    A(g.MC("Tổ hợp","Xác suất",f"Hộp có {nb} bi xanh và {nr} bi đỏ. Lấy ngẫu nhiên 2 bi. Xác suất lấy được 2 bi xanh là",vn(Fr(fav,tot)),[vn(Fr(nb,nb+nr)),vn(Fr(nb*nb,(nb+nr)**2)),vn(Fr(math.comb(nr,2),tot))],"Đếm bằng tổ hợp.",[f"C({nb}, 2) : C({nb+nr}, 2) = {fav}/{tot} = {vn(Fr(fav,tot))}."],"Lấy đồng thời → tổ hợp."))
+    nb,nr=g.i(3,20),g.i(3,20)
+    tot=math.comb(nb+nr,2);fav=math.comb(nb,2);it=g.c([("bi","bi"),("quả cầu","quả cầu"),("viên kẹo","viên kẹo")])[0]
+    A(g.MC("Tổ hợp","Xác suất",f"Hộp có {nb} {it} xanh và {nr} {it} đỏ. Lấy ngẫu nhiên 2 {it}. Xác suất lấy được 2 {it} xanh là",vn(Fr(fav,tot)),[vn(Fr(nb,nb+nr)),vn(Fr(nb*nb,(nb+nr)**2)),vn(Fr(math.comb(nr,2),tot)) if Fr(math.comb(nr,2),tot)!=Fr(fav,tot) else vn(Fr(fav+1,tot))],"Đếm bằng tổ hợp.",[f"C({nb}, 2) : C({nb+nr}, 2) = {fav}/{tot} = {vn(Fr(fav,tot))}."],"Lấy đồng thời → tổ hợp."))
     # 28 góc
-    ang,sa=g.c([(30,"a√6/3"),(45,"a√2"),(60,"a√6")]);kk=g.i(1,6);sc=lambda t:t if kk==1 else t.replace("a",f"{kk}a",1)
-    sq=g.c(["S.ABCD","S.MNPQ","S.EFGH"]);L=sq[2:];A0,C0=L[0],L[2]
+    ang,sa=g.c([(30,"a√6/3"),(45,"a√2"),(60,"a√6")]);kk=g.i(1,12);sc=lambda t:t if kk==1 else t.replace("a",f"{kk}a",1)
+    sq=g.c(["S.ABCD","S.MNPQ","S.EFGH","S.IJKL","S.KLMN","S.UVXY"]);L=sq[2:];A0,C0=L[0],L[2]
     A(g.MC("Hình học","Góc",f"Hình chóp {sq} có đáy là hình vuông cạnh {sc('a')}, S{A0} vuông góc với mặt đáy và S{A0} = {sc(sa)}. Góc giữa đường thẳng S{C0} và mặt đáy bằng",f"{ang}°",[f"{a_}°" for a_ in [30,45,60,90] if a_!=ang],f"Góc giữa S{C0} và đáy là góc S{C0}{A0}.",[f"{A0}{C0} = {sc('a√2')}; tan = S{A0}/{A0}{C0} → góc {ang}°."],"Hình chiếu của đường xiên lên đáy."))
     # 29 GTLN trên đoạn
     c=g.i(-30,30) or 31;kk=g.c([1,2])
@@ -102,8 +106,9 @@ def paper(seed):
     A(g.MC("Đại số","GTLN – GTNN",f"Giá trị lớn nhất của hàm số y = x³ − {3*kk*kk}x + {c} trên đoạn [0; {2*kk}] bằng",str(c+2*kk**3),[str(c),str(c-2*kk**3),str(c+kk**3)],"So sánh giá trị tại cực trị và hai đầu mút.",[f"y(0) = {c}, y({kk}) = {c-2*kk**3}, y({2*kk}) = {c+2*kk**3}."],"Tính tại cực trị và hai đầu mút."))
 
     # 30 bất PT mũ
-    bb=g.c([2,3,5,7]);k=g.i(1,9);lt=g.i(0,1)
-    A(g.MC("Đại số","Bất phương trình mũ",f"Tập nghiệm của bất phương trình {bb}^x {'<' if lt else '>'} {bb**k} là",f"(−∞; {k})" if lt else f"({k}; +∞)",[f"({k}; +∞)" if lt else f"(−∞; {k})",f"(0; {k})",f"(−∞; {bb**k})"],"Cơ số > 1 giữ chiều.",[f"x {'<' if lt else '>'} {k}."],"Cơ số > 1 không đổi chiều."))
+    bb=g.c([2,3,4,5,6,7]);k=g.i(1,8);lt=g.i(0,3)
+    sgn=["<",">","≤","≥"][lt];ok_=[f"(−∞; {k})",f"({k}; +∞)",f"(−∞; {k}]",f"[{k}; +∞)"][lt];op_=[f"({k}; +∞)",f"(−∞; {k})",f"[{k}; +∞)",f"(−∞; {k}]"][lt]
+    A(g.MC("Đại số","Bất phương trình mũ",f"Tập nghiệm của bất phương trình {bb}^x {sgn} {bb**k} là",ok_,[op_,f"(0; {k})",f"(−∞; {bb**k})"],"Cơ số > 1 giữ chiều.",[f"x {sgn} {k}."],"Cơ số > 1 không đổi chiều."))
     # 31 tích phân thêm
     a6=g.i(1,20);up=g.i(1,4)
     A(g.MC("Đại số","Tích phân",f"Biết ∫₀^{up} f(x)dx = {a6}. Khi đó ∫₀^{up} [f(x) + 2x]dx bằng",str(a6+up*up),[str(a6+2*up),str(a6+2*up*up),str(2*a6)],f"∫₀^{up} 2x dx = {up*up}.",[f"{a6} + {up*up} = {a6+up*up}."],"Tách tích phân."))
@@ -132,10 +137,10 @@ def paper(seed):
     S=Fr(k**3,6*a_*a_);ax="" if a_==1 else str(a_)
     A(g.MC("Đại số","Diện tích hình phẳng",f"Diện tích hình phẳng giới hạn bởi y = {ax}x² và y = {k}x bằng",vn(S),[vn(2*S),vn(Fr(k*k,2*a_)),vn(3*S)],f"Giao điểm x = 0, x = {vn(Fr(k,a_))}.",[f"∫₀^{vn(Fr(k,a_))} ({k}x − {ax}x²)dx = {vn(S)}."],"Hàm trên trừ hàm dưới."))
     # 38 bất PT log nghiệm nguyên
-    bb=g.c([2,3]);t=g.i(1,4 if bb==2 else 3);sh=g.i(1,9)
+    bb=g.c([2,3]);t=g.i(1,4 if bb==2 else 3);sh=g.i(1,30)
     A(g.MC("Đại số","Bất phương trình lôgarit",f"Số nghiệm nguyên của bất phương trình log_{bb}(x − {sh}) < {t} là",str(bb**t-1),[str(bb**t),str(bb**t+1),str(t)],f"Điều kiện x > {sh}.",[f"0 < x − {sh} < {bb**t} ⇒ {sh} < x < {bb**t+sh}.",f"Có {bb**t-1} số nguyên."],"Nhớ điều kiện xác định."))
     # 39 chóp đều
-    a8=g.i(1,10);h8=3*g.i(1,6)
+    a8=g.i(1,20);h8=3*g.i(1,10)
     A(g.MC("Hình học","Thể tích khối chóp",f"Hình chóp tứ giác đều có cạnh đáy {a8} và chiều cao {h8}. Thể tích khối chóp bằng",str(a8*a8*h8//3),[str(a8*a8*h8),str(a8*a8*h8//3+a8*a8),str(a8*h8)],"Đáy là hình vuông.",[f"{a8}² × {h8} : 3 = {a8*a8*h8//3}."],"Chóp đều: đáy đa giác đều."))
     # 40 lãi kép
     P=50*g.i(1,10);rr=g.i(5,9);yrs=g.i(2,4)
@@ -149,7 +154,7 @@ def paper(seed):
     a9=g.i(1,9);b9=g.i(1,12)
     A(g.MC("Đại số","Số phức",f"Gọi z₁, z₂ là nghiệm phức của z² − {2*a9}z + {a9*a9+b9*b9} = 0. Giá trị |z₁| + |z₂| bằng",f"2√{a9*a9+b9*b9}" if int(math.isqrt(a9*a9+b9*b9))**2!=a9*a9+b9*b9 else str(2*math.isqrt(a9*a9+b9*b9)),[str(2*a9),str(a9*a9+b9*b9),str(2*b9)],"z = "+str(a9)+" ± "+str(b9)+"i.",[f"|z₁| = |z₂| = √{a9*a9+b9*b9}."],"Hai nghiệm liên hợp có cùng mô đun."))
     # 43 tham số đồng biến
-    lim=g.i(10,30);aa=g.i(1,3)
+    lim=g.i(10,80);aa=g.i(1,3)
     cnt_=lim-3*aa*aa+1
     A(g.MC("Đại số","Tham số",f"Có bao nhiêu số nguyên m ∈ [−{lim}; {lim}] để hàm số y = x³ − {3*aa}x² + mx + 1 đồng biến trên ℝ?",str(cnt_),[str(cnt_-1),str(cnt_+1),str(2*lim+1-cnt_)],f"y′ = 3x² − {6*aa}x + m ≥ 0 với mọi x.",[f"Δ′ = {9*aa*aa} − 3m ≤ 0 ⇔ m ≥ {3*aa*aa}.",f"m ∈ {{{3*aa*aa}; …; {lim}}}: {cnt_} số."],"Bậc ba đồng biến trên ℝ ⇔ y′ ≥ 0, Δ′ ≤ 0."))
     # 44 xác suất tổng chẵn
@@ -157,14 +162,14 @@ def paper(seed):
     fav=(math.comb(ev,2)+math.comb(od,2)) if par==0 else ev*od;tot=math.comb(n,2)
     A(g.MC("Tổ hợp","Xác suất",f"Chọn ngẫu nhiên 2 số khác nhau từ 1 đến {n}. Xác suất tổng hai số là số {'chẵn' if par==0 else 'lẻ'} bằng",vn(Fr(fav,tot)),[vn(Fr(tot-fav,tot)) if tot-fav!=fav else vn(Fr(1,3)),vn(Fr(fav,tot*2)),vn(Fr(math.comb(od,2),tot)) if Fr(math.comb(od,2),tot)!=Fr(fav,tot) else vn(Fr(fav+1,tot+1))],"Tổng chẵn khi cùng tính chẵn lẻ.",[f"Có {od} số lẻ, {ev} số chẵn.",f"Số cách thuận lợi {fav}/{tot}."],"Cùng tính chẵn lẻ → tổng chẵn."))
     # 45 đổi biến
-    kk=g.c([2,3,4]);aa=g.c([1,2]);ex=aa**kk;cm=g.i(1,9);C_="" if cm==1 else str(cm)
+    kk=g.c([2,3,4]);aa=g.c([1,2]);ex=aa**kk;cm=g.i(1,20);C_="" if cm==1 else str(cm)
     A(g.MC("Đại số","Tích phân đổi biến",f"∫₀^{aa} {cm*kk}x{SUPm(kk-1)}·e^(x{SUPm(kk)}) dx bằng",(f"{C_}(e^{ex} − 1)" if C_ else f"e^{ex} − 1") if ex>1 else (f"{C_}(e − 1)" if C_ else "e − 1"),[(f"{C_}e^{ex}" if ex>1 else f"{C_}e"),(f"{C_}(e^{ex} + 1)" if ex>1 else f"{C_}(e + 1)"),(f"{cm*kk}(e^{ex} − 1)" if ex>1 else f"{cm*kk}(e − 1)")],f"Đặt t = x{SUPm(kk)}.",[f"dt = {kk}x{SUPm(kk-1)} dx; ∫₀^{ex} eᵗ dt = e^{ex} − 1."],"Đổi cận khi đổi biến."))
 
     # 46 max |z|
     a10,b10=g.c([(3,4),(5,12),(8,15),(7,24)]);m10=g.i(1,5);a10,b10=a10*m10,b10*m10;rr2=g.i(1,9)
     A(g.MC("Đại số","Số phức",f"Số phức z thỏa |z − {a10} − {b10}i| = {rr2}. Giá trị lớn nhất của |z| bằng",str(int(math.hypot(a10,b10))+rr2),[str(int(math.hypot(a10,b10))-rr2),str(int(math.hypot(a10,b10))),str(a10+b10+rr2)],"Tập hợp z là đường tròn.",[f"|z|max = OI + R = {int(math.hypot(a10,b10))} + {rr2}."],"Max = OI + R, min = |OI − R|."))
     # 47 khối hộp
-    l,w,hh=g.i(2,5),g.i(2,5),g.i(2,5)
+    l,w,hh=g.i(2,9),g.i(2,9),g.i(2,9)
     A(g.MC("Hình học","Khối hộp",f"Khối hộp chữ nhật có ba kích thước {l}, {w}, {hh}. Độ dài đường chéo bằng",f"√{l*l+w*w+hh*hh}",[f"{l+w+hh}",f"√{l*w*hh}",f"{l*w*hh}"],"d = √(a² + b² + c²).",[f"√({l*l} + {w*w} + {hh*hh})."],"Đường chéo hình hộp."))
     # 48 mặt phẳng qua 3 điểm chắn
     a11,b11,c11=g.i(1,9),g.i(1,9),g.i(1,9)
