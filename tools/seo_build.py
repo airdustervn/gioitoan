@@ -42,6 +42,7 @@ def lst(items):
 FEAT = """<ul class="feat"><li><b>Đúng cấu trúc đề thật:</b> số câu, thang điểm và thời gian giống kỳ thi; số liệu mới, không chép đề gốc.</li>
 <li><b>Chấm điểm ngay</b> khi nộp bài, xem đáp án và <b>lời giải từng bước</b>, gợi ý và mẹo ghi nhớ cho từng câu.</li>
 <li><b>Đồng hồ đếm ngược</b> như phòng thi, luyện được trên điện thoại, máy tính bảng và máy tính.</li>
+<li><b>Tài khoản mới dùng thử đầy đủ 7 ngày</b>, đăng nhập nhanh bằng Gmail, không cần thanh toán.</li>
 <li><b>Đề mới mỗi ngày</b>, không trùng lặp; mục HOT cập nhật đề mô phỏng các kỳ thi vừa diễn ra.</li></ul>"""
 
 # 1. vào lớp 6

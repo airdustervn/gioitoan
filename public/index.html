@@ -579,6 +579,8 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 .trf-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;min-width:3px}
 .trf-col i{display:block;width:100%;background:var(--red);border-radius:3px 3px 0 0;min-height:1px;opacity:.85}.trf-col:hover i{opacity:1}
 .trf-col em{position:absolute;top:-2px;font-style:normal;font-size:.68rem;font-weight:800;color:#1a7f37}
+.prem.trial{background:#1a7f37;color:#fff}
+.trial-banner{background:#eaf7ee;border:1px solid #b7e2c3;color:#14532d;border-radius:14px;padding:12px 16px;line-height:1.5}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1022,7 +1024,7 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 
   <!-- TÀI KHOẢN -->
   <section id="sec-tai-khoan" class="stack">
-    <div><h2>Tài khoản học sinh</h2><p class="lead">Mỗi học sinh một tài khoản. Miễn phí 10 câu luyện tập và 1 đề thi mỗi ngày; gói trả phí mở khóa không giới hạn.</p></div>
+    <div><h2>Tài khoản học sinh</h2><p class="lead">Mỗi học sinh một tài khoản. Đăng ký mới được <b>dùng thử đầy đủ 7 ngày</b>; sau đó miễn phí 10 câu luyện tập và 1 đề thi mỗi ngày; gói trả phí mở khóa không giới hạn.</p></div>
     <div id="acctBox" class="stack"></div>
   </section>
 
@@ -2038,7 +2040,7 @@ function renderAcctBtn(){
   const b=$("acctBtn");if(!b)return;
   if(!ACCT.on){b.hidden=true;return;}
   b.hidden=false;const s=ACCT.status;
-  b.innerHTML=s&&s.logged_in?`${escH(s.username)}${s.premium?' <span class="prem">PRO</span>':''}`:"Đăng nhập";
+  b.innerHTML=s&&s.logged_in?`${escH(s.username)}${s.trial?' <span class="prem trial">THỬ</span>':s.premium?' <span class="prem">PRO</span>':''}`:"Đăng nhập";
 }
 
 /* Kiểm tra quyền trước khi làm bài. kind: 'question' | 'exam'. Trả về true nếu được phép. */
@@ -2093,12 +2095,12 @@ async function renderAdmin(){const box=$("admBox");
  if(error||!data){box.innerHTML=`<div class="card"><p class="err">Không tải được danh sách: ${escH(error&&error.message)}</p></div>`;return;}
  ADM.data=data;const R=data.rows||[];const tr=await ACCT.sb.rpc("admin_traffic",{p_days:ADM.days||30});const pv={google:"Google",email:"Tên đăng nhập"};
  const kp=(n,t)=>`<div class="kpi"><b>${(+n||0).toLocaleString("vi-VN")}</b><span>${t}</span></div>`;
- box.innerHTML=trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản")}${kp(data.today,"đăng ký hôm nay")}${kp(data.week,"đăng ký 7 ngày")}${kp(data.active,"đang học hôm nay")}${kp(data.premium,"gói PRO còn hạn")}${kp(data.google,"đăng nhập Google")}</div>
+ box.innerHTML=trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản")}${kp(data.today,"đăng ký hôm nay")}${kp(data.week,"đăng ký 7 ngày")}${kp(data.active,"đang học hôm nay")}${kp(data.premium,"gói PRO còn hạn")}${data.trial!=null?kp(data.trial,"đang dùng thử"):""}${kp(data.google,"đăng nhập Google")}</div>
   <div class="card stack">
    <form class="row" id="admF" role="search"><input id="admQ" class="sel" type="search" placeholder="Tìm tên đăng nhập, họ tên, email…" value="${escH(ADM.q)}" style="flex:1;min-width:200px"><button class="btn primary" type="submit">Tìm</button><button class="btn" type="button" id="admCsv">Tải CSV</button></form>
    <p class="note">${(+data.matched||0).toLocaleString("vi-VN")} kết quả · hiển thị ${R.length?ADM.off+1:0}–${ADM.off+R.length}</p>
    <div class="tablewrap"><table><thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Lớp</th><th>Cách đăng nhập</th><th>Đăng ký</th><th>Lần cuối vào</th><th>Hôm nay (câu/đề)</th><th>Gói</th><th>Cấp PRO</th></tr></thead>
-   <tbody>${R.map((r,i)=>`<tr><td><b>${escH(r.username)}</b>${r.email?`<br><span class="note">${escH(r.email)}</span>`:""}</td><td>${escH(r.full_name)}</td><td class="n">${+r.grade||""}</td><td>${pv[r.provider]||escH(r.provider)}</td><td class="n">${fdate(r.created_at)}</td><td class="n">${r.last_sign_in_at?fdate(r.last_sign_in_at):"—"}</td><td class="n">${+r.q_today}/${+r.e_today}</td><td>${r.premium_until&&new Date(r.premium_until)>new Date()?`<span class="prem">PRO</span> đến ${fdate(r.premium_until)}`:"Miễn phí"}</td>
+   <tbody>${R.map((r,i)=>`<tr><td><b>${escH(r.username)}</b>${r.email?`<br><span class="note">${escH(r.email)}</span>`:""}</td><td>${escH(r.full_name)}</td><td class="n">${+r.grade||""}</td><td>${pv[r.provider]||escH(r.provider)}</td><td class="n">${fdate(r.created_at)}</td><td class="n">${r.last_sign_in_at?fdate(r.last_sign_in_at):"—"}</td><td class="n">${+r.q_today}/${+r.e_today}</td><td>${r.premium_until&&new Date(r.premium_until)>new Date()?`<span class="prem">PRO</span> đến ${fdate(r.premium_until)}`:r.trial_until&&new Date(r.trial_until)>new Date()?`<span class="prem trial">THỬ</span> đến ${fdate(r.trial_until)}`:"Miễn phí"}</td>
     <td><select class="sel adm-d" data-i="${i}" aria-label="Số ngày PRO cho ${escH(r.username)}"><option value="">—</option><option value="30">+30 ngày</option><option value="90">+90 ngày</option><option value="365">+1 năm</option><option value="0">Thu hồi</option></select></td></tr>`).join("")}</tbody></table></div>
    <div class="row"><button class="btn" type="button" id="admPrev" ${ADM.off?"":"disabled"}>← Trước</button><button class="btn" type="button" id="admNext" ${ADM.off+R.length<(+data.matched||0)?"":"disabled"}>Sau →</button></div>
    <p class="err" id="admErr" hidden></p></div>`;
@@ -2124,14 +2126,14 @@ async function renderAcct(){
   box.innerHTML=`
   <div class="acct-grid">
     <div class="card stack">
-      <div class="row" style="justify-content:space-between"><h3>${escH(s.full_name||s.username)}</h3>${s.premium?'<span class="prem big">PRO</span>':'<span class="chip">Miễn phí</span>'}</div>
+      <div class="row" style="justify-content:space-between"><h3>${escH(s.full_name||s.username)}</h3>${s.trial?'<span class="prem big trial">DÙNG THỬ</span>':s.premium?'<span class="prem big">PRO</span>':'<span class="chip">Miễn phí</span>'}</div>
       <p class="note">${s.provider==="google"?`Đăng nhập bằng Google: <b>${escH(s.email||"")}</b>`:`Tên đăng nhập: <b>${escH(s.username)}</b>`}</p>${s.is_admin?'<a class="btn primary" href="#quan-tri" style="align-self:flex-start">Trang quản trị →</a>':""}
       <div class="row"><label class="note" for="acGrade">Lớp</label><select id="acGrade" class="sel">${[...Array(12)].map((_,i)=>`<option value="${i+1}" ${s.grade===i+1?"selected":""}>Lớp ${i+1}</option>`).join("")}</select></div>
-      <p class="note">${s.premium?`Gói trả phí còn hạn đến <b>${fdate(s.premium_until)}</b>.`:`Hôm nay đã dùng <b>${s.used_questions}/${s.limit_questions}</b> câu luyện tập và <b>${s.used_exams}/${s.limit_exams}</b> đề thi miễn phí.`}</p>
+      <p class="note">${s.trial?`🎁 Đang <b>dùng thử đầy đủ</b> đến <b>${fdate(s.trial_until)}</b> (còn ${Math.max(1,Math.ceil((Date.parse(s.trial_until)-Date.now())/864e5))} ngày): luyện tập và thi thử không giới hạn. Hết hạn tài khoản về gói miễn phí ${s.limit_questions} câu + ${s.limit_exams} đề mỗi ngày.`:s.premium?`Gói trả phí còn hạn đến <b>${fdate(s.premium_until)}</b>.`:`Hôm nay đã dùng <b>${s.used_questions}/${s.limit_questions}</b> câu luyện tập và <b>${s.used_exams}/${s.limit_exams}</b> đề thi miễn phí.`}</p>
       <button class="btn" id="acOut" type="button" style="align-self:flex-start">Đăng xuất</button>
     </div>
     <div class="card stack">
-      <h3>${s.premium?"Gia hạn gói":"Nâng cấp không giới hạn"}</h3>
+      <h3>${s.trial?"Giữ quyền không giới hạn sau khi hết dùng thử":s.premium?"Gia hạn gói":"Nâng cấp không giới hạn"}</h3>
       <p class="note">Mở khóa luyện tập, thi thử, Violympic, Kangaroo và luyện thi vào lớp 6 không giới hạn. Thanh toán chuyển khoản VietQR, gói được kích hoạt tự động sau khi tiền vào.</p>
       <div class="plans">${(plans||[]).map(p=>`<button class="plan" type="button" data-plan="${p.id}" id="plan-${p.id}"><b>${p.name}</b><span class="price">${vnd(p.price_vnd)}</span><span class="note">${p.days} ngày · khoảng ${vnd(Math.round(p.price_vnd/p.days*30/1000)*1000)}/tháng</span></button>`).join("")}</div>
       <div id="payBox" hidden></div>
@@ -2143,6 +2145,7 @@ async function renderAcct(){
   document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>buy(b.dataset.plan));
 }
 function authForms(){const ge=window.SB_OAUTH_ERROR;return `
+  <div class="trial-banner">🎁 <b>Tài khoản mới được dùng thử đầy đủ 7 ngày</b> – luyện tập, thi thử, Violympic, Kangaroo, luyện thi vào lớp 6 không giới hạn. Không cần thanh toán.</div>
   ${CONFIG.GOOGLE_LOGIN?`<div class="card stack g-card"><h3>Đăng nhập nhanh</h3><p class="note">Dùng tài khoản Gmail của phụ huynh hoặc học sinh, không cần nhớ mật khẩu riêng.</p>
     <button class="btn g-btn" type="button" id="gLogin"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Đăng nhập bằng Google</button>
     ${ge?`<p class="err">Đăng nhập Google chưa thành công: ${escH(ge)}</p>`:""}</div>`:""}
