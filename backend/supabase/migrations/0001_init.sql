@@ -44,8 +44,9 @@ create table if not exists public.plans (
 
 insert into public.plans (id, name, price_vnd, days, sort) values
   ('thang', 'Gói 1 tháng',  59000,  30, 1),
-  ('quy',   'Gói 3 tháng', 99000,  90, 2),
-  ('nam',   'Gói 1 năm',   299000, 365, 3)
+  ('quy',   'Gói 3 tháng', 149000, 90, 2),
+  ('nua',   'Gói 6 tháng', 199000, 180, 3),
+  ('nam',   'Gói 1 năm',   299000, 365, 4)
 on conflict (id) do nothing;
 
 -- ---------- 3. Đơn hàng thanh toán ----------
