@@ -129,7 +129,7 @@ def page(slug, title, h1, desc, lead, body, hsh, kw):
 <a class="cta" href="/#{hsh}">Làm bài ngay – miễn phí →</a>{body}
 <div class="card"><h2>Vì sao luyện trên Giỏi Toán</h2>{FEAT}</div>
 <div class="card"><h2>Xem thêm</h2><div class="more">{others}<a href="/#hot">🔥 Đề thi nóng hổi</a></div></div></main>
-<footer><div class="w"><a href="/">Trang chủ</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/dieu-khoan">Điều khoản sử dụng</a><br>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12 · Hotline 0388 130 130</div></footer></body></html>
+<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: Phường Nghĩa Đô, Hà Nội · Hotline 0388 130 130 · airdustervn@gmail.com</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
 """
 for p in PAGES:
     os.makedirs(os.path.join(ROOT, p[0]), exist_ok=True)
@@ -139,7 +139,8 @@ for p in PAGES:
 logo_svg = LOGO.replace('class="logo-mark" ', 'xmlns="http://www.w3.org/2000/svg" ').replace(' aria-hidden="true"', "")
 open(os.path.join(ROOT, "favicon.svg"), "w").write(logo_svg)
 # sitemap + robots
-urls = [("", "daily", "1.0")] + [(p[0], "weekly", "0.8") for p in PAGES] + [("chinh-sach-bao-mat", "yearly", "0.2"), ("dieu-khoan", "yearly", "0.2")]
+LEGAL = ("chinh-sach-bao-mat", "dieu-khoan", "chinh-sach-thanh-toan", "chinh-sach-hoan-tien", "giai-quyet-khieu-nai")
+urls = [("", "daily", "1.0")] + [(p[0], "weekly", "0.8") for p in PAGES] + [(x, "yearly", "0.2") for x in LEGAL]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
     f"  <url><loc>{SITE}/{u}</loc><lastmod>{TODAY}</lastmod><changefreq>{c}</changefreq><priority>{pr}</priority></url>\n" for u, c, pr in urls) + "</urlset>\n"
 open(os.path.join(ROOT, "sitemap.xml"), "w").write(sm)
@@ -172,7 +173,7 @@ if ".foot-seo{" not in s:
     s = s.replace("</style>", ".foot-seo{display:flex;flex-wrap:wrap;gap:6px 16px;padding-top:10px;font-size:.9rem}.foot-seo a{color:inherit;opacity:.85}\n</style>", 1)
 open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(s)
 # trang pháp lý: canonical theo SITE
-for slug in ("chinh-sach-bao-mat", "dieu-khoan"):
+for slug in LEGAL:
     f = os.path.join(ROOT, slug, "index.html"); t = open(f, encoding="utf-8").read()
     t = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{SITE}/{slug}">', t)
     open(f, "w", encoding="utf-8").write(t)
