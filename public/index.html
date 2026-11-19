@@ -582,6 +582,7 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 .prem.trial{background:#1a7f37;color:#fff}
 .trial-banner{background:#eaf7ee;border:1px solid #b7e2c3;color:#14532d;border-radius:14px;padding:12px 16px;line-height:1.5}
 .foot-legal{display:flex;flex-wrap:wrap;gap:4px 16px;padding-top:4px}.foot-copy a{color:inherit;text-decoration:underline;text-underline-offset:2px;opacity:.95}.foot-own{margin:6px 0 0;line-height:1.6;opacity:.9}
+.tag-pro{background:#1a7f37;color:#fff;border-radius:999px;padding:1px 8px;font-size:.8em;font-weight:700}.tag-trial{background:#fff3d6;color:#8a5a00;border-radius:999px;padding:1px 8px;font-size:.8em;font-weight:700}.act-dash .kpi span{font-size:.85em}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1541,7 +1542,7 @@ function renderPractice(anim){
  const box=$("pCard");box.innerHTML="";
  if(!list.length){box.innerHTML='<p class="note">Chưa có câu thuộc chủ đề này.</p>';return;}
  const [q,i]=list[idx],key=grade+"-"+i,v=answers[key];
- const card=buildQ(q,idx+1,{v,reveal:v!==undefined,hint:true,idp:"p"+key,onAnswer:async val=>{if(!(await gate("question")))return;answers[key]=val;log.push(isRight(q,val));store.set("ttd2-answers",answers);store.set("ttd2-log",log);updateStats();renderPractice(isRight(q,val)?"ok":"no");}});
+ const card=buildQ(q,idx+1,{v,reveal:v!==undefined,hint:true,idp:"p"+key,onAnswer:async val=>{if(!(await gate("question")))return;answers[key]=val;log.push(isRight(q,val));ACT.q(isRight(q,val));store.set("ttd2-answers",answers);store.set("ttd2-log",log);updateStats();renderPractice(isRight(q,val)?"ok":"no");}});
  if(anim==="ok"){card.classList.add("pop");const p=document.createElement("span");p.className="plus";p.textContent="+1 ★";card.appendChild(p);}
  box.appendChild(card);
  $("pPrev").disabled=idx===0;$("pNext").textContent=idx===list.length-1?"Về trang chủ":"Câu tiếp →";
@@ -1581,7 +1582,7 @@ function renderMock(){
   res.hidden=false;res.innerHTML=`<div class="result"><div class="stat"><b>${sc.toLocaleString("vi-VN")}</b><span>/ ${max} điểm</span></div><div class="stat"><b style="color:var(--good)">${r}</b><span>câu đúng</span></div><div class="stat"><b style="color:var(--bad)">${w}</b><span>câu sai</span></div><div class="stat"><b>${b}</b><span>bỏ trống</span></div></div>`;}
  else res.hidden=true;}
 $("mStart").onclick=()=>{resetMock();mock.running=true;mock.tid=setInterval(()=>{mock.left--;const t=$("timer");if(mock.left<=0){mock.left=0;finishMock();}else{t.textContent=fmt(mock.left);t.classList.toggle("low",mock.left<=60);}},1000);renderMock();};
-function finishMock(){clearInterval(mock.tid);mock.running=false;mock.done=true;renderMock();window.scrollTo({top:0});}
+function finishMock(){clearInterval(mock.tid);mock.running=false;mock.done=true;EXAM_LOG("mock");renderMock();window.scrollTo({top:0});}
 $("mSubmit").onclick=finishMock;
 document.querySelectorAll("#mType .pill").forEach(p=>p.onclick=()=>{if(mock.running)return;mType=p.dataset.t;resetMock();renderMock();});
 $("mAgain").onclick=()=>{resetMock();renderMock();};
@@ -1652,7 +1653,7 @@ function renderVio(){
 document.querySelectorAll("#vCount .pill").forEach(b=>b.onclick=()=>{resetVio(+b.dataset.n);renderVio();});
 $("vStart").onclick=()=>{resetVio();vio.set=genSet(Math.min(grade,5),vio.n);vio.running=true;
  vio.tid=setInterval(()=>{vio.left--;const t=$("vTimer");if(vio.left<=0){vio.left=0;finishVio();}else{t.textContent=fmt(vio.left);t.classList.toggle("low",vio.left<=60);}},1000);renderVio();};
-function finishVio(){clearInterval(vio.tid);vio.running=false;vio.done=true;renderVio();window.scrollTo({top:0});}
+function finishVio(){clearInterval(vio.tid);vio.running=false;vio.done=true;EXAM_LOG("vio");renderVio();window.scrollTo({top:0});}
 $("vSubmit").onclick=finishVio;
 $("vAgain").onclick=()=>{resetVio();renderVio();};
 resetVio(10);
@@ -1831,7 +1832,7 @@ function renderKen(){
 $("kStart").onclick=()=>{resetKen();
  ken.set=[3,4,5].flatMap(p=>shuffle(KBANK[GRADE_LEVEL(kGrade)].filter(q=>q.p===p)).slice(0,5)).map(shuffledQ);
  ken.running=true;ken.tid=setInterval(()=>{ken.left--;const t=$("kTimer");if(ken.left<=0){ken.left=0;finishKen();}else{t.textContent=fmt(ken.left);t.classList.toggle("low",ken.left<=120);}},1000);renderKen();};
-function finishKen(){clearInterval(ken.tid);ken.running=false;ken.done=true;renderKen();window.scrollTo({top:0});}
+function finishKen(){clearInterval(ken.tid);ken.running=false;ken.done=true;EXAM_LOG("ken");renderKen();window.scrollTo({top:0});}
 $("kSubmit").onclick=finishKen;$("kAgain").onclick=()=>{resetKen();renderKen();};
 
 
@@ -1958,7 +1959,7 @@ $("hStart").onclick=async()=>{await ensure(TW());resetHn();hn.set=[];const TWn=T
   hn.set.push(...shuffle(pool).slice(0,n).map(q=>ty==="fill"?{...q,p:pp,f:true}:shuffledQ({...q,p:pp})));});
  hn.running=true;
  hn.tid=setInterval(()=>{hn.left--;const t=$("hTimer");if(hn.left<=0){hn.left=0;finishHn();}else{t.textContent=fmt(hn.left);t.classList.toggle("low",hn.left<=120);}},1000);renderHn();};
-function finishHn(){clearInterval(hn.tid);hn.running=false;hn.done=true;renderHn();window.scrollTo({top:0});}
+function finishHn(){clearInterval(hn.tid);hn.running=false;hn.done=true;EXAM_LOG("hn");renderHn();window.scrollTo({top:0});}
 $("hSubmit").onclick=finishHn;
 document.querySelectorAll("#hModes .pill, #hModes2 .pill").forEach(p=>p.onclick=async()=>{hnMode=p.dataset.m;hnYi=0;delete tOv.h;resetHn();renderHn();await $("hStart").onclick();const w=$("hWin");if(w)w.scrollIntoView({behavior:"smooth",block:"start"});});$("hAgain").onclick=()=>{resetHn();renderHn();};
 document.querySelectorAll(".sch-go").forEach(b=>{b.onclick=()=>goTo({v:"vao-lop-6",m:b.dataset.m});const YL=HN_YEARS[b.dataset.m];if(YL&&YL.length){b.textContent=`Vào làm đề mô phỏng (${YL.length} đề) →`;const w=document.createElement("span");w.className="yr-chips";const pr=YL.map((e,i)=>i).filter(i=>!/^\d/.test(YL[i].year));w.innerHTML=YL.map((e,i)=>/^\d/.test(e.year)?`<button type="button" data-y="${i}">${e.year}</button>`:"").join("")+(pr.length?`<button type="button" data-y="${pr[0]}">Đề luyện (${pr.length}) →</button>`:"");w.querySelectorAll("button").forEach(x=>x.onclick=()=>goTo({v:"vao-lop-6",m:b.dataset.m,y:+x.dataset.y}));b.after(w);}});
@@ -1983,7 +1984,7 @@ function renderX(){const P=XP[xMode],t=$("xTimer");t.textContent=fmt(xs.left);t.
  if(xs.done){const R=xScore(P);$("xResult").hidden=false;$("xResult").innerHTML=`<div class="result"><div class="stat"><b>${R.sc}</b><span>/ ${P.max} điểm</span></div><div class="stat"><b style="color:var(--good)">${R.r}</b><span>câu đúng</span></div><div class="stat"><b style="color:var(--bad)">${R.w}</b><span>câu sai</span></div><div class="stat"><b>${R.b}</b><span>bỏ trống</span></div></div>`+(P.rule==="sasmo"?'<p class="note">Đã gồm 15 điểm cộng sẵn của SASMO.</p>':P.rule==="kang"?'<p class="note">Đã gồm 30 điểm cộng sẵn; câu sai bị trừ 1/4 số điểm của câu.</p>':"");}
  else $("xResult").hidden=true;}
 $("xStart").onclick=async()=>{await ensure(XP[xMode]);resetX();xs.running=true;xs.tid=setInterval(()=>{xs.left--;if(xs.left<=0){xs.left=0;finishX();}else{const t=$("xTimer");t.textContent=fmt(xs.left);t.classList.toggle("low",xs.left<=120);}},1000);renderX();};
-function finishX(){clearInterval(xs.tid);xs.running=false;xs.done=true;renderX();window.scrollTo({top:0});}
+function finishX(){clearInterval(xs.tid);xs.running=false;xs.done=true;EXAM_LOG("x");renderX();window.scrollTo({top:0});}
 $("xSubmit").onclick=finishX;$("xAgain").onclick=()=>{resetX();renderX();};
 Object.assign(XP,{"AMC8_2":{"name":"AMC 8 · Đề 2","title":"Đề mô phỏng AMC 8 – Đề 2","min":40,"rule":"amc8","max":25,"tag":"Lớp 8 trở xuống · 25 câu · 40 phút","note":"Theo thể thức AMC 8: 25 câu trắc nghiệm 5 đáp án, 40 phút, không trừ điểm khi sai.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AMC8_2"},"AMC8_3":{"name":"AMC 8 · Đề 3","title":"Đề mô phỏng AMC 8 – Đề 3","min":40,"rule":"amc8","max":25,"tag":"Lớp 8 trở xuống · 25 câu · 40 phút","note":"Theo thể thức AMC 8: 25 câu trắc nghiệm 5 đáp án, 40 phút, không trừ điểm khi sai.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AMC8_3"},"SASMO_2":{"name":"SASMO · Đề 2","title":"Đề mô phỏng SASMO lớp 5 – Đề 2","min":90,"rule":"sasmo","max":85,"tag":"Lớp 5 · 25 câu · 90 phút","note":"Theo thể thức SASMO: Section A trắc nghiệm có trừ điểm khi sai, Section B điền đáp số; cộng sẵn 15 điểm, tối đa 85.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_SASMO_2"},"SASMO_3":{"name":"SASMO · Đề 3","title":"Đề mô phỏng SASMO lớp 5 – Đề 3","min":90,"rule":"sasmo","max":85,"tag":"Lớp 5 · 25 câu · 90 phút","note":"Theo thể thức SASMO: Section A trắc nghiệm có trừ điểm khi sai, Section B điền đáp số; cộng sẵn 15 điểm, tối đa 85.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_SASMO_3"},"TIMO_2":{"name":"TIMO · Đề 2","title":"Đề mô phỏng TIMO – vòng Heat, Đề 2","min":90,"rule":"flat4","max":100,"tag":"25 câu · 90 phút","note":"Theo thể thức vòng Heat: 25 câu điền đáp số trải đều 5 mảng (logic, số học, lí thuyết số, hình học, tổ hợp), 4 điểm/câu, tổng 100.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_TIMO_2"},"HKIMO_2":{"name":"HKIMO · Đề 2","title":"Đề mô phỏng HKIMO – vòng Heat, Đề 2","min":90,"rule":"flat4","max":100,"tag":"25 câu · 90 phút","note":"Theo thể thức vòng Heat: 25 câu điền đáp số trải đều 5 mảng (logic, số học, lí thuyết số, hình học, tổ hợp), 4 điểm/câu, tổng 100.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_HKIMO_2"},"IMSO":{"name":"IMSO","title":"Đề mô phỏng IMSO – phần Short Answer (Toán)","min":60,"rule":"flat1","max":25,"tag":"Tiểu học · 25 câu · 60 phút","note":"Mô phỏng phần Short Answer môn Toán của IMSO: điền đáp số, 60 phút, mỗi câu 1 điểm, sai không bị trừ. (Phần Essay và Exploration không chấm tự động nên chưa đưa vào.)","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IMSO"},"AIMO":{"name":"AIMO","title":"Đề mô phỏng AIMO – Toán tiếng Anh","min":90,"rule":"flat5","max":150,"tag":"30 câu · 150 điểm","note":"Mô phỏng dạng đề AIMO: 30 câu Toán bằng tiếng Anh, tối đa 150 điểm. Thời gian 90 phút do Giỏi Toán đặt để luyện; có thể chỉnh ở ô Thời gian.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AIMO"}});
 Object.assign(XP,{"AMC8_4":{"name":"AMC 8 · Đề 4","title":"Đề mô phỏng AMC 8 – Đề 4","min":40,"rule":"amc8","max":25,"tag":"25 câu · 40 phút","note":"Theo thể thức AMC 8: 25 câu trắc nghiệm 5 đáp án, 40 phút, không trừ điểm.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AMC8_4"},"SASMO_4":{"name":"SASMO · Đề 4","title":"Đề mô phỏng SASMO – Đề 4","min":90,"rule":"sasmo","max":85,"tag":"25 câu · 90 phút","note":"Theo thể thức SASMO; cộng sẵn 15 điểm, tối đa 85.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_SASMO_4"},"TIMO_3":{"name":"TIMO · Đề 3","title":"Đề mô phỏng TIMO – Đề 3 (vòng Heat)","min":90,"rule":"flat4","max":100,"tag":"25 câu · 90 phút","note":"Theo thể thức vòng Heat: 25 câu, 4 điểm/câu, tổng 100.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_TIMO_3"},"HKIMO_3":{"name":"HKIMO · Đề 3","title":"Đề mô phỏng HKIMO – Đề 3 (vòng Heat)","min":90,"rule":"flat4","max":100,"tag":"25 câu · 90 phút","note":"Theo thể thức vòng Heat: 25 câu, 4 điểm/câu, tổng 100.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_HKIMO_3"},"IMSO_2":{"name":"IMSO · Đề 2","title":"Đề mô phỏng IMSO – Đề 2 (Short Answer)","min":60,"rule":"flat1","max":25,"tag":"25 câu · 60 phút","note":"Mô phỏng phần Short Answer môn Toán IMSO.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IMSO_2"},"AIMO_2":{"name":"AIMO · Đề 2","title":"Đề mô phỏng AIMO – Đề 2","min":90,"rule":"flat5","max":150,"tag":"30 câu · 150 điểm","note":"Mô phỏng dạng đề AIMO; thời gian luyện do Giỏi Toán đặt.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AIMO_2"}});
@@ -2031,6 +2032,23 @@ const TRK=(()=>{const ls=k=>{try{return localStorage.getItem(k)}catch(_){return 
 if(ACCT.on)ACCT.ready.then(()=>{if(!ACCT.sb)return;let done=false;try{done=sessionStorage.getItem("gt_logged")==="1";}catch(_){}
  if(done)return;try{sessionStorage.setItem("gt_logged","1");}catch(_){}
  ACCT.sb.rpc("log_visit",{p_vid:TRK.vid,p_source:TRK.src.source,p_medium:TRK.src.medium||"",p_campaign:TRK.src.campaign||"",p_path:(location.pathname+location.hash).slice(0,80),p_ref:TRK.ref}).catch(()=>{});});
+const ACT=(()=>{let busy=Date.now();const on=()=>ACCT.on&&ACCT.sb&&ACCT.status&&ACCT.status.logged_in;
+ const send=(k,o)=>{if(!on())return;try{ACCT.sb.rpc("act",Object.assign({p_kind:k},o||{})).catch(()=>{});}catch(_){}};
+ ["pointerdown","keydown","scroll","touchstart"].forEach(e=>addEventListener(e,()=>{busy=Date.now();},{passive:true}));
+ setInterval(()=>{if(document.visibilityState==="visible"&&Date.now()-busy<120000)send("ping",{p_secs:60});},60000);
+ if(ACCT.on)ACCT.ready.then(async()=>{if(!ACCT.sb)return;let f=false;try{f=sessionStorage.getItem("gt_sess")==="1";}catch(_){}if(f)return;
+  try{await refreshStatus();}catch(_){}if(!on())return;try{sessionStorage.setItem("gt_sess","1");}catch(_){}send("session");});
+ return {q:ok=>send("q",{p_ok:!!ok}),exam:(t,r,n,pct)=>send("exam",{p_title:String(t||"").slice(0,80),p_r:r,p_n:n,p_pct:pct})};})();
+function EXAM_LOG(k){try{let r=0,n=0,t="",has=false;const cnt=(qs,ans,eq)=>{has=true;(qs||[]).forEach((q,i)=>{n++;const a=ans&&ans[i];if(a!==undefined&&a!==""&&(eq?a===q.a:isRight(q,a)))r++;});};
+ const nm=o=>o?[o.name,o.year].filter(Boolean).join(" "):"";
+ if(k==="mock"){cnt(mock.set,mock.ans);t="Thi thử lớp "+(typeof grade!=="undefined"?grade:"");}
+ else if(k==="vio"){cnt(vio.set,vio.ans);t="Violympic";}
+ else if(k==="ken"){cnt(ken.set,ken.ans,1);t="Kangaroo";}
+ else if(k==="hn"){cnt(hn.set,hn.ans);t="Vào lớp 6: "+nm(TW());}
+ else if(k==="x"){const P=XP[xMode]||{};cnt(P.qs,xs.ans);t=P.tag||"Đề quốc tế";}
+ else if(k==="t"){cnt(TQ(),ts.ans);t="Vào 10/THPT: "+nm(TP());}
+ else if(k==="dh"){t="Đánh giá năng lực: "+nm(DHS[dhI]);}
+ ACT.exam(t.trim(),has?r:null,has?n:null,has&&n?Math.round(r/n*1000)/10:null);}catch(_){}}
 const vnd=n=>Number(n).toLocaleString("vi-VN")+"đ";
 const fdate=s=>s?new Date(s).toLocaleDateString("vi-VN"):"";
 
@@ -2092,6 +2110,38 @@ function trafficHTML(t,err){if(err||!t)return `<div class="card"><p class="note"
   ${(t.referrers||[]).length?`<p class="note">Trang giới thiệu nhiều nhất: ${t.referrers.map(r=>`${escH(r.ref_host)} (${n(r.visits)})`).join(" · ")}</p>`:""}
   <p class="note">Gắn link có mã để biết bài nào hiệu quả, ví dụ: <code>${escH(location.origin)}/?utm_source=facebook&amp;utm_campaign=ten-bai-dang</code></p></div>`;}
 const ADM={q:"",off:0,lim:50,data:null,days:30};
+function barsSVG(vals,labels,color,unit){const W=640,H=150,pad=22,n=vals.length||1,mx=Math.max(1,...vals),bw=(W-pad)/n;
+ const bars=vals.map((v,i)=>{const h=Math.round((H-34)*v/mx),x=pad+i*bw;return `<rect x="${(x+bw*0.15).toFixed(1)}" y="${H-18-h}" width="${(bw*0.7).toFixed(1)}" height="${h}" rx="2" fill="${color}"><title>${escH(labels[i])}: ${v.toLocaleString("vi-VN")} ${unit}</title></rect>`;}).join("");
+ const step=Math.ceil(n/8),ticks=labels.map((l,i)=>i%step===0||i===n-1?`<text x="${(pad+i*bw+bw/2).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="10" fill="#8a8178">${escH(l)}</text>`:"").join("");
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Biểu đồ ${unit}" style="display:block"><line x1="${pad}" y1="${H-18}" x2="${W}" y2="${H-18}" stroke="#e7e1d8"/><text x="0" y="12" font-size="10" fill="#8a8178">${mx.toLocaleString("vi-VN")}</text>${bars}${ticks}</svg>`;}
+function activityHTML(d,err){if(err||!d)return `<div class="card"><p class="note">Chưa có số liệu hoạt động${err?": "+escH(err.message):""}. (Cần chạy SQL 0008_activity.sql.)</p></div>`;
+ const K=d.kpi||{},S=d.series||[],C=d.cohort||{},num=v=>v==null?"–":(+v).toLocaleString("vi-VN"),pc=(a,b)=>b?Math.round(100*a/b)+"%":"–";
+ const kp=(v,t,sub)=>`<div class="kpi"><b>${v}</b><span>${t}</span>${sub?`<small class="note" style="display:block">${sub}</small>`:""}</div>`;
+ const lab=S.map(r=>{const p=String(r.day).split("-");return p[2]+"/"+p[1];});
+ const plan={"PRO":"tag-pro","Dùng thử":"tag-trial"};
+ const ago=t=>{if(!t)return"";const m=Math.round((Date.now()-new Date(t))/60000);return m<1?"vừa xong":m<60?m+" phút trước":m<1440?Math.round(m/60)+" giờ trước":Math.round(m/1440)+" ngày trước";};
+ const hours=Array.from({length:24},(_,h)=>{const x=(d.hours||[]).find(o=>o.h===h);return x?+x.c:0;});
+ return `<div class="card stack act-dash"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><h3 style="margin:0">Hoạt động học</h3><div class="row" style="gap:6px">${[7,30,90].map(n=>`<button type="button" class="btn${(ADM.days||30)===n?" primary":""}" data-days="${n}">${n} ngày</button>`).join("")}</div></div>
+ <div class="kpis adm-kpis">${kp(num(K.dau),"đang học hôm nay")}${kp(num(K.wau),"học trong 7 ngày")}${kp(num(K.mau),"học trong 30 ngày")}
+ ${kp(num(K.q_period),"câu đã làm",K.acc_period!=null?"đúng "+K.acc_period+"%":"")}${kp(num(K.exams_period),"đề đã nộp",K.avg_pct!=null?"điểm TB "+K.avg_pct+"%":"")}${kp(K.min_per_user!=null?num(K.min_per_user)+"'":"–","phút / người / ngày học")}
+ ${kp(pc(C.activated,C.signed),"tài khoản mới đã bắt đầu học",num(C.activated)+" / "+num(C.signed))}${kp(pc(C.active7,C.signed),"tài khoản mới còn học tuần này")}${kp(num(K.returning),"quay lại ≥ 2 ngày")}</div>
+ <div class="grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+  <div><p class="note" style="margin:0 0 4px"><b>Người học mỗi ngày</b></p>${barsSVG(S.map(r=>+r.active),lab,"#d4483b","người")}</div>
+  <div><p class="note" style="margin:0 0 4px"><b>Số câu làm mỗi ngày</b></p>${barsSVG(S.map(r=>+r.questions),lab,"#2f7d5b","câu")}</div>
+  <div><p class="note" style="margin:0 0 4px"><b>Phút học mỗi ngày</b></p>${barsSVG(S.map(r=>+r.minutes),lab,"#e0a12b","phút")}</div>
+  <div><p class="note" style="margin:0 0 4px"><b>Giờ nộp đề trong ngày</b></p>${barsSVG(hours,hours.map((_,h)=>h+"h"),"#4a6fd1","đề")}</div>
+ </div>
+ <h4 style="margin:6px 0 0">Tài khoản học nhiều nhất (${d.days} ngày)</h4>
+ <div class="tablewrap"><table><thead><tr><th>Tài khoản</th><th>Lớp</th><th>Gói</th><th>Số ngày học</th><th>Phút</th><th>Câu</th><th>Đúng</th><th>Đề</th><th>Lần cuối</th></tr></thead><tbody>
+ ${(d.top||[]).length?(d.top||[]).map(r=>`<tr><td><b>${escH(r.username)}</b>${r.full_name?`<br><span class="note">${escH(r.full_name)}</span>`:""}</td><td class="n">${+r.grade||""}</td><td><span class="${plan[r.plan]||""}">${escH(r.plan)}</span></td><td class="n">${num(r.days_active)}</td><td class="n">${num(r.m)}</td><td class="n">${num(r.q)}</td><td class="n">${r.q>0?Math.round(100*r.c/r.q)+"%":"–"}</td><td class="n">${num(r.e)}</td><td class="n">${ago(r.last_at)}</td></tr>`).join(""):`<tr><td colspan="9" class="note">Chưa có hoạt động trong khoảng này.</td></tr>`}
+ </tbody></table></div>
+ <div class="grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+  <div><h4 style="margin:0 0 6px">Đề vừa nộp</h4><div class="tablewrap"><table><thead><tr><th>Lúc</th><th>Tài khoản</th><th>Đề</th><th>Kết quả</th></tr></thead><tbody>
+  ${(d.recent||[]).length?(d.recent||[]).map(r=>`<tr><td class="n">${ago(r.at)}</td><td>${escH(r.username)}</td><td>${escH(r.title)}</td><td class="n">${r.total_n?r.right_n+"/"+r.total_n:"–"}${r.pct!=null?` (${Math.round(r.pct)}%)`:""}</td></tr>`).join(""):`<tr><td colspan="4" class="note">Chưa có đề nào được nộp.</td></tr>`}</tbody></table></div></div>
+  <div><h4 style="margin:0 0 6px">Theo lớp</h4><div class="tablewrap"><table><thead><tr><th>Lớp</th><th>Người học</th><th>Câu</th></tr></thead><tbody>
+  ${(d.grades||[]).length?(d.grades||[]).map(r=>`<tr><td>${+r.grade?"Lớp "+r.grade:"Chưa chọn lớp"}</td><td class="n">${num(r.users)}</td><td class="n">${num(r.q)}</td></tr>`).join(""):`<tr><td colspan="3" class="note">Chưa có dữ liệu.</td></tr>`}</tbody></table></div></div>
+ </div>
+ <p class="note" style="margin:0">Số liệu ghi nhận từ 19/11/2026 cho tài khoản đã đăng nhập. Phút học chỉ tính khi trang đang mở và có thao tác trong 2 phút gần nhất.</p></div>`;}
 async function renderAdmin(){const box=$("admBox");
  if(!ACCT.on){box.innerHTML='<div class="card"><p class="note">Chưa bật tài khoản.</p></div>';return;}
  await refreshStatus();const s=ACCT.status;
@@ -2100,9 +2150,9 @@ async function renderAdmin(){const box=$("admBox");
  box.innerHTML='<p class="note">Đang tải…</p>';
  const {data,error}=await ACCT.sb.rpc("admin_users",{q:ADM.q,lim:ADM.lim,off:ADM.off});
  if(error||!data){box.innerHTML=`<div class="card"><p class="err">Không tải được danh sách: ${escH(error&&error.message)}</p></div>`;return;}
- ADM.data=data;const R=data.rows||[];const tr=await ACCT.sb.rpc("admin_traffic",{p_days:ADM.days||30});const pv={google:"Google",email:"Tên đăng nhập"};
+ ADM.data=data;const R=data.rows||[];const tr=await ACCT.sb.rpc("admin_traffic",{p_days:ADM.days||30});const ac=await ACCT.sb.rpc("admin_activity",{p_days:ADM.days||30});const pv={google:"Google",email:"Tên đăng nhập"};
  const kp=(n,t)=>`<div class="kpi"><b>${(+n||0).toLocaleString("vi-VN")}</b><span>${t}</span></div>`;
- box.innerHTML=trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản")}${kp(data.today,"đăng ký hôm nay")}${kp(data.week,"đăng ký 7 ngày")}${kp(data.active,"đang học hôm nay")}${kp(data.premium,"gói PRO còn hạn")}${data.trial!=null?kp(data.trial,"đang dùng thử"):""}${kp(data.google,"đăng nhập Google")}</div>
+ box.innerHTML=activityHTML(ac.data,ac.error)+trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản")}${kp(data.today,"đăng ký hôm nay")}${kp(data.week,"đăng ký 7 ngày")}${kp(data.active,"đang học hôm nay")}${kp(data.premium,"gói PRO còn hạn")}${data.trial!=null?kp(data.trial,"đang dùng thử"):""}${kp(data.google,"đăng nhập Google")}</div>
   <div class="card stack">
    <form class="row" id="admF" role="search"><input id="admQ" class="sel" type="search" placeholder="Tìm tên đăng nhập, họ tên, email…" value="${escH(ADM.q)}" style="flex:1;min-width:200px"><button class="btn primary" type="submit">Tìm</button><button class="btn" type="button" id="admCsv">Tải CSV</button></form>
    <p class="note">${(+data.matched||0).toLocaleString("vi-VN")} kết quả · hiển thị ${R.length?ADM.off+1:0}–${ADM.off+R.length}</p>
@@ -2245,7 +2295,7 @@ function renderT(){const P=TP(),t=$("tTimer");t.textContent=fmt(ts.left);t.class
  else $("tResult").hidden=true;}
 $("tStart").onclick=async()=>{await ensure(TP());resetT();ts.running=true;ts.tid=setInterval(()=>{ts.left--;if(ts.left<=0){ts.left=0;finishT();}else{const t=$("tTimer");t.textContent=fmt(ts.left);t.classList.toggle("low",ts.left<=300);}},1000);renderT();};
 {const f=$("tStart").onclick;$("tStart").onclick=async()=>{if(await gate("exam",!!TP().lazy))return f();};}
-function finishT(){clearInterval(ts.tid);ts.running=false;ts.done=true;renderT();$("tWin").scrollIntoView({block:"start"});}
+function finishT(){clearInterval(ts.tid);ts.running=false;ts.done=true;EXAM_LOG("t");renderT();$("tWin").scrollIntoView({block:"start"});}
 $("tSubmit").onclick=finishT;$("tAgain").onclick=()=>{resetT();renderT();};
 DHS.push(...[{"y":"Luyện 1 (cấu trúc 2025)","fmt":"new","title":"Đề luyện tốt nghiệp THPT môn Toán số 1 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc 22 câu từ năm 2025: 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x0"},{"y":"Luyện 2 (cấu trúc 2025)","fmt":"new","title":"Đề luyện tốt nghiệp THPT môn Toán số 2 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc 22 câu từ năm 2025: 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x1"},{"y":"Luyện 3 (cấu trúc 2025)","fmt":"new","title":"Đề luyện tốt nghiệp THPT môn Toán số 3 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc 22 câu từ năm 2025: 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x2"},{"y":"Luyện 4 (cấu trúc 2025)","fmt":"new","title":"Đề luyện tốt nghiệp THPT môn Toán số 4 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc 22 câu từ năm 2025: 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x3"},{"y":"Luyện 5 (cấu trúc 2025)","fmt":"new","title":"Đề luyện tốt nghiệp THPT môn Toán số 5 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc 22 câu từ năm 2025: 12 câu trắc nghiệm, 4 câu đúng/sai, 6 câu trả lời ngắn, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x4"},{"y":"Luyện 1 (cấu trúc cũ)","fmt":"old","title":"Đề luyện tốt nghiệp THPT môn Toán số 1 – cấu trúc 50 câu","note":"Đề luyện thêm theo cấu trúc 50 câu trắc nghiệm (2017–2024), mỗi câu 0,2 điểm, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x5"},{"y":"Luyện 2 (cấu trúc cũ)","fmt":"old","title":"Đề luyện tốt nghiệp THPT môn Toán số 2 – cấu trúc 50 câu","note":"Đề luyện thêm theo cấu trúc 50 câu trắc nghiệm (2017–2024), mỗi câu 0,2 điểm, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x6"},{"y":"Luyện 3 (cấu trúc cũ)","fmt":"old","title":"Đề luyện tốt nghiệp THPT môn Toán số 3 – cấu trúc 50 câu","note":"Đề luyện thêm theo cấu trúc 50 câu trắc nghiệm (2017–2024), mỗi câu 0,2 điểm, 90 phút.","d":{"P1":[],"P2":[],"P3":[]},"lazy":"data/dh.js","id":"S_dh_x7"}]);
 V10.push(...[{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 1 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc mới: 5 bài tự luận, 120 phút, thang 10.","parts":[],"lazy":"data/v10.js","id":"S_v_x0","lab":"Đề luyện 1"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 2 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc mới: 5 bài tự luận, 120 phút, thang 10.","parts":[],"lazy":"data/v10.js","id":"S_v_x1","lab":"Đề luyện 2"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 3 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc mới: 5 bài tự luận, 120 phút, thang 10.","parts":[],"lazy":"data/v10.js","id":"S_v_x2","lab":"Đề luyện 3"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 4 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc mới: 5 bài tự luận, 120 phút, thang 10.","parts":[],"lazy":"data/v10.js","id":"S_v_x3","lab":"Đề luyện 4"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 5 – cấu trúc từ 2025","note":"Đề luyện thêm theo cấu trúc mới: 5 bài tự luận, 120 phút, thang 10.","parts":[],"lazy":"data/v10.js","id":"S_v_x4","lab":"Đề luyện 5"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 1 – cấu trúc 2019–2024","note":"Đề luyện thêm theo cấu trúc cũ: rút gọn biểu thức, lập phương trình/hệ, hệ phương trình và parabol, hình học đường tròn, cực trị.","parts":[],"lazy":"data/v10.js","id":"S_v_x5","lab":"Đề luyện cũ 1"},{"y":0,"title":"Đề luyện vào lớp 10 Hà Nội môn Toán số 2 – cấu trúc 2019–2024","note":"Đề luyện thêm theo cấu trúc cũ: rút gọn biểu thức, lập phương trình/hệ, hệ phương trình và parabol, hình học đường tròn, cực trị.","parts":[],"lazy":"data/v10.js","id":"S_v_x6","lab":"Đề luyện cũ 2"}]);
@@ -2268,7 +2318,7 @@ function renderDh(){const DP=DHS[dhI],OLD=DP.fmt==="old";const yb=$("dYears");pi
  if(dh.done){const[a,b,c]=dhScore(),tot=a+b+c,vn=x=>(+x.toFixed(2)).toLocaleString("vi-VN");
   $("dResult").hidden=false;if(OLD){const R=DH.P1.filter((q,k)=>{const x=dh.ans["1-"+k];return x!==undefined&&isRight(q,x);}).length,B=DH.P1.filter((q,k)=>dh.ans["1-"+k]===undefined).length;$("dResult").innerHTML=`<div class="result"><div class="stat"><b>${vn(tot)}</b><span>/ 10 điểm</span></div><div class="stat"><b style="color:var(--good)">${R}</b><span>câu đúng</span></div><div class="stat"><b style="color:var(--bad)">${50-R-B}</b><span>câu sai</span></div><div class="stat"><b>${B}</b><span>bỏ trống</span></div></div>`;return;}$("dResult").innerHTML=`<div class="result"><div class="stat"><b>${vn(tot)}</b><span>/ 10 điểm</span></div><div class="stat"><b>${vn(a)}</b><span>Phần I / 3</span></div><div class="stat"><b>${vn(b)}</b><span>Phần II / 4</span></div><div class="stat"><b>${vn(c)}</b><span>Phần III / 3</span></div></div>`;}
  else $("dResult").hidden=true;}
-function finishDh(){clearInterval(dh.tid);dh.running=false;dh.done=true;renderDh();$("dWin").scrollIntoView({block:"start"});}
+function finishDh(){clearInterval(dh.tid);dh.running=false;dh.done=true;EXAM_LOG("dh");renderDh();$("dWin").scrollIntoView({block:"start"});}
 $("dStart").onclick=async()=>{if(typeof gate==="function"&&!(await gate("exam",!!DHS[dhI].lazy)))return;await ensure(DHS[dhI]);DH=DHS[dhI].d;clearInterval(dh.tid);dh={running:true,done:false,ans:{},left:tMin("d",90)*60,tid:null};
  dh.tid=setInterval(()=>{dh.left--;if(dh.left<=0){dh.left=0;finishDh();}else{const t=$("dTimer");t.textContent=fmt(dh.left);t.classList.toggle("low",dh.left<=300);}},1000);renderDh();};
 $("dSubmit").onclick=finishDh;$("dAgain").onclick=()=>{clearInterval(dh.tid);dh={running:false,done:false,ans:{},left:tMin("d",90)*60,tid:null};renderDh();};
