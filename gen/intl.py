@@ -69,6 +69,22 @@ def gens(r):
     a,b=C([(10,40),(20,60),(30,70),(50,100)]);L.append(T("Số học",f"How many prime numbers are there between {a} and {b}?",f"Có bao nhiêu số nguyên tố nằm giữa {a} và {b}?",sum(isprime(x) for x in range(a+1,b)),"Liệt kê, loại số chia hết cho 2, 3, 5, 7.",[", ".join(str(x) for x in range(a+1,b) if isprime(x))+"."],"Kiểm tra đến căn bậc hai."))
     a,b=C([(10,100),(50,300),(100,500),(20,200)]);L.append(T("Số học",f"How many perfect squares are there between {a} and {b}?",f"Có bao nhiêu số chính phương nằm giữa {a} và {b}?",sum(1 for x in range(1,30) if a<x*x<b),"Tìm căn của hai đầu.",[", ".join(str(x*x) for x in range(1,30) if a<x*x<b)+"."],"Đếm số nguyên có bình phương trong khoảng."))
     S=C([3*x for x in range(20,60)]);L.append(T("Số học",f"The sum of three consecutive whole numbers is {S}. What is the largest of them?",f"Tổng ba số tự nhiên liên tiếp là {S}. Số lớn nhất là?",S//3+1,"Số giữa bằng trung bình.",[f"Số giữa {S//3}; lớn nhất {S//3+1}."],"Số giữa = tổng : 3."))
+    gg=R(2,15);x,y=C([(2,3),(3,4),(3,5),(4,5),(5,7),(2,7),(5,8),(7,9),(4,9)]);A,B=gg*x,gg*y
+    L.append(T("Số học",f"What is the greatest common divisor of {A} and {B}?",f"Ước chung lớn nhất của {A} và {B} là?",math.gcd(A,B),"Phân tích ra thừa số nguyên tố.",[f"ƯCLN({A}, {B}) = {math.gcd(A,B)}."],"Lấy thừa số chung với số mũ nhỏ nhất."))
+    N=R(50,400);a,b=C([(2,3),(3,5),(4,6),(2,5),(3,7),(4,10),(5,6)]);cnt=sum(1 for v in range(1,N+1) if v%a==0 or v%b==0)
+    L.append(T("Tổ hợp",f"How many integers from 1 to {N} are divisible by {a} or {b}?",f"Từ 1 đến {N} có bao nhiêu số chia hết cho {a} hoặc {b}?",cnt,"Bao hàm – loại trừ.",[f"{N//a} + {N//b} − {N//(a*b//math.gcd(a,b))} = {cnt}."],"Trừ phần đếm hai lần (bội của BCNN)."))
+    Sd=R(3,24);cnt=sum(1 for v in range(100,1000) if sum(map(int,str(v)))==Sd)
+    L.append(T("Tổ hợp",f"How many three-digit numbers have digit sum {Sd}?",f"Có bao nhiêu số có ba chữ số mà tổng các chữ số bằng {Sd}?",cnt,"Chia theo chữ số hàng trăm.",[f"Đếm lần lượt hàng trăm 1 → 9: {cnt} số."],"Chữ số hàng trăm khác 0."))
+    v=C([10,12,15,20,25]);t=R(6,30);Lt=v*t
+    L.append(T("Số học",f"A train {Lt} m long travels at {v} m/s. How many seconds does it take to pass a signal post?",f"Đoàn tàu dài {Lt} m chạy với vận tốc {v} m/giây. Tàu đi qua một cột tín hiệu mất bao nhiêu giây?",t,"Quãng đường bằng chiều dài tàu.",[f"{Lt} : {v} = {t} giây."],"Qua cột: đi hết chiều dài của mình."))
+    a=R(2,9);n=R(10,60);m=C([5,7,9,11,13]);L.append(T("Số học",f"What is the remainder when {a}^{n} is divided by {m}?",f"Số dư khi chia {a}^{n} cho {m} là?",pow(a,n,m),"Tìm chu kì số dư.",[f"Chu kì số dư của {a}^k khi chia {m} → dư {pow(a,n,m)}."],"Lũy thừa đồng dư."))
+    a,b=R(4,20),R(21,40);h=2*R(2,12)
+    L.append(T("Hình học",f"A trapezoid has parallel sides {a} cm and {b} cm and height {h} cm. What is its area in cm²?",f"Hình thang có hai đáy {a} cm, {b} cm và chiều cao {h} cm. Diện tích (cm²)?",(a+b)*h//2,"(đáy lớn + đáy bé) × cao : 2.",[f"({a} + {b}) × {h} : 2 = {(a+b)*h//2}."],"Công thức diện tích hình thang."))
+    x0=R(3,40);k=R(2,9);b=R(1,50);res=x0*k+b
+    L.append(T("Logic",f"I think of a number, multiply it by {k}, then add {b}, and get {res}. What was my number?",f"Nghĩ một số, nhân với {k} rồi cộng {b} được {res}. Số đã nghĩ là?",x0,"Làm ngược từ kết quả.",[f"({res} − {b}) : {k} = {x0}."],"Phép ngược: trừ rồi chia."))
+    pc=C([5,10,15,20,25,30,35,40,45,60,75]);base=20*R(3,50)
+    L.append(T("Số học",f"What is {pc}% of {base}?",f"{pc}% của {base} là bao nhiêu?",pc*base//100 if pc*base%100==0 else pc*base/100,"Nhân rồi chia 100.",[f"{base} × {pc} : 100 = {pc*base/100:g}."],"Tỉ số phần trăm của một số."))
+    n=R(12,99);L.append(T("Số học",f"What is the sum of all the digits of the whole numbers from 1 to {n}?",f"Tổng tất cả các chữ số của các số từ 1 đến {n} là?",sum(sum(map(int,str(v))) for v in range(1,n+1)),"Tách hàng chục và hàng đơn vị.",[f"Cộng lần lượt: {sum(sum(map(int,str(v))) for v in range(1,n+1))}."],"Đếm số lần mỗi chữ số xuất hiện."))
     r.shuffle(L);return L
 def mc(r,q,n):
     import re

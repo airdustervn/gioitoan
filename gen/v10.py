@@ -26,8 +26,9 @@ def lap_he(g,p):
     return [g.F("Đại số","Giải bài toán bằng cách lập hệ",f"Một người mua {tot} bông hoa gồm hoa hồng và hoa cúc hết {money} nghìn đồng. Giá một bông hồng là {pa} nghìn, một bông cúc là {pb} nghìn. Người đó mua bao nhiêu bông hoa hồng?",a,"Gọi x, y là số hoa hồng, hoa cúc.",[f"x + y = {tot}; {pa}x + {pb}y = {money}.",f"x = {a}, y = {b}."],"Kiểm tra lại cả hai phương trình.",p=p/2),
             g.F("Đại số","Giải bài toán bằng cách lập hệ",f"(Tiếp câu trên: {tot} bông hoa, {money} nghìn đồng, hồng {pa} nghìn, cúc {pb} nghìn) Người đó mua bao nhiêu bông hoa cúc?",b,"Lấy tổng trừ số hoa hồng.",[f"{tot} − {a} = {b}."],"Trả lời đủ hai ẩn.",p=p/2)]
 def lap_pt(g,p):
-    w=g.i(5,25);d=g.i(2,9);S=w*(w+d)
-    return g.F("Đại số","Phương trình bậc hai thực tế",f"Một mảnh vườn hình chữ nhật có chiều dài hơn chiều rộng {d} m và diện tích {S} m². Tính chiều rộng mảnh vườn (m).",w,"Gọi chiều rộng là x > 0.",[f"x(x + {d}) = {S} ⇔ x² + {d}x − {S} = 0.",f"x = {w} (loại nghiệm âm)."],"Loại nghiệm không thỏa điều kiện.",p=p)
+    w=g.i(5,60);d=g.i(2,20);S=w*(w+d)
+    obj=g.c(["Một mảnh vườn hình chữ nhật","Một sân chơi hình chữ nhật","Một thửa ruộng hình chữ nhật","Một tấm thảm hình chữ nhật","Một bể bơi hình chữ nhật"])
+    return g.F("Đại số","Phương trình bậc hai thực tế",f"{obj} có chiều dài hơn chiều rộng {d} m và diện tích {S} m². Tính chiều rộng (m).",w,"Gọi chiều rộng là x > 0.",[f"x(x + {d}) = {S} ⇔ x² + {d}x − {S} = 0.",f"x = {w} (loại nghiệm âm)."],"Loại nghiệm không thỏa điều kiện.",p=p)
 def vong_lam(g,p):
     t1,t2=g.i(2,30),g.i(2,30)
     while t1==t2: t2=g.i(2,30)
@@ -47,18 +48,24 @@ def he_pt(g,p):
     r1=a*u+b*v;r2=c*u+d*v
     return g.F("Đại số","Hệ phương trình",f"Giải hệ phương trình: {a}/(x − 1) + {b}/(y + 1) = {vn(r1)} và {c}/(x − 1) {'+' if d>0 else '−'} {abs(d)}/(y + 1) = {vn(r2)}. Tính x + y.",x+y,"Đặt u = 1/(x − 1), v = 1/(y + 1).",[f"Giải được u = {vn(u)}, v = {vn(v)}.",f"x = {x}, y = {y} ⇒ x + y = {x+y}."],"Đặt ẩn phụ rồi đổi lại.",p=p)
 def parabol(g,p):
-    k_=g.i(1,4)
+    k_=g.i(1,8)
     while True:
-        m=g.i(-12,6);K=4*k_*k_-2*m+2
+        m=g.i(-30,30);K=4*k_*k_-2*m+2
         if k_*k_-m+1>0: break
     return g.F("Đại số","Parabol và đường thẳng",f"Cho (P): y = x² và d: y = {2*k_}x − m + 1. Tìm m để d cắt (P) tại hai điểm phân biệt có hoành độ x₁, x₂ thỏa x₁² + x₂² = {K}.",m,f"Phương trình hoành độ x² − {2*k_}x + m − 1 = 0.",[f"Δ′ = {k_*k_} − m + 1 > 0 ⇔ m < {k_*k_+1}.",f"x₁² + x₂² = {4*k_*k_} − 2(m − 1) = {K} ⇒ m = {m} (thỏa)."],"Kiểm tra điều kiện Δ.",p=p)
 def viet(g,p):
-    s=g.i(3,12);pp=g.i(1,min(20,s*s//4))
-    return g.F("Đại số","Hệ thức Vi-ét",f"Phương trình x² − {s}x + {pp} = 0 có hai nghiệm x₁, x₂. Tính x₁² + x₂².",s*s-2*pp,"x₁ + x₂ = "+str(s)+", x₁x₂ = "+str(pp)+".",[f"(x₁ + x₂)² − 2x₁x₂ = {s*s} − {2*pp} = {s*s-2*pp}."],"Không cần giải phương trình.",p=p)
+    s=g.i(3,20);pp=g.i(1,min(60,s*s//4))
+    kind=g.i(0,4)
+    if kind==0: nm,val,st="x₁² + x₂²",s*s-2*pp,f"(x₁ + x₂)² − 2x₁x₂ = {s*s} − {2*pp} = {s*s-2*pp}."
+    elif kind==1: nm,val,st="x₁³ + x₂³",s**3-3*pp*s,f"(x₁ + x₂)³ − 3x₁x₂(x₁ + x₂) = {s**3} − {3*pp*s} = {s**3-3*pp*s}."
+    elif kind==2: nm,val,st="(x₁ − x₂)²",s*s-4*pp,f"(x₁ + x₂)² − 4x₁x₂ = {s*s} − {4*pp} = {s*s-4*pp}."
+    elif kind==3: nm,val,st="x₁²x₂ + x₁x₂²",s*pp,f"x₁x₂(x₁ + x₂) = {pp} × {s} = {s*pp}."
+    else: nm,val,st="(x₁ + 1)(x₂ + 1)",pp+s+1,f"x₁x₂ + (x₁ + x₂) + 1 = {pp} + {s} + 1 = {pp+s+1}."
+    return g.F("Đại số","Hệ thức Vi-ét",f"Phương trình x² − {s}x + {pp} = 0 có hai nghiệm x₁, x₂. Tính {nm}.",val,"x₁ + x₂ = "+str(s)+", x₁x₂ = "+str(pp)+".",[st],"Không cần giải phương trình.",p=p)
 def circle(g,ps):
-    al=g.i(10,80);tri=g.c([(3,4,5),(5,12,13),(8,15,17),(7,24,25),(20,21,29),(9,40,41),(12,35,37),(11,60,61),(28,45,53),(33,56,65),(16,63,65),(48,55,73)]);k=g.i(1,9);lt=g.c([("A","B","C"),("M","N","P"),("E","F","K")]);R,T,D=tri[0]*k,tri[1]*k,tri[2]*k
+    al=g.i(5,85);tri=g.c([(3,4,5),(5,12,13),(8,15,17),(7,24,25),(20,21,29),(9,40,41),(12,35,37),(11,60,61),(28,45,53),(33,56,65),(16,63,65),(48,55,73)]);k=g.i(1,15);lt=g.c([("A","B","C"),("M","N","P"),("E","F","K"),("B","C","D"),("P","Q","R"),("C","D","E"),("H","K","I"),("D","E","F")]);R,T,D=tri[0]*k,tri[1]*k,tri[2]*k
     if g.i(0,1): R,T=T,R
-    th=g.c([20,30,36,40,45,60,72,80,90,100,120,135,150]);R2=g.i(3,20)
+    th=g.c([15,20,24,30,36,40,45,50,60,70,72,80,90,100,108,110,120,135,140,150,160]);R2=g.i(2,30)
     L=round(3.14*R2*th/180,2)
     return [g.F("Hình học","Góc nội tiếp",f"Cho đường tròn (O) đường kính {lt[0]}{lt[1]}, điểm {lt[2]} thuộc đường tròn sao cho góc {lt[2]}{lt[0]}{lt[1]} = {al}°. Tính số đo góc {lt[0]}{lt[1]}{lt[2]} (độ).",90-al,"Góc nội tiếp chắn nửa đường tròn.",[f"Góc {lt[0]}{lt[2]}{lt[1]} = 90° ⇒ góc {lt[0]}{lt[1]}{lt[2]} = 90° − {al}° = {90-al}°."],"Góc nội tiếp chắn nửa đường tròn là góc vuông.",p=ps[0]),
             g.F("Hình học","Tiếp tuyến",f"Từ điểm M nằm ngoài đường tròn (O; {R} cm) kẻ tiếp tuyến MA (A là tiếp điểm). Biết OM = {D} cm. Tính độ dài MA (cm).",T,"OA ⊥ MA.",[f"MA = √(OM² − OA²) = √({D*D} − {R*R}) = {T} cm."],"Bán kính vuông góc với tiếp tuyến tại tiếp điểm.",p=ps[1]),
