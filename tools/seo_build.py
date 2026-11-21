@@ -129,7 +129,7 @@ def page(slug, title, h1, desc, lead, body, hsh, kw):
 <a class="cta" href="/#{hsh}">Làm bài ngay – miễn phí →</a>{body}
 <div class="card"><h2>Vì sao luyện trên Giỏi Toán</h2>{FEAT}</div>
 <div class="card"><h2>Xem thêm</h2><div class="more">{others}<a href="/#hot">🔥 Đề thi nóng hổi</a></div></div></main>
-<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><a href="https://www.facebook.com/profile.php?id=61597011680879" target="_blank" rel="noopener">Fanpage Facebook</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
+<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">Fanpage Facebook</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
 """
 for p in PAGES:
     os.makedirs(os.path.join(ROOT, p[0]), exist_ok=True)
@@ -150,7 +150,7 @@ open(os.path.join(ROOT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nAll
 desc = "Giỏi Toán – luyện toán online lớp 1–12 mỗi ngày: đề thi vào lớp 6 các trường CLC Hà Nội, đề thi vào lớp 10, đề thi tốt nghiệp THPT môn Toán, Kangaroo, AMC 8, Violympic. Chấm điểm ngay, có lời giải từng bước."
 ld = {"@context": "https://schema.org", "@graph": [
   {"@type": "WebSite", "name": "Giỏi Toán", "alternateName": "gioitoan", "url": SITE + "/", "inLanguage": "vi"},
-  {"@type": "EducationalOrganization", "name": "Giỏi Toán", "url": SITE + "/", "logo": SITE + "/favicon.svg", "telephone": "+84388130130", "sameAs": ["https://www.facebook.com/profile.php?id=61597011680879"],
+  {"@type": "EducationalOrganization", "name": "Giỏi Toán", "url": SITE + "/", "logo": SITE + "/favicon.svg", "telephone": "+84388130130", "sameAs": ["https://www.facebook.com/gioitoan.com.vn"],
    "description": desc}]}
 meta = f"""<!--SEO-->
 <meta name="description" content="{E(desc)}">
