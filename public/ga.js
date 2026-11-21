@@ -2,7 +2,7 @@
    Dán Mã đo lường (dạng G-XXXXXXXXXX) vào GA_ID bên dưới là chạy, không cần sửa chỗ khác.
    Chỉ chạy trên tên miền thật, không chạy khi xem thử trong Claude hay trên máy. */
 (function(){
-  var GA_ID = "";
+  var GA_ID = "G-FHCJ46845B";
   window.gt = function(){};
   if(!GA_ID || !/(^|\.)gioitoan\.com\.vn$/.test(location.hostname)) return;
   var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+GA_ID;document.head.appendChild(s);
