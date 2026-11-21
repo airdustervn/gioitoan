@@ -604,6 +604,15 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 @media(max-width:640px){.hot-tabs{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}.hot-tabs::-webkit-scrollbar{display:none}.hot-tab{padding:5px 10px;font-size:.84rem;white-space:nowrap;flex:none}}
 .ex-go{font-style:normal;font-size:.78rem;color:var(--red);margin-top:auto}.exlogo{height:100%}
 @media(max-width:560px){.kpi span{font-size:.72rem;line-height:1.3}}
+.qmap{position:fixed;right:16px;bottom:16px;z-index:60;width:248px;max-height:70vh;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.16);overflow:hidden}
+.qm-head{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--red);color:#fff}.qm-head b{font-size:.95rem}.qm-c{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums}.qm-head i{font-style:normal;transition:transform .2s}.qmap.min .qm-head i{transform:rotate(180deg)}.qm-head:focus-visible{outline:3px solid var(--amber);outline-offset:-3px}
+.qm-body{padding:10px 12px 12px;overflow:auto;display:flex;flex-direction:column;gap:10px}.qmap.min .qm-body{display:none}
+.qm-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.qm-grid button{font:inherit;font-weight:700;font-size:.85rem;height:32px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}.qm-grid button:hover{border-color:var(--red)}.qm-grid button.d{background:#1a7f37;border-color:#1a7f37;color:#fff}.qm-grid button:focus-visible{outline:3px solid var(--red);outline-offset:1px}
+.qm-leg{display:flex;gap:14px;font-size:.78rem;color:var(--muted)}.qm-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;border:1.5px solid var(--line);vertical-align:-2px;margin-right:4px}.qm-leg i.d{background:#1a7f37;border-color:#1a7f37}
+.qm-next{padding:6px 10px;font-size:.85rem}
+.qm-flash{animation:qmf 1.2s}@keyframes qmf{0%,60%{box-shadow:0 0 0 4px var(--amber)}100%{box-shadow:none}}
+@media(max-width:760px){.qmap{right:10px;bottom:10px;width:min(300px,calc(100vw - 20px))}.qmap.min{width:auto}.qm-grid{grid-template-columns:repeat(7,1fr)}}
+@media print{.qmap{display:none}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2377,6 +2386,30 @@ setInterval(()=>{document.querySelectorAll(".tedit").forEach(l=>{const k=l.datas
  document.documentElement.addEventListener("mouseleave",e=>{if(matchMedia("(pointer:fine)").matches)warn("mouse");});
  window.addEventListener("beforeunload",e=>{if(examOn()){e.preventDefault();e.returnValue="";}});
  setInterval(()=>{const on=examOn();if(on&&!wasOn)cnt=0;if(!on)ov.hidden=true;wasOn=on;},500);})();
+
+/* ===== Bảng câu đã làm / chưa làm khi đang làm bài kiểm tra ===== */
+(function(){const EX=[["mSubmit","mList"],["vSubmit","vList"],["kSubmit","kList"],["hSubmit","hList"],["xSubmit","xList"],["tSubmit","tList"],["dSubmit","dList"]];
+ const box=document.createElement("aside");box.className="qmap";box.hidden=true;box.setAttribute("aria-label","Bảng câu đã làm");
+ box.innerHTML='<button type="button" class="qm-head" aria-expanded="true"><b>Bảng câu</b><span class="qm-c"></span><i aria-hidden="true">▾</i></button><div class="qm-body"><div class="qm-grid"></div><div class="qm-leg"><span><i class="d"></i>Đã làm</span><span><i></i>Chưa làm</span></div><button type="button" class="btn qm-next">Tới câu chưa làm →</button></div>';
+ document.body.appendChild(box);const head=box.querySelector(".qm-head"),grid=box.querySelector(".qm-grid"),cnt=box.querySelector(".qm-c"),nxt=box.querySelector(".qm-next");
+ let small=innerWidth<760;if(small){box.classList.add("min");head.setAttribute("aria-expanded","false");}
+ head.onclick=()=>{box.classList.toggle("min");head.setAttribute("aria-expanded",String(!box.classList.contains("min")));};
+ const done=c=>!!c.querySelector(".opt.sel")||[...c.querySelectorAll("input")].some(i=>i.type!=="number"&&i.value.trim()!=="");
+ const toCard=c=>{const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:c.getBoundingClientRect().top+scrollY-h-16,behavior:"smooth"});c.classList.add("qm-flash");setTimeout(()=>c.classList.remove("qm-flash"),1200);};
+ let cards=[],sig="";
+ function upd(){const ex=EX.find(([s])=>{const b=document.getElementById(s);return b&&!b.hidden&&b.offsetParent!==null;});
+  if(!ex){box.hidden=true;sig="";return;}
+  const L=document.getElementById(ex[1]);cards=L?[...L.querySelectorAll("article.win.q")]:[];
+  if(!cards.length){box.hidden=true;return;}
+  box.hidden=false;const st=cards.map(done),n=st.filter(Boolean).length,ns=ex[0]+cards.length+":"+st.map(x=>x?1:0).join("");
+  cnt.textContent=n+"/"+cards.length;nxt.hidden=n===cards.length;
+  if(ns===sig)return;sig=ns;
+  grid.innerHTML=cards.map((c,i)=>`<button type="button" class="${st[i]?"d":""}" data-i="${i}" aria-label="Câu ${i+1}: ${st[i]?"đã làm":"chưa làm"}">${i+1}</button>`).join("");}
+ grid.onclick=e=>{const b=e.target.closest("[data-i]");if(b)toCard(cards[+b.dataset.i]);};
+ nxt.onclick=()=>{const st=cards.map(done);const y=scrollY+((document.querySelector(".topbar")||{}).offsetHeight||0)+20;
+  let i=cards.findIndex((c,k)=>!st[k]&&c.getBoundingClientRect().top+scrollY>y);if(i<0)i=st.indexOf(false);if(i>=0)toCard(cards[i]);};
+ ["click","input","change","keyup"].forEach(t=>document.addEventListener(t,()=>setTimeout(upd,30),true));
+ addEventListener("hashchange",()=>setTimeout(upd,120));setInterval(upd,1000);})();
 </script>
 </body>
 </html>
