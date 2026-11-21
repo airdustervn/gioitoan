@@ -574,6 +574,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .exgrid{grid-template-columns:repeat(auto-fit,minmax(112px,1fr))!important}
 @media(max-width:900px){.pmini{grid-template-columns:repeat(3,minmax(0,1fr))}.faq{grid-template-columns:1fr}}
 @media(max-width:560px){.gpick{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.gpick>.gtile:last-child:nth-child(odd){grid-column:1/-1}.steps li>a{padding:14px 10px 14px 52px}.lv-card{padding:14px 16px!important}.lv-card span:not(.lv-tag){font-size:.88rem}.pmini{grid-template-columns:1fr 1fr}.pmini .pm:first-child{grid-column:1/-1}.gt-main{padding:10px 10px 6px}.gpick-h a{font-size:.82rem}.exgrid{grid-template-columns:repeat(3,1fr)!important}}
+.hot-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.hot-tab{font:inherit;font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:99px;border:1.5px solid #f3c9a8;background:#fff;color:var(--ink);cursor:pointer}.hot-tab small{font-weight:600;color:var(--muted);margin-left:2px}.hot-tab:hover{border-color:var(--red)}.hot-tab.on{background:var(--red);border-color:var(--red);color:#fff}.hot-tab.on small{color:#ffd9d9}.hot-tab:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 .hot-more{margin-top:12px;background:#fff;color:var(--red);border:2px solid var(--red);font-weight:700}.hot-more:hover{background:var(--red);color:#fff}
 .hot-dot{font-size:.62rem;font-weight:900;background:#ff6a00;color:#fff;border-radius:999px;padding:1px 6px;margin-left:4px;vertical-align:middle}
 .util-hot{font-weight:900;color:#fff;background:#ff6a00;border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
@@ -642,14 +643,9 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 
     <section class="hot" id="hot" aria-labelledby="hotH">
       <div class="hot-head"><h2 id="hotH"><svg class="hot-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s5 4.6 5 10a5 5 0 0 1-10 0c0-2.4 1.3-4.2 2.4-5.3.2 1.6 1 2.8 2.1 3.3C11 7.2 12 2 12 2z" fill="currentColor"/></svg>HOT · Đề thi nóng hổi</h2><span class="note">Đề mô phỏng các kỳ thi vừa diễn ra và đề mới nhất – cập nhật liên tục</span></div>
+      <div class="hot-tabs" id="hotTabs" role="tablist" aria-label="Lọc đề theo cấp học"></div>
       <div class="hot-list" id="hotList"></div>
       <button type="button" class="btn hot-more" id="hotMore" hidden>Xem thêm đề mới</button>
-    </section>
-
-    <section class="v6" id="v6" aria-labelledby="v6H">
-      <div class="hot-head"><h2 id="v6H">Luyện thi vào lớp 6</h2><span class="note">Đề mô phỏng theo từng trường CLC Hà Nội, đúng cấu trúc và thời gian thi – chấm điểm ngay, có lời giải từng bước</span></div>
-      <div class="v6-list" id="v6List"></div>
-      <a class="btn primary v6-all" href="#vao-lop-6">Vào phòng luyện thi vào lớp 6 →</a>
     </section>
 
     <section class="stack" id="chonLop" aria-labelledby="chonLopH"><div class="sec-h"><h2 id="chonLopH">Chọn lớp để bắt đầu</h2><a href="#luyen-tap">Vào trang luyện tập →</a></div>
@@ -677,11 +673,11 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
       <div class="val"><i>04</i><b>Theo dõi tiến bộ</b><span>Sao, chuỗi đúng và tiến độ từng lớp.</span></div>
     </div>
 
-    <div class="stack"><div class="sec-h"><h2>Luyện thi các kỳ thi</h2><a href="#ky-thi">Thông tin kỳ thi →</a></div>
+    <div class="stack"><div class="sec-h"><h2>Luyện thi các kỳ thi quốc tế</h2><a href="#ky-thi">Thông tin kỳ thi →</a></div>
       <div class="courses">
         <a class="course c-exam" href="#violympic" style="--cc:var(--red)"><div class="c-top"><span class="c-badge">VIO</span><b>Violympic</b></div><p>Đề sinh ngẫu nhiên theo lớp, 10 điểm mỗi câu, bấm giờ.</p><div class="tags"><span>Lớp 1–12</span><span>Trực tuyến</span></div></a>
         <a class="course c-exam" href="#kangaroo" style="--cc:var(--amber)"><div class="c-top"><span class="c-badge">IKMC</span><b>Kangaroo</b></div><p>Đề tiếng Anh theo 6 cấp độ, chấm điểm trừ như đề thật.</p><div class="tags"><span>Lớp 1–12</span><span>Tiếng Anh</span></div></a>
-        <a class="course c-exam" href="#vao-lop-6" style="--cc:var(--logic)"><div class="c-top"><span class="c-badge">6</span><b>Luyện thi vào lớp 6</b></div><p>Đề đánh giá năng lực các trường chất lượng cao Hà Nội.</p><div class="tags"><span>Lớp 5</span><span>45 phút</span></div></a>
+        <a class="course c-exam" href="#de-quoc-te" style="--cc:var(--logic)"><div class="c-top"><span class="c-badge">QT</span><b>Đề Toán quốc tế</b></div><p>Đề mô phỏng HKIMO, SASMO, TIMO, IMSO, AIMO, AMC 8 – bấm giờ, chấm điểm ngay.</p><div class="tags"><span>Lớp 1–12</span><span>6 kỳ thi</span></div></a>
       </div>
     </div>
 
@@ -1479,6 +1475,14 @@ function hotItems(){const out=[],seen=new Set();const push=e=>{if(!e||seen.has(e
 function hotRecent(it){const d=new Date(),Y=d.getMonth()>=5?d.getFullYear():d.getFullYear()-1;
  const t=String([it.lab,it.title,it.name,it.year,it.y].join(" ")).replace(/(20\d\d)\s*[–-]\s*20\d\d/g,"$1");/* "2025–2026" = kỳ thi năm 2025 */
  const ys=(t.match(/20\d\d/g)||[]).map(Number);return ys.length>0&&Math.max(...ys)>=Y;}
+const HOT_LV=[["all","Tất cả"],["th","Tiểu học"],["thcs","THCS"],["thpt","THPT"]];let hotLv="all";
+function hotLvOf(e){if(e.cat==="hn")return"th";if(e.cat==="dh")return"thpt";if(e.cat==="v10")return"thcs";
+ const t=String(e.title+" "+(e.sub||""));const m=t.match(/[Ll]ớp\s*(\d+)/);if(m){const g=+m[1];return g<=5?"th":g<=9?"thcs":"thpt";}return"thcs";}
+function hotPools(){const L=hotItems(),P={th:[],thcs:[],thpt:[]},ids=new Set(L.map(e=>e.id));L.forEach(e=>P[hotLvOf(e)].push(e));
+ /* Tiểu học ít đề mới: bổ sung đề vào lớp 6 gần nhất theo từng trường */
+ if(P.th.length<8&&typeof HN_YEARS!=="undefined")Object.keys(HN_YEARS).forEach(m=>{(HN_YEARS[m]||[]).filter(x=>/^\d/.test(x.year)).slice(0,1).forEach(x=>{if(ids.has(x.id)||!HN_MODES[m])return;ids.add(x.id);P.th.push({cat:"hn",id:x.id,m,badge:"Mô phỏng đề thật",title:HN_MODES[m].name+" – "+x.year,sub:"Vào lớp 6 · "+(HN_MODES[m].min||45)+" phút"});});});
+ return P;}
+function hotView(){const P=hotPools();if(hotLv!=="all")return{L:P[hotLv],P};const L=[],q=[P.th,P.thcs,P.thpt].map(a=>a.slice());while(q.some(a=>a.length))q.forEach(a=>{if(a.length)L.push(a.shift());});return{L,P};}
 function hotOf(it,badge){const C={x:"Đề quốc tế",dh:"Tốt nghiệp THPT",v10:"Vào lớp 10",hn:"Vào lớp 6"};
  const title=String(it.cat==="v10"?(it.lab?"Vào 10 "+it.lab:it.title):it.cat==="hn"?(it.name+" – "+it.year):(it.name||it.title||""));
  const sub=C[it.cat]+(it.tag?" · "+it.tag:it.min?" · "+it.min+" phút":"");
@@ -1490,7 +1494,8 @@ async function openHot(e){
  else if(e.cat==="v10"){const i=V10.findIndex(x=>x.id===e.id);if(i>=0){tI=i;if(typeof resetT==="function")resetT();}go("vao-lop-10",renderT);}}
 function go(h,r){if(location.hash==="#"+h)r();else location.hash=h;window.scrollTo(0,0);}
 let hotN=innerWidth<640?4:8;
-function renderHot(){const box=$("hotList");if(!box)return;const L=hotItems();box.innerHTML="";
+function renderHot(){const box=$("hotList");if(!box)return;const {L,P}=hotView();box.innerHTML="";
+ const tb=$("hotTabs");if(tb){tb.innerHTML=HOT_LV.map(([k,n])=>{const c=k==="all"?P.th.length+P.thcs.length+P.thpt.length:P[k].length;return `<button type="button" role="tab" aria-selected="${hotLv===k}" class="hot-tab${hotLv===k?" on":""}" data-lv="${k}">${n} <small>${c}</small></button>`;}).join("");tb.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{hotLv=b.dataset.lv;hotN=innerWidth<640?4:8;renderHot();});}
  L.slice(0,hotN).forEach(e=>{const b=document.createElement("button");b.type="button";b.className="hot-card";
   const cls=e.badge==="Mới"?"b-new":e.badge==="Mô phỏng đề thật"?"b-mock":"";
   const bd=document.createElement("span");bd.className="hot-badge "+cls;bd.textContent=e.badge;
