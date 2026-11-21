@@ -679,15 +679,6 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
     </div>
 
 
-    <div class="stack" id="hsBlock" hidden><h2>Tiến độ của con</h2>
-      <div class="stats">
-        <div class="stat"><b id="hsDone">0</b><span>câu đã làm</span></div>
-        <div class="stat"><b id="hsStar">0</b><span>sao ★</span></div>
-        <div class="stat"><b id="hsBest">0</b><span>chuỗi đúng max</span></div>
-      </div>
-      <p class="note">Câu hỏi tự soạn theo dạng, không chép đề có bản quyền. Kết quả lưu trên trình duyệt của máy này.</p>
-    </div>
-
     <section class="stack" id="faq" aria-labelledby="faqH">
       <h2 id="faqH">Câu hỏi thường gặp</h2>
       <div class="faq">
@@ -1038,6 +1029,14 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
   <section id="sec-tai-khoan" class="stack">
     <div><h2>Tài khoản học sinh</h2><p class="lead">Mỗi học sinh một tài khoản. Đăng ký mới được <b>dùng thử đầy đủ 7 ngày</b>; sau đó miễn phí 10 câu luyện tập và 1 đề thi mỗi ngày; gói trả phí mở khóa không giới hạn.</p></div>
     <div id="acctBox" class="stack"></div>
+    <div class="stack" id="hsBlock"><h2>Tiến độ học tập</h2>
+      <div class="stats">
+        <div class="stat"><b id="hsDone">0</b><span>câu đã làm</span></div>
+        <div class="stat"><b id="hsStar">0</b><span>sao ★</span></div>
+        <div class="stat"><b id="hsBest">0</b><span>chuỗi đúng max</span></div>
+      </div>
+      <p class="note">Câu hỏi tự soạn theo dạng, không chép đề có bản quyền. Kết quả lưu trên trình duyệt của máy này.</p>
+    </div>
   </section>
 
   <section id="sec-quan-tri" class="stack" hidden>
@@ -1320,7 +1319,7 @@ const nrm=x=>String(x).trim().replace(/\s/g,"").replace(",",".");
 const isRight=(q,v)=>{if(!q.f)return v===q.a;const a=nrm(v),b=nrm(q.a);return a===b||(a!==""&&!isNaN(+a)&&+a===+b);};
 function totals(){let done=0,ok=0;for(const g in DATA)DATA[g].forEach((q,i)=>{const v=answers[g+"-"+i];if(v!==undefined){done++;if(isRight(q,v))ok++;}});return{done,ok};}
 function streaks(){let cur=0,best=0,run=0;log.forEach(b=>{run=b?run+1:0;best=Math.max(best,run);});for(let i=log.length-1;i>=0&&log[i];i--)cur++;return{cur,best};}
-function updateStats(){const t=totals(),s=streaks();$("starN").textContent=t.ok;$("streakN").textContent=s.cur;$("hsDone").textContent=t.done;$("hsStar").textContent=t.ok;$("hsBest").textContent=s.best;const on=t.done>0;const hb=$("hsBlock");if(hb)hb.hidden=!on;document.querySelectorAll(".util .stat-chip,.stat-chip").forEach(c=>c.hidden=!on);}
+function updateStats(){const t=totals(),s=streaks();$("starN").textContent=t.ok;$("streakN").textContent=s.cur;$("hsDone").textContent=t.done;$("hsStar").textContent=t.ok;$("hsBest").textContent=s.best;const on=t.done>0;document.querySelectorAll(".util .stat-chip,.stat-chip").forEach(c=>c.hidden=!on);}
 
 /* ---------- font size ---------- */
 if(store.get("ttd2-big",false)){document.documentElement.classList.add("big");$("fontBtn").setAttribute("aria-pressed","true");}
