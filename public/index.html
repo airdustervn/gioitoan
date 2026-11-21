@@ -634,13 +634,14 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .tch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tch-grid label{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:.88rem}.tch-grid input{font:inherit;font-weight:500;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px}
 .tch-sum{margin:10px 0}.tch-paper{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 34px;box-shadow:0 8px 24px rgba(0,0,0,.06);max-width:860px}.tch-keyp{margin-top:18px;border-top:2px dashed var(--line);padding-top:10px}
 .tch-paper .tp{font-family:"Times New Roman",Times,serif;font-size:13pt;color:#000;line-height:1.45}.tp p{margin:4px 0}.tp-head{width:100%;border-collapse:collapse;margin-bottom:6px}.tp-head td{vertical-align:top;padding:2px 4px;font-size:12.5pt}.tp-head td.r{text-align:center}.tp-code{display:inline-block;border:1.5px solid #000;padding:1px 10px;margin-top:4px;font-weight:700}
-.tp-note{text-align:center}.tp-sec{font-weight:700;margin-top:10px!important}.tp-q{margin:6px 0 8px;break-inside:avoid;page-break-inside:avoid}.tp-fig{text-align:center;margin:4px 0}.tp-fig svg{max-width:240px;height:auto}.tp-fig small{display:none}
+.tp-note{text-align:center}.tp-sec{font-weight:700;margin-top:10px!important}.tp-q{margin:6px 0 8px;break-inside:avoid;page-break-inside:avoid}.tp-fig{text-align:center;margin:4px 0}.tp-fig svg{max-width:240px;height:auto}.tp-img{display:block;max-width:300px;max-height:240px;margin:6px auto}.tp-fig small{display:none}
 .tp-opts{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;padding-left:22px}.tp-opts.s{grid-template-columns:repeat(4,1fr)}.tp-opts:has(span:nth-child(5)).s{grid-template-columns:repeat(5,1fr)}.tp-fill{padding-left:22px}.tp-end{text-align:center;font-weight:700;margin-top:14px!important}
 .tp-key{border-collapse:collapse;margin:6px 0}.tp-key td,.tp-key th{border:1px solid #000;padding:3px 10px;text-align:center}.tp-kh{font-size:13pt;margin:14px 0 6px;text-align:center}.tp-sol{margin:4px 0}.tp-brk{break-before:page;page-break-before:always}
 @media(max-width:760px){.tch-row{grid-template-columns:1fr}.tch-l{padding-top:0}.tch-grid{grid-template-columns:1fr}.tch-paper{padding:16px 14px}.tp{font-size:12pt}.tp-head td{display:block;text-align:left!important}.tp-opts.s{grid-template-columns:1fr 1fr}}
 @media(min-width:1361px){.nav-mob{display:none!important}}@media(max-width:1360px){.util-gv{display:none}}
 .strand-lbl{flex-basis:100%;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted,#667);margin:6px 0 -2px}.m-part{margin:14px 0 4px;font-size:1.02rem}
 .tch-own{width:100%;font:14px/1.5 var(--mono,monospace);padding:10px 12px;border:1px solid var(--line);border-radius:12px;resize:vertical;min-height:180px;box-sizing:border-box}.tch-ownmsg{color:#b45309}
+.tch-up{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.tch-up .btn{cursor:pointer}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2688,10 +2689,44 @@ const isSem=t=>/^(gk|hk)[12]$/.test(t);
 const semSpec=g=>g<=5?{n:8,mc:6,min:40,mcp:1}:g<=9?{n:16,mc:8,min:90,mcp:.25}:{n:19,mc:12,min:90,mcp:.25};
 const tchTtl=()=>TCH.title||("ĐỀ KIỂM TRA "+(TT_LAB[TCH.type]||TCH.min+" PHÚT")+" – MÔN TOÁN "+TCH.g);
 const escT=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const fmtT=x=>escT(x.trim()).replace(/\^\{([^}]+)\}/g,"<sup>$1</sup>").replace(/\^(-?\d+|[a-zA-Z])/g,"<sup>$1</sup>").replace(/_\{([^}]+)\}/g,"<sub>$1</sub>").replace(/\n/g,"<br>");
+const TIMG={};try{Object.assign(TIMG,JSON.parse(localStorage.getItem("gt-teacher-img")||"{}"));}catch(e){}
+const fmtT=x=>escT(x.trim()).replace(/\[Hình (\d+)\]/g,(m0,k)=>TIMG[k]?`<img class="tp-img" src="${TIMG[k]}" alt="Hình ${k}">`:m0).replace(/\^\{([^}]+)\}/g,"<sup>$1</sup>").replace(/\^(-?\d+|[a-zA-Z])/g,"<sup>$1</sup>").replace(/_\{([^}]+)\}/g,"<sub>$1</sub>").replace(/\n/g,"<br>");
 /* Câu hỏi giáo viên tự gõ: "Câu 1. ...", phương án "A. ... B. ...", dòng "Đáp án: B", dòng "Lời giải: ..." (tuỳ chọn). Đánh dấu * trước phương án đúng cũng được. Không có phương án → câu tự luận. */
+
+/* ---- Đọc file câu hỏi tự soạn: .docx (kể cả hình ảnh, công thức Equation) và .txt ---- */
+async function unzipEntries(buf){const u=new Uint8Array(buf),dv=new DataView(buf);let e=u.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;if(e<0)throw new Error("zip");
+ const n=dv.getUint16(e+10,true);let o=dv.getUint32(e+16,true);const out={};const dec=new TextDecoder();
+ for(let k=0;k<n;k++){const m=dv.getUint16(o+10,true),cs=dv.getUint32(o+20,true),nl=dv.getUint16(o+28,true),xl=dv.getUint16(o+30,true),cl=dv.getUint16(o+32,true),lo=dv.getUint32(o+42,true);const name=dec.decode(u.subarray(o+46,o+46+nl));
+  out[name]={m,cs,lo};o+=46+nl+xl+cl;}
+ const get=async name=>{const f=out[name];if(!f)return null;const ln=dv.getUint16(f.lo+26,true),lx=dv.getUint16(f.lo+28,true),st=f.lo+30+ln+lx,raw=u.slice(st,st+f.cs);if(f.m===0)return raw;
+  const ds=new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"));return new Uint8Array(await new Response(ds).arrayBuffer());};
+ return{names:Object.keys(out),get};}
+async function docxToText(buf){const Z=await unzipEntries(buf),dec=new TextDecoder();const xml=dec.decode(await Z.get("word/document.xml"));
+ const relx=await Z.get("word/_rels/document.xml.rels");const rel={};if(relx){const R=new DOMParser().parseFromString(dec.decode(relx),"application/xml");R.querySelectorAll("Relationship").forEach(r=>rel[r.getAttribute("Id")]=r.getAttribute("Target"));}
+ const D=new DOMParser().parseFromString(xml,"application/xml");let nImg=Object.keys(TIMG).reduce((a,k)=>Math.max(a,+k),0),bad=0,added=0;const lines=[];
+ const toPng=(bytes,ext)=>new Promise(res=>{const mime=ext==="png"?"image/png":/jpe?g/.test(ext)?"image/jpeg":ext==="gif"?"image/gif":ext==="bmp"?"image/bmp":ext==="svg"?"image/svg+xml":"";if(!mime)return res(null);
+  const url=URL.createObjectURL(new Blob([bytes],{type:mime}));const im=new Image();im.onload=()=>{const sc=Math.min(1,600/im.width);const c=document.createElement("canvas");c.width=Math.max(1,Math.round(im.width*sc));c.height=Math.max(1,Math.round(im.height*sc));const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);res(c.toDataURL("image/png"));};im.onerror=()=>{URL.revokeObjectURL(url);res(null);};im.src=url;});
+ const L=x=>x.localName;
+ async function runText(node){let t="";for(const c of node.childNodes){if(c.nodeType!==1)continue;const ln=L(c);
+   if(ln==="t"){const sup=c.parentNode&&c.parentNode.getElementsByTagNameNS("*","vertAlign")[0];const v=sup&&sup.getAttribute("w:val");t+=v==="superscript"?"^{"+c.textContent+"}":v==="subscript"?"_{"+c.textContent+"}":c.textContent;}
+   else if(ln==="tab")t+=" ";else if(ln==="br"||ln==="cr")t+="\n";
+   else if(ln==="drawing"||ln==="pict"||ln==="object"){const b=[...c.getElementsByTagNameNS("*","blip"),...c.getElementsByTagNameNS("*","imagedata")][0];const id=b&&(b.getAttribute("r:embed")||b.getAttribute("r:id"));const tg=id&&rel[id];
+    if(tg){const path="word/"+tg.replace(/^\/?word\//,"").replace(/^\.\//,"");const bytes=await Z.get(path);const ext=(tg.split(".").pop()||"").toLowerCase();const png=bytes&&await toPng(bytes,ext);
+     if(png){nImg++;TIMG[nImg]=png;added++;t+=` [Hình ${nImg}] `;}else{bad++;t+=" [hình chưa đọc được] ";}}}
+   else if(ln==="oMath"||ln==="oMathPara"){t+=[...c.getElementsByTagNameNS("*","t")].map(x=>x.textContent).join("");}
+   else if(ln==="r"||ln==="hyperlink"||ln==="ins"||ln==="smartTag"||ln==="sdt"||ln==="sdtContent"||ln==="fldSimple")t+=await runText(c);}
+  return t;}
+ async function walk(node){for(const c of node.childNodes){if(c.nodeType!==1)continue;const ln=L(c);if(ln==="p"){lines.push((await runText(c)).replace(/[  ]+/g," ").trimEnd());}else if(ln==="tbl"||ln==="tr"||ln==="tc"||ln==="body"||ln==="sdt"||ln==="sdtContent")await walk(c);}}
+ await walk(D.getElementsByTagNameNS("*","body")[0]);
+ try{localStorage.setItem("gt-teacher-img",JSON.stringify(TIMG));}catch(e){}
+ return{text:lines.join("\n").replace(/\n{3,}/g,"\n\n").trim(),added,bad};}
+async function readOwnFile(file){const nm=file.name.toLowerCase();
+ if(nm.endsWith(".docx")){if(typeof DecompressionStream==="undefined")throw new Error("Trình duyệt này chưa hỗ trợ đọc .docx, hãy cập nhật Chrome/Edge/Safari mới.");return docxToText(await file.arrayBuffer());}
+ if(nm.endsWith(".txt")||nm.endsWith(".md")||file.type.startsWith("text/"))return{text:(await file.text()).trim(),added:0,bad:0};
+ if(nm.endsWith(".doc"))throw new Error("File .doc (Word 97–2003) chưa đọc được – mở bằng Word và Lưu thành .docx giúp mình.");
+ throw new Error("Chỉ hỗ trợ file .docx hoặc .txt.");}
 function tchParse(text){const items=[],errs=[];const t=String(text||"").replace(/\r/g,"").trim();if(!t)return{items,errs};
- let blocks=t.split(/\n(?=\s*(?:Câu|Bài|Question)\s*\d+\s*[.:)])/i);if(blocks.length===1&&!/^\s*(?:Câu|Bài)\s*\d+/i.test(t))blocks=t.split(/\n\s*\n+/);
+ let blocks=t.split(/\n(?=\s*(?:Câu|Bài|Question)\s*\d+\s*[.:)])/i);if(blocks.length===1&&!/^\s*(?:Câu|Bài)\s*\d+/i.test(t))blocks=t.split(/\n\s*\n+/);else if(blocks.length>1&&!/^\s*(?:Câu|Bài|Question)\s*\d+/i.test(blocks[0]))blocks.shift();
  blocks.forEach((b,k)=>{b=b.trim();if(!b)return;let ans="",sol="";const lines=[];let inSol=false;
   b.split("\n").forEach(l=>{let m;if((m=l.match(/^\s*(?:Đáp án|Đáp số|ĐA|Answer)\s*[:：]\s*(.*)$/i))){ans=m[1].trim();inSol=false;}else if((m=l.match(/^\s*(?:Lời giải|Hướng dẫn|HD|Giải)\s*[:：]\s*(.*)$/i))){sol=m[1];inSol=true;}else if(inSol)sol+="\n"+l;else lines.push(l);});
   let body=lines.join("\n").replace(/^\s*(?:Câu|Bài|Question)\s*\d+\s*[.:)]\s*(\([^)]*điểm[^)]*\)\s*)?/i,"");
@@ -2785,6 +2820,8 @@ async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,
  const cell=(paras,w)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/></w:tcPr>${paras}</w:tc>`;
  const img=async(svg)=>{const p=await svgPng(svg);if(!p)return"";media.push(p.data);const id=media.length,cx=Math.round(Math.min(240,p.w)*9525),cy=Math.round(Math.min(240,p.w)/p.w*p.h*9525);
   return `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="Hinh ${id}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${id}" name="hinh${id}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rImg${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;};
+ const imgUrl=async u=>{const b=atob(u.split(",")[1]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);const w=a[16]<<24|a[17]<<16|a[18]<<8|a[19],h=a[20]<<24|a[21]<<16|a[22]<<8|a[23];media.push(a);const id=media.length,W=Math.min(300,w),cx=Math.round(W*9525),cy=Math.round(W/w*h*9525);
+  return `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="Hinh ${id}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${id}" name="hinh${id}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rImg${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;};
  for(let v=0;v<VS.length;v++){const V=VS[v];
   body+=`<w:tbl><w:tblPr><w:tblW w:w="9600" w:type="dxa"/><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid><w:gridCol w:w="4500"/><w:gridCol w:w="5100"/></w:tblGrid><w:tr>`
    +cell(Pp([{t:TCH.school||"TRƯỜNG ............................",b:1,sz:24}],{brk:v>0})+Pp([{t:"Lớp: "+TCH.g+" .....   Họ và tên: ..................................",sz:24}]),4500)
@@ -2795,6 +2832,7 @@ async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,
    if(k===P.nMC&&P.nF)body+=Pp([{t:`PHẦN ${P.nMC?"II":"I"}. ${P.nMC?"TỰ LUẬN":"BÀI TẬP"} (${vnum(pts.slice(P.nMC).reduce((a,b)=>a+b,0))} điểm) – Ghi đáp số vào chỗ chấm.`,b:1}],{before:160});
    body+=Pp([{t:`Câu ${k+1}${same?"":` (${vnum(pts[k])} đ)`}. `,b:1},...runsOf(q.q)],{keep:1,before:100});
    const F=q.nofig?"":q.fig||(typeof autoFig==="function"?autoFig(q):"");if(F)body+=await img(F);
+   for(const mm of String(q.q).matchAll(/<img[^>]+src="(data:image\/png;base64,[^"]+)"/g))body+=await imgUrl(mm[1]);
    if(q.f)body+=Pp([{t:"Đáp số: ......................................................"}],{ind:360});
    else{const short=q.o.every(o=>String(o).replace(/<[^>]+>/g,"").length<=16);
     if(short){const runs=[];q.o.forEach((o,j)=>{if(j)runs.push(TAB);runs.push({t:L[j]+". ",b:1},...runsOf(o));});body+=Pp(runs,{ind:360,tabs:q.o.length>4?[2160,3960,5760,7560]:[2520,4680,6840]});}
@@ -2822,6 +2860,7 @@ function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(T
   <div class="tch-row"><span class="tch-l">Hình thức</span><div class="tch-pills">${[["mix","Trắc nghiệm + điền đáp số"],["mc","Chỉ trắc nghiệm"],["fill","Chỉ điền đáp số"]].map(([k,t])=>`<button type="button" class="pill" data-tm="${k}" aria-pressed="${TCH.mode===k}">${t}</button>`).join("")}</div></div>
   <div class="tch-row"><span class="tch-l">Chương / dạng bài <small>${nPool} câu trong kho</small></span><div class="tch-chs">${chs.map(c=>`<label><input type="checkbox" data-tc="${c.replace(/"/g,"&quot;")}" ${TCH.chs.includes(c)?"checked":""}> ${c}</label>`).join("")}<label><input type="checkbox" id="tchHsg" ${TCH.hsg?"checked":""}> Nâng cao – HSG</label><span class="tch-sa"><button type="button" class="linkbtn" id="tchAll">Chọn hết</button> · <button type="button" class="linkbtn" id="tchNone">Bỏ hết</button></span></div></div>
   <div class="tch-row"><span class="tch-l">Câu hỏi tự soạn <small id="tchOwnCnt"></small></span><div class="stack" style="gap:8px"><div class="tch-pills">${[["off","Không dùng"],["add","Thêm vào đề, phần còn lại lấy từ kho"],["only","Chỉ dùng câu tự soạn"]].map(([k,t])=>`<button type="button" class="pill" data-to="${k}" aria-pressed="${TCH.ownMode===k}">${t}</button>`).join("")}</div>
+   <div class="tch-up"><label class="btn" for="tchFile">📄 Tải file câu hỏi lên (.docx, .txt)</label><input type="file" id="tchFile" accept=".docx,.txt,.doc,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden><label class="tch-inl"><input type="checkbox" id="tchRepl"> Thay nội dung đang có</label>${TCH.ownMode!=="off"&&TCH.own?`<button type="button" class="linkbtn" id="tchOwnClr">Xóa hết câu tự soạn</button>`:""}<span class="note" id="tchUpMsg"></span></div>
    ${TCH.ownMode!=="off"?`<textarea id="tchOwn" class="tch-own" rows="10" spellcheck="false" placeholder="Câu 1. Nội dung câu hỏi&#10;A. ...   B. ...   C. ...   D. ...&#10;Đáp án: B&#10;Lời giải: ... (không bắt buộc)&#10;&#10;Câu 2. Câu tự luận (không có A, B, C, D)&#10;Đáp án: 12">${escT(TCH.own||"")}</textarea>
    <small class="note">Gõ hoặc dán từ Word: mỗi câu bắt đầu bằng <b>Câu 1.</b>, <b>Câu 2.</b>…; phương án <b>A. B. C. D.</b> (cùng dòng hoặc mỗi dòng một phương án); dòng <b>Đáp án: B</b> (hoặc thêm dấu * trước phương án đúng); dòng <b>Lời giải:</b> tùy chọn. Câu không có phương án được tính là câu tự luận. Lũy thừa gõ x^2 → x². <button type="button" class="linkbtn" id="tchOwnEx">Chèn ví dụ</button></small><div id="tchOwnMsg" class="note tch-ownmsg"></div>`:""}</div></div>
   <div class="tch-row"><span class="tch-l">Số mã đề</span><div class="tch-pills">${[1,2,3,4].map(v=>`<button type="button" class="xg${TCH.ver===v?" on":""}" data-tv="${v}">${v}</button>`).join("")}<small class="note">Các mã đảo thứ tự câu và đáp án</small></div></div>
@@ -2837,6 +2876,12 @@ function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(T
  const ownInfo=()=>{const R=tchParse(TCH.own),c=$("tchOwnCnt"),m=$("tchOwnMsg");if(c)c.textContent=TCH.ownMode==="off"?"":`${R.items.length} câu hợp lệ (${R.items.filter(q=>!q.f).length} trắc nghiệm, ${R.items.filter(q=>q.f).length} tự luận)`;if(m)m.innerHTML=R.errs.length?R.errs.map(escT).join("<br>"):(R.items.length?"✓ Đã đọc được tất cả câu.":"");};
  if($("tchOwn")){let tO;$("tchOwn").oninput=()=>{TCH.own=$("tchOwn").value;clearTimeout(tO);tO=setTimeout(()=>{tchSave();ownInfo();},250);};$("tchOwnEx").onclick=()=>{const e=$("tchOwn");e.value=(e.value.trim()?e.value.trim()+"\n\n":"")+OWN_EX;TCH.own=e.value;tchSave();ownInfo();e.focus();};}
  ownInfo();
+ $("tchFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;const m=$("tchUpMsg");m.textContent="Đang đọc "+f.name+"…";
+  try{const R=await readOwnFile(f);if(!R.text){m.textContent="File không có nội dung chữ.";return;}const repl=$("tchRepl").checked;sync();TCH.own=(repl||!TCH.own.trim()?"":TCH.own.trim()+"\n\n")+R.text;if(TCH.ownMode==="off")TCH.ownMode="add";tchSave();
+   const n=tchParse(R.text).items.length;renderTeacher();$("tchUpMsg").textContent=`✓ Đã đọc ${f.name}: ${n} câu${R.added?`, ${R.added} hình`:""}${R.bad?` · ${R.bad} hình/công thức dạng ảnh cũ (MathType/WMF) chưa đọc được – hãy gõ lại công thức`:""}. Kiểm tra lại nội dung trong ô bên dưới.`;window.gt&&gt("teacher_upload",{type:f.name.split(".").pop(),n});
+   const t=$("tchOwn");if(t)t.scrollIntoView({behavior:"smooth",block:"center"});}
+  catch(err){m.textContent=(err&&err.message&&err.message.length>20?err.message:"Chưa đọc được file này – kiểm tra lại định dạng .docx/.txt.");}};
+ if($("tchOwnClr"))$("tchOwnClr").onclick=()=>{TCH.own="";for(const k in TIMG)delete TIMG[k];try{localStorage.removeItem("gt-teacher-img");}catch(e){}tchSave();renderTeacher();};
  box.querySelectorAll("[data-tm]").forEach(b=>b.onclick=()=>{sync();TCH.mode=b.dataset.tm;tchSave();renderTeacher();});
  box.querySelectorAll("[data-tv]").forEach(b=>b.onclick=()=>{sync();TCH.ver=+b.dataset.tv;if(TCH.paper)TCH.paper.VS=tchVersions(TCH.paper.P);tchSave();renderTeacher();});
  box.querySelectorAll("[data-tc]").forEach(c=>c.onchange=()=>{sync();const v=c.dataset.tc;TCH.chs=c.checked?[...new Set([...TCH.chs,v])]:TCH.chs.filter(x=>x!==v);tchSave();renderTeacher();});
