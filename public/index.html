@@ -613,6 +613,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .qm-flash{animation:qmf 1.2s}@keyframes qmf{0%,60%{box-shadow:0 0 0 4px var(--amber)}100%{box-shadow:none}}
 @media(max-width:760px){.qmap{right:10px;bottom:10px;width:min(300px,calc(100vw - 20px))}.qmap.min{width:auto}.qm-grid{grid-template-columns:repeat(7,1fr)}}
 @media print{.qmap{display:none}}
+.qm-t{font-family:var(--mono);font-weight:800;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:99px;font-size:.88rem;white-space:nowrap}.qm-t:empty{display:none}.qm-t.warn{background:var(--amber);color:#3b2600}.qm-t.over{background:#fff;color:var(--red);animation:qmb 1s steps(2) infinite}@keyframes qmb{50%{opacity:.45}}.qmap .qm-head{gap:6px}.qmap{width:268px}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2388,17 +2389,19 @@ setInterval(()=>{document.querySelectorAll(".tedit").forEach(l=>{const k=l.datas
  setInterval(()=>{const on=examOn();if(on&&!wasOn)cnt=0;if(!on)ov.hidden=true;wasOn=on;},500);})();
 
 /* ===== Bảng câu đã làm / chưa làm khi đang làm bài kiểm tra ===== */
-(function(){const EX=[["mSubmit","mList"],["vSubmit","vList"],["kSubmit","kList"],["hSubmit","hList"],["xSubmit","xList"],["tSubmit","tList"],["dSubmit","dList"]];
+(function(){const EX=[["mSubmit","mList","timer"],["vSubmit","vList","vTimer"],["kSubmit","kList","kTimer"],["hSubmit","hList","hTimer"],["xSubmit","xList","xTimer"],["tSubmit","tList","tTimer"],["dSubmit","dList","dTimer"]];
  const box=document.createElement("aside");box.className="qmap";box.hidden=true;box.setAttribute("aria-label","Bảng câu đã làm");
- box.innerHTML='<button type="button" class="qm-head" aria-expanded="true"><b>Bảng câu</b><span class="qm-c"></span><i aria-hidden="true">▾</i></button><div class="qm-body"><div class="qm-grid"></div><div class="qm-leg"><span><i class="d"></i>Đã làm</span><span><i></i>Chưa làm</span></div><button type="button" class="btn qm-next">Tới câu chưa làm →</button></div>';
- document.body.appendChild(box);const head=box.querySelector(".qm-head"),grid=box.querySelector(".qm-grid"),cnt=box.querySelector(".qm-c"),nxt=box.querySelector(".qm-next");
+ box.innerHTML='<button type="button" class="qm-head" aria-expanded="true"><b>Bảng câu</b><span class="qm-t" title="Thời gian còn lại" aria-live="off"></span><span class="qm-c"></span><i aria-hidden="true">▾</i></button><div class="qm-body"><div class="qm-grid"></div><div class="qm-leg"><span><i class="d"></i>Đã làm</span><span><i></i>Chưa làm</span></div><button type="button" class="btn qm-next">Tới câu chưa làm →</button></div>';
+ document.body.appendChild(box);const head=box.querySelector(".qm-head"),grid=box.querySelector(".qm-grid"),cnt=box.querySelector(".qm-c"),tm=box.querySelector(".qm-t"),nxt=box.querySelector(".qm-next");
  let small=innerWidth<760;if(small){box.classList.add("min");head.setAttribute("aria-expanded","false");}
  head.onclick=()=>{box.classList.toggle("min");head.setAttribute("aria-expanded",String(!box.classList.contains("min")));};
  const done=c=>!!c.querySelector(".opt.sel")||[...c.querySelectorAll("input")].some(i=>i.type!=="number"&&i.value.trim()!=="");
  const toCard=c=>{const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:c.getBoundingClientRect().top+scrollY-h-16,behavior:"smooth"});c.classList.add("qm-flash");setTimeout(()=>c.classList.remove("qm-flash"),1200);};
- let cards=[],sig="";
+ let cards=[],sig="",curEx=null;
+ function tick(){if(box.hidden||!curEx)return;const t=document.getElementById(curEx[2]);const v=t?t.textContent.trim():"";
+  tm.textContent=v&&/\d/.test(v)?"⏱ "+v:"";const m=v.match(/^(\d+):(\d+)/);const left=m?(+m[1])*60+(+m[2]):1e9;tm.classList.toggle("warn",left<=300);tm.classList.toggle("over",left<=60);}
  function upd(){const ex=EX.find(([s])=>{const b=document.getElementById(s);return b&&!b.hidden&&b.offsetParent!==null;});
-  if(!ex){box.hidden=true;sig="";return;}
+  curEx=ex||null;if(!ex){box.hidden=true;sig="";return;}
   const L=document.getElementById(ex[1]);cards=L?[...L.querySelectorAll("article.win.q")]:[];
   if(!cards.length){box.hidden=true;return;}
   box.hidden=false;const st=cards.map(done),n=st.filter(Boolean).length,ns=ex[0]+cards.length+":"+st.map(x=>x?1:0).join("");
@@ -2409,7 +2412,7 @@ setInterval(()=>{document.querySelectorAll(".tedit").forEach(l=>{const k=l.datas
  nxt.onclick=()=>{const st=cards.map(done);const y=scrollY+((document.querySelector(".topbar")||{}).offsetHeight||0)+20;
   let i=cards.findIndex((c,k)=>!st[k]&&c.getBoundingClientRect().top+scrollY>y);if(i<0)i=st.indexOf(false);if(i>=0)toCard(cards[i]);};
  ["click","input","change","keyup"].forEach(t=>document.addEventListener(t,()=>setTimeout(upd,30),true));
- addEventListener("hashchange",()=>setTimeout(upd,120));setInterval(upd,1000);})();
+ addEventListener("hashchange",()=>setTimeout(upd,120));setInterval(upd,1000);setInterval(tick,250);})();
 </script>
 </body>
 </html>
