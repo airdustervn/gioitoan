@@ -616,6 +616,18 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .qm-t{font-family:var(--mono);font-weight:800;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:99px;font-size:.88rem;white-space:nowrap}.qm-t:empty{display:none}.qm-t.warn{background:var(--amber);color:#3b2600}.qm-t.over{background:#fff;color:var(--red);animation:qmb 1s steps(2) infinite}@keyframes qmb{50%{opacity:.45}}.qmap .qm-head{gap:6px}.qmap{width:268px}
 .xgrades{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}.xg-l{font-weight:800;font-size:.85rem;color:var(--muted);margin-right:2px}.xg{font:inherit;font-weight:700;font-size:.88rem;min-width:40px;padding:5px 10px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;gap:4px;align-items:baseline;justify-content:center}.xg small{font-size:.7rem;color:var(--muted);font-weight:600}.xg:hover{border-color:var(--red)}.xg.on{background:var(--red);border-color:var(--red);color:#fff}.xg.on small{color:#ffd9d9}.xg:disabled{opacity:.4;cursor:not-allowed}.xg:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 @media(max-width:560px){.xgrades{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.xgrades::-webkit-scrollbar{display:none}.xg{flex:none}}
+.dk{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.dk-i{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}.dk-i b{display:block;font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums}.dk-i span{font-size:.78rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.02em}.dk-i.ok b{color:#1a7f37}.dk-i.no b{color:var(--red)}
+.dk-row{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}.dk-card h3{margin:0 0 10px;display:flex;gap:8px;align-items:baseline}.dk-card h3 small{font-size:.8rem;color:var(--muted);font-weight:600}
+.dk-bars{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;height:150px;align-items:end}.dk-b{display:flex;flex-direction:column;align-items:center;height:100%;position:relative}.dk-col{flex:1;width:100%;max-width:22px;display:flex;flex-direction:column-reverse;background:#f6f0e6;border-radius:6px;overflow:hidden}.dk-col i{display:block;width:100%}.dk-col i.o{background:#1a7f37}.dk-col i.w{background:#e5484d}.dk-b small{font-size:.7rem;color:var(--muted);margin-top:4px}.dk-b em{position:absolute;top:-2px;font-style:normal;font-size:.65rem;font-weight:800;background:var(--amber);color:#3b2600;border-radius:99px;padding:0 5px}
+.dk-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:8px}.dk-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}.dk-leg i.o{background:#1a7f37}.dk-leg i.w{background:#e5484d}.dk-leg em{font-style:normal;font-size:.65rem;font-weight:800;background:var(--amber);border-radius:99px;padding:0 5px;margin-right:3px}
+.dk-g{display:grid;gap:8px}.dk-gr{display:grid;grid-template-columns:56px 1fr auto;gap:8px;align-items:center;font-size:.88rem}.dk-gb{height:10px;background:#f6f0e6;border-radius:99px;overflow:hidden}.dk-gb i{display:block;height:100%;background:#1a7f37}.dk-gr span{color:var(--muted);font-variant-numeric:tabular-nums}
+.dk-t{width:100%;font-size:.9rem}.dk-t td.n{white-space:nowrap;text-align:right}
+.dk-tabs{display:flex;gap:6px;margin-bottom:10px}.dk-tabs button{font:inherit;font-weight:700;padding:6px 14px;border-radius:99px;border:1.5px solid var(--line);background:#fff;cursor:pointer}.dk-tabs button.on{background:var(--red);border-color:var(--red);color:#fff}.dk-tabs small{opacity:.75;margin-left:2px}
+.dk-act{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.dk-act label{font-weight:700;display:flex;gap:6px;align-items:center;cursor:pointer}.dk-act .btn{margin-left:auto}
+.dk-w{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-height:520px;overflow:auto}.dk-w li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}.dk-ck input,.dk-act input{width:18px;height:18px;accent-color:var(--red)}.dk-wq p{margin:0 0 4px;font-weight:600;line-height:1.4}.dk-wq small{color:var(--muted)}.dk-wq .bad{color:var(--red)}.dk-one{padding:6px 12px;font-size:.85rem}
+#dkRetry:not(:empty){margin-top:14px;border-top:2px dashed var(--line);padding-top:14px}.dk-rh{display:flex;gap:12px;align-items:center;margin-bottom:10px}.dk-rh h3{margin:0}.dk-rh .btn{margin-left:auto}
+@media(max-width:900px){.dk{grid-template-columns:repeat(3,minmax(0,1fr))}.dk-row{grid-template-columns:1fr}}
+@media(max-width:560px){.dk-i b{font-size:1.25rem}.dk-i span{font-size:.68rem}.dk-w li{grid-template-columns:auto 1fr}.dk-one{grid-column:2;justify-self:start}.dk-act .btn{margin-left:0;width:100%}.dk-bars{height:120px}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1038,13 +1050,9 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
   <section id="sec-tai-khoan" class="stack">
     <div><h2>Tài khoản học sinh</h2><p class="lead">Mỗi học sinh một tài khoản. Đăng ký mới được <b>dùng thử đầy đủ 7 ngày</b>; sau đó miễn phí 10 câu luyện tập và 1 đề thi mỗi ngày; gói trả phí mở khóa không giới hạn.</p></div>
     <div id="acctBox" class="stack"></div>
-    <div class="stack" id="hsBlock"><h2>Tiến độ học tập</h2>
-      <div class="stats">
-        <div class="stat"><b id="hsDone">0</b><span>câu đã làm</span></div>
-        <div class="stat"><b id="hsStar">0</b><span>sao ★</span></div>
-        <div class="stat"><b id="hsBest">0</b><span>chuỗi đúng max</span></div>
-      </div>
-      <p class="note">Câu hỏi tự soạn theo dạng, không chép đề có bản quyền. Kết quả lưu trên trình duyệt của máy này.</p>
+    <div class="stack" id="hsBlock"><h2>Bảng học tập</h2>
+      <div class="stats" hidden><div class="stat"><b id="hsDone">0</b></div><div class="stat"><b id="hsStar">0</b></div><div class="stat"><b id="hsBest">0</b></div></div>
+      <div id="dashBox" class="stack"></div>
     </div>
   </section>
 
@@ -1328,7 +1336,7 @@ const nrm=x=>String(x).trim().replace(/\s/g,"").replace(/[−–]/g,"-").replace
 const isRight=(q,v)=>{if(!q.f)return v===q.a;const a=nrm(v),b=nrm(q.a);return a===b||(a!==""&&!isNaN(+a)&&+a===+b);};
 function totals(){let done=0,ok=0;for(const g in DATA)DATA[g].forEach((q,i)=>{const v=answers[g+"-"+i];if(v!==undefined){done++;if(isRight(q,v))ok++;}});return{done,ok};}
 function streaks(){let cur=0,best=0,run=0;log.forEach(b=>{run=b?run+1:0;best=Math.max(best,run);});for(let i=log.length-1;i>=0&&log[i];i--)cur++;return{cur,best};}
-function updateStats(){const t=totals(),s=streaks();$("starN").textContent=t.ok;$("streakN").textContent=s.cur;$("hsDone").textContent=t.done;$("hsStar").textContent=t.ok;$("hsBest").textContent=s.best;const on=t.done>0;document.querySelectorAll(".util .stat-chip,.stat-chip").forEach(c=>c.hidden=!on);}
+function updateStats(){const t=totals(),s=streaks();$("starN").textContent=t.ok;$("streakN").textContent=s.cur;$("hsDone").textContent=t.done;$("hsStar").textContent=t.ok;$("hsBest").textContent=s.best;if(location.hash==="#tai-khoan"&&typeof renderDash==="function")clearTimeout(window._dkT),window._dkT=setTimeout(renderDash,50);const on=t.done>0;document.querySelectorAll(".util .stat-chip,.stat-chip").forEach(c=>c.hidden=!on);}
 
 /* ---------- font size ---------- */
 if(store.get("ttd2-big",false)){document.documentElement.classList.add("big");$("fontBtn").setAttribute("aria-pressed","true");}
@@ -1573,7 +1581,7 @@ function renderPractice(anim){
  const box=$("pCard");box.innerHTML="";
  if(!list.length){box.innerHTML='<p class="note">Chưa có câu thuộc chủ đề này.</p>';return;}
  const [q,i]=list[idx],key=grade+"-"+i,v=answers[key];
- const card=buildQ(q,idx+1,{v,reveal:v!==undefined,hint:true,idp:"p"+key,onAnswer:async val=>{if(!(await gate("question")))return;answers[key]=val;log.push(isRight(q,val));ACT.q(isRight(q,val));store.set("ttd2-answers",answers);store.set("ttd2-log",log);updateStats();renderPractice(isRight(q,val)?"ok":"no");}});
+ const card=buildQ(q,idx+1,{v,reveal:v!==undefined,hint:true,idp:"p"+key,onAnswer:async val=>{if(!(await gate("question")))return;answers[key]=val;log.push(isRight(q,val));ACT.q(isRight(q,val));HIST.q(isRight(q,val));store.set("ttd2-answers",answers);store.set("ttd2-log",log);updateStats();renderPractice(isRight(q,val)?"ok":"no");}});
  if(anim==="ok"){card.classList.add("pop");const p=document.createElement("span");p.className="plus";p.textContent="+1 ★";card.appendChild(p);}
  box.appendChild(card);
  $("pPrev").disabled=idx===0;$("pNext").textContent=idx===list.length-1?"Về trang chủ":"Câu tiếp →";
@@ -2086,16 +2094,16 @@ const ACT=(()=>{let busy=Date.now();const on=()=>ACCT.on&&ACCT.sb&&ACCT.status&&
  if(ACCT.on)ACCT.ready.then(async()=>{if(!ACCT.sb)return;let f=false;try{f=sessionStorage.getItem("gt_sess")==="1";}catch(_){}if(f)return;
   try{await refreshStatus();}catch(_){}if(!on())return;try{sessionStorage.setItem("gt_sess","1");}catch(_){}send("session");});
  return {q:ok=>send("q",{p_ok:!!ok}),exam:(t,r,n,pct)=>send("exam",{p_title:String(t||"").slice(0,80),p_r:r,p_n:n,p_pct:pct})};})();
-function EXAM_LOG(k){try{window.gt&&gt("exam_complete",{exam_type:k});}catch(e){}try{let r=0,n=0,t="",has=false;const cnt=(qs,ans,eq)=>{has=true;(qs||[]).forEach((q,i)=>{n++;const a=ans&&ans[i];if(a!==undefined&&a!==""&&(eq?a===q.a:isRight(q,a)))r++;});};
+function EXAM_LOG(k){try{window.gt&&gt("exam_complete",{exam_type:k});}catch(e){}try{let r=0,n=0,t="",has=false;const wr=[];const cnt=(qs,ans,eq)=>{has=true;(qs||[]).forEach((q,i)=>{n++;const a=ans&&ans[i];if(a!==undefined&&a!==""&&(eq?a===q.a:isRight(q,a)))r++;else if(q&&q.q&&a!==undefined&&a!=="")wr.push({q,v:a});});};
  const nm=o=>o?[o.name,o.year].filter(Boolean).join(" "):"";
- if(k==="mock"){cnt(mock.set,mock.ans);t="Thi thử lớp "+(typeof grade!=="undefined"?grade:"");}
+ if(k==="mock"){cnt(mockSet(),mock.ans);t=(mType==="hsg"?"Thi thử HSG lớp ":"Thi thử lớp ")+mGrade;}
  else if(k==="vio"){cnt(vio.set,vio.ans);t="Violympic";}
  else if(k==="ken"){cnt(ken.set,ken.ans,1);t="Kangaroo";}
  else if(k==="hn"){cnt(hn.set,hn.ans);t="Vào lớp 6: "+nm(TW());}
  else if(k==="x"){const P=XP[xMode]||{};cnt(P.qs,xs.ans);t=P.tag||"Đề quốc tế";}
  else if(k==="t"){cnt(TQ(),ts.ans);t="Vào 10/THPT: "+nm(TP());}
  else if(k==="dh"){t="Đánh giá năng lực: "+nm(DHS[dhI]);}
- ACT.exam(t.trim(),has?r:null,has?n:null,has&&n?Math.round(r/n*1000)/10:null);}catch(_){}}
+ t=t.trim();HIST.exam(t,has?r:null,has?n:null);if(wr.length)HIST.wrongs(t,wr);ACT.exam(t,has?r:null,has?n:null,has&&n?Math.round(r/n*1000)/10:null);}catch(_){}}
 document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[data-scroll]");if(!a)return;const el=document.getElementById(a.dataset.scroll);if(!el)return;e.preventDefault();if(location.hash!=="#trang-chu")location.hash="#trang-chu";setTimeout(()=>{const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:el.getBoundingClientRect().top+scrollY-h-70,behavior:"smooth"});},80);});
 const vnd=n=>Number(n).toLocaleString("vi-VN")+"đ";
 const fdate=s=>s?new Date(s).toLocaleDateString("vi-VN"):"";
@@ -2425,6 +2433,70 @@ setInterval(()=>{document.querySelectorAll(".tedit").forEach(l=>{const k=l.datas
   let i=cards.findIndex((c,k)=>!st[k]&&c.getBoundingClientRect().top+scrollY>y);if(i<0)i=st.indexOf(false);if(i>=0)toCard(cards[i]);};
  ["click","input","change","keyup"].forEach(t=>document.addEventListener(t,()=>setTimeout(upd,30),true));
  addEventListener("hashchange",()=>setTimeout(upd,120));setInterval(upd,1000);setInterval(tick,250);})();
+
+/* ===== Bảng học tập của học sinh (trang Tài khoản) ===== */
+const HIST=(()=>{const K="gt-hist",W="gt-wrongx";const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+ const get=()=>store.get(K,{days:{},exams:[]}),put=h=>store.set(K,h);
+ const day=(h,f)=>{const d=today();h.days[d]=h.days[d]||{q:0,ok:0,ex:0};f(h.days[d]);const ks=Object.keys(h.days).sort();while(ks.length>120)delete h.days[ks.shift()];};
+ return{get,
+  q(ok){const h=get();day(h,d=>{d.q++;if(ok)d.ok++;});put(h);},
+  exam(t,r,n){const h=get();day(h,d=>{d.ex++;});h.exams.unshift({at:new Date().toISOString(),title:t,r,n});h.exams=h.exams.slice(0,100);put(h);},
+  wrongs(t,list){let w=store.get(W,[]);const at=new Date().toISOString();
+   list.forEach(({q,v})=>{const id=String(q.q).slice(0,160);w=w.filter(x=>x.id!==id);const c={};["t","d","q","vi","o","a","f","h","s","m","fig","c"].forEach(k=>{if(q[k]!==undefined)c[k]=q[k];});w.unshift({id,at,src:t,v:v===undefined?null:v,q:c});});
+   store.set(W,w.slice(0,300));},
+  wrongList(){return store.get(W,[]);},
+  dropWrong(id){store.set(W,store.get(W,[]).filter(x=>x.id!==id));}};})();
+let DASH={tab:"p",sel:new Set(),retry:null,srv:null,srvAt:0};
+async function dashServer(){if(!(ACCT.on&&ACCT.sb&&ACCT.status&&ACCT.status.logged_in))return null;if(DASH.srv&&Date.now()-DASH.srvAt<60000)return DASH.srv;
+ try{const {data}=await ACCT.sb.rpc("my_history",{p_days:30});DASH.srv=data;DASH.srvAt=Date.now();return data;}catch(e){return null;}}
+function dashWrongPractice(){const out=[];for(const g in DATA)DATA[g].forEach((q,i)=>{const v=answers[g+"-"+i];if(v!==undefined&&!isRight(q,v))out.push({id:"p:"+g+"-"+i,g:+g,i,q,v,src:"Luyện tập lớp "+g+(q.c?" · "+q.c:"")});});return out;}
+function dashWrongExam(){return HIST.wrongList().map(x=>({id:"x:"+x.id,xid:x.id,q:x.q,v:x.v,src:x.src+" · "+new Date(x.at).toLocaleDateString("vi-VN")}));}
+const dashTxt=q=>{const t=document.createElement("div");t.innerHTML=q.q;const s=t.textContent.replace(/\s+/g," ").trim();return s.length>140?s.slice(0,138)+"…":s;};
+const dashAns=(q,v)=>v===undefined||v===null||v===""?"bỏ trống":(q.f?String(v):(q.o&&q.o[v]!==undefined?L[v]+". "+String(q.o[v]).replace(/<[^>]+>/g,""):"—"));
+async function renderDash(){const box=$("dashBox");if(!box||!box.offsetParent&&location.hash!=="#tai-khoan")return;
+ const t=totals(),st=streaks(),loc=HIST.get(),srv=await dashServer();
+ const wp=dashWrongPractice(),wx=dashWrongExam();
+ const exams=srv&&srv.exams&&srv.exams.length?srv.exams:loc.exams;
+ const days=[];const base=new Date();for(let k=13;k>=0;k--){const d=new Date(base);d.setDate(d.getDate()-k);const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  const sv=srv&&srv.days?srv.days.find(x=>x.day===key):null,lv=loc.days[key];const q=sv?sv.q:(lv?lv.q:0),ok=sv?sv.ok:(lv?lv.ok:0),ex=sv?sv.ex:(lv?lv.ex:0);days.push({key,d,q,ok,ex});}
+ const examN=srv&&srv.tot?Math.max(srv.tot.ex,exams.length):exams.length;
+ const pct=t.done?Math.round(t.ok/t.done*100):0,mx=Math.max(1,...days.map(x=>x.q));
+ const byG=[];for(const g in DATA){let d=0,o=0;DATA[g].forEach((q,i)=>{const v=answers[g+"-"+i];if(v!==undefined){d++;if(isRight(q,v))o++;}});if(d)byG.push({g,d,o,n:DATA[g].length});}
+ const W=DASH.tab==="p"?wp:wx;[...DASH.sel].forEach(id=>{if(!W.some(w=>w.id===id))DASH.sel.delete(id);});
+ box.innerHTML=`
+ <div class="dk">${[["Câu đã làm",t.done],["Câu đúng",t.ok,"ok"],["Câu sai",t.done-t.ok,"no"],["Tỷ lệ đúng",pct+"%"],["Đề đã làm",examN],["Chuỗi đúng dài nhất",st.best]].map(([a,b,c])=>`<div class="dk-i ${c||""}"><b>${typeof b==="number"?b.toLocaleString("vi-VN"):b}</b><span>${a}</span></div>`).join("")}</div>
+ <div class="dk-row">
+  <div class="card dk-card"><h3>14 ngày gần nhất</h3><div class="dk-bars" role="img" aria-label="Số câu làm mỗi ngày trong 14 ngày">${days.map(x=>`<div class="dk-b" title="${x.d.toLocaleDateString("vi-VN")}: ${x.q} câu, ${x.ok} đúng${x.ex?", "+x.ex+" đề":""}"><div class="dk-col"><i class="w" style="height:${(x.q-x.ok)/mx*100}%"></i><i class="o" style="height:${x.ok/mx*100}%"></i></div><small>${x.d.getDate()}</small>${x.ex?`<em>${x.ex}</em>`:""}</div>`).join("")}</div>
+   <div class="dk-leg"><span><i class="o"></i>Đúng</span><span><i class="w"></i>Sai</span><span><em>n</em> số đề nộp trong ngày</span></div></div>
+  <div class="card dk-card"><h3>Tỷ lệ đúng theo lớp</h3>${byG.length?`<div class="dk-g">${byG.map(x=>`<div class="dk-gr"><b>Lớp ${x.g}</b><div class="dk-gb"><i style="width:${x.o/x.d*100}%"></i></div><span>${x.o}/${x.d} đúng · ${Math.round(x.o/x.d*100)}%</span></div>`).join("")}</div>`:'<p class="note">Chưa làm câu luyện tập nào.</p>'}</div>
+ </div>
+ <div class="card dk-card"><h3>Lịch sử làm đề <small>${examN} đề</small></h3>${exams.length?`<div class="tablewrap"><table class="dk-t"><thead><tr><th>Ngày</th><th>Đề</th><th>Kết quả</th></tr></thead><tbody>${exams.slice(0,20).map(e=>`<tr><td>${new Date(e.at).toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</td><td>${String(e.title||"").replace(/</g,"&lt;")}</td><td class="n">${e.n?`${e.r}/${e.n} · <b>${Math.round(e.r/e.n*100)}%</b>`:"—"}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa nộp đề nào. Vào <a href="#thi-thu">Thi thử</a> hoặc <a href="#ky-thi">Kỳ thi</a> để làm đề.</p>'}</div>
+ <div class="card dk-card" id="dkWrong"><h3>Câu làm sai</h3>
+  <div class="dk-tabs" role="tablist"><button type="button" role="tab" data-tab="p" aria-selected="${DASH.tab==="p"}" class="${DASH.tab==="p"?"on":""}">Luyện tập <small>${wp.length}</small></button><button type="button" role="tab" data-tab="x" aria-selected="${DASH.tab==="x"}" class="${DASH.tab==="x"?"on":""}">Trong đề thi <small>${wx.length}</small></button></div>
+  ${W.length?`<div class="dk-act"><label><input type="checkbox" id="dkAll" ${DASH.sel.size&&DASH.sel.size===W.length?"checked":""}> Chọn tất cả</label><span class="note">${DASH.sel.size} câu đã chọn</span><button type="button" class="btn primary" id="dkGo" ${DASH.sel.size?"":"disabled"}>Làm lại câu đã chọn →</button></div>
+  <ul class="dk-w">${W.slice(0,200).map(w=>`<li><label class="dk-ck"><input type="checkbox" data-id="${w.id}" ${DASH.sel.has(w.id)?"checked":""} aria-label="Chọn câu này"></label><div class="dk-wq"><p>${dashTxt(w.q).replace(/</g,"&lt;")}</p><small>${w.src.replace(/</g,"&lt;")} · Em chọn: <b class="bad">${dashAns(w.q,w.v).replace(/</g,"&lt;")}</b></small></div><button type="button" class="btn dk-one" data-id="${w.id}">Làm lại</button></li>`).join("")}</ul>${W.length>200?`<p class="note">Đang hiện 200 câu gần nhất.</p>`:""}`
+  :`<p class="note">${DASH.tab==="p"?"Không có câu luyện tập nào đang sai. Tuyệt vời!":"Chưa có câu sai trong đề thi (câu sai được lưu sau mỗi lần nộp đề trên máy này)."}</p>`}
+  <div id="dkRetry"></div></div>`;
+ box.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{DASH.tab=b.dataset.tab;DASH.sel.clear();DASH.retry=null;renderDash();});
+ box.querySelectorAll(".dk-ck input").forEach(c=>c.onchange=()=>{c.checked?DASH.sel.add(c.dataset.id):DASH.sel.delete(c.dataset.id);renderDash();});
+ const all=$("dkAll");if(all)all.onchange=()=>{if(all.checked)W.slice(0,200).forEach(w=>DASH.sel.add(w.id));else DASH.sel.clear();renderDash();};
+ const go=ids=>{DASH.retry={ids,done:{}};renderRetry(W);const r=$("dkRetry");if(r)r.scrollIntoView({behavior:"smooth",block:"start"});};
+ if($("dkGo"))$("dkGo").onclick=()=>go([...DASH.sel]);
+ box.querySelectorAll(".dk-one").forEach(b=>b.onclick=()=>go([b.dataset.id]));
+ if(DASH.retry)renderRetry(W);}
+function renderRetry(W){const box=$("dkRetry");if(!box||!DASH.retry)return;const R=DASH.retry;
+ const items=R.ids.map(id=>W.find(w=>w.id===id)||R.done[id]&&R.done[id].w).filter(Boolean);
+ const nOk=Object.values(R.done).filter(x=>x.ok).length,nDone=Object.keys(R.done).length;
+ box.innerHTML=`<div class="dk-rh"><h3>Làm lại ${items.length} câu</h3><span class="note">${nDone}/${items.length} đã làm · ${nOk} đúng</span><button type="button" class="btn" id="dkClose">Đóng</button></div><div class="stack" id="dkRList"></div>`;
+ $("dkClose").onclick=()=>{DASH.retry=null;DASH.sel.clear();renderDash();};
+ const L0=$("dkRList");items.forEach((w,k)=>{const d=R.done[w.id];
+  const card=buildQ(w.q,k+1,{v:d?d.v:undefined,reveal:!!d,hint:true,idp:"rt"+k,onAnswer:val=>{const ok=isRight(w.q,val);R.done[w.id]={v:val,ok,w};
+   if(ok){if(w.id.startsWith("p:")){answers[w.g+"-"+w.i]=val;log.push(true);store.set("ttd2-answers",answers);store.set("ttd2-log",log);ACT.q(true);HIST.q(true);updateStats();}else HIST.dropWrong(w.xid);}
+   renderRetry(W);}});
+  L0.appendChild(card);});
+ if(items.length&&nDone===items.length){const e=document.createElement("div");e.className="card";e.innerHTML=`<p><b>Xong!</b> Em làm đúng ${nOk}/${items.length} câu. ${nOk===items.length?"Tất cả câu đã được gỡ khỏi danh sách câu sai.":"Các câu còn sai vẫn nằm trong danh sách để luyện lại."}</p><button type="button" class="btn primary" id="dkFin">Cập nhật danh sách</button>`;L0.appendChild(e);$("dkFin").onclick=()=>{DASH.retry=null;DASH.sel.clear();renderDash();};}}
+addEventListener("hashchange",()=>{if(location.hash==="#tai-khoan")setTimeout(renderDash,60);});
+addEventListener("load",()=>{if(location.hash==="#tai-khoan")setTimeout(renderDash,300);});
 </script>
 </body>
 </html>
