@@ -601,6 +601,9 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .steps li{padding:0}.steps li>a{display:flex;flex-direction:column;padding:18px 18px 18px 70px;color:inherit;text-decoration:none;border-radius:16px;height:100%;box-sizing:border-box}.steps li:hover{border-style:solid;border-color:var(--red);box-shadow:0 6px 18px rgba(200,16,46,.12)}.steps li>a:hover b{color:var(--red)}.steps li>a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 @media(max-width:430px){.util-r{flex-wrap:nowrap!important;gap:6px!important;justify-content:space-between}.util-in{padding:0 8px!important}.util .hotline,.util-hot,.util-pay{padding:5px 9px!important;font-size:.92rem!important;white-space:nowrap}.util-pay svg{display:none}.util .icon-btn{min-width:34px!important;height:32px!important;font-size:.9rem!important;flex:none}}
 @media(max-width:350px){.util .hotline svg{display:none}.util .hotline,.util-hot,.util-pay{padding:4px 7px!important;font-size:.84rem!important}}
+@media(max-width:640px){.hot-tabs{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}.hot-tabs::-webkit-scrollbar{display:none}.hot-tab{padding:5px 10px;font-size:.84rem;white-space:nowrap;flex:none}}
+.ex-go{font-style:normal;font-size:.78rem;color:var(--red);margin-top:auto}.exlogo{height:100%}
+@media(max-width:560px){.kpi span{font-size:.72rem;line-height:1.3}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -614,7 +617,6 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
     <span class="stat-chip streak" title="Chuỗi câu đúng liên tiếp" hidden><span class="ic">▲</span><span id="streakN">0</span></span>
     <a href="#hot" class="util-hot">🔥 HOT</a><a href="#thanh-toan" class="util-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2"/></svg>Thanh toán</a>
     <a href="https://www.facebook.com/gioitoan.com.vn" class="util-a util-fb" target="_blank" rel="noopener" aria-label="Fanpage Facebook Giỏi Toán"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span class="hl-w">Fanpage</span></a>
-    <a href="#tai-khoan" class="util-a" id="utilLogin">Đăng nhập<span class="hl-w"> / Đăng ký</span></a>
     <button class="btn acct-btn" id="acctBtn" type="button" hidden>Đăng nhập</button>
     <button class="icon-btn" id="fontBtn" type="button" aria-pressed="false" title="Cỡ chữ lớn">A+</button>
   </div></div></div>
@@ -652,9 +654,13 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 
     <div class="kpis">
       <div class="kpi"><b id="kpiQ">11.000+</b><span>câu hỏi có lời giải từng bước</span></div>
-      <div class="kpi"><b>3</b><span>cấp học: Tiểu học · THCS · THPT</span></div>
-      <div class="kpi"><b>6+</b><span>kỳ thi được hướng dẫn</span></div>
+      <div class="kpi"><b>800+</b><span>đề thi thử bấm giờ, chấm điểm ngay</span></div>
+      <div class="kpi"><b>12</b><span>lớp, từ lớp 1 đến lớp 12</span></div>
     </div>
+
+    <section class="stack" id="chonLop" aria-labelledby="chonLopH"><div class="sec-h"><h2 id="chonLopH">Chọn lớp để bắt đầu</h2><a href="#luyen-tap">Vào trang luyện tập →</a></div>
+      <div class="gpick-wrap" id="gradeCards"></div>
+    </section>
 
     <section class="stack" id="giaFaq" aria-labelledby="giaH"><div class="sec-h"><h2 id="giaH">Bảng giá</h2><a href="#thanh-toan">Xem chi tiết và cách thanh toán →</a></div>
       <div class="pmini">
@@ -667,33 +673,11 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
     </section>
 
 
-    <section class="stack" id="chonLop" aria-labelledby="chonLopH"><div class="sec-h"><h2 id="chonLopH">Chọn lớp để bắt đầu</h2><a href="#luyen-tap">Vào trang luyện tập →</a></div>
-      <div class="gpick-wrap" id="gradeCards"></div>
-    </section>
 
-
-    <div class="stack"><div class="sec-h"><h2>Luyện thi các kỳ thi quốc tế</h2><a href="#ky-thi">Thông tin kỳ thi →</a></div>
-      <div class="courses">
-        <a class="course c-exam" href="#violympic" style="--cc:var(--red)"><div class="c-top"><span class="c-badge">VIO</span><b>Violympic</b></div><p>Đề sinh ngẫu nhiên theo lớp, 10 điểm mỗi câu, bấm giờ.</p><div class="tags"><span>Lớp 1–12</span><span>Trực tuyến</span></div></a>
-        <a class="course c-exam" href="#kangaroo" style="--cc:var(--amber)"><div class="c-top"><span class="c-badge">IKMC</span><b>Kangaroo</b></div><p>Đề tiếng Anh theo 6 cấp độ, chấm điểm trừ như đề thật.</p><div class="tags"><span>Lớp 1–12</span><span>Tiếng Anh</span></div></a>
-        <a class="course c-exam" href="#de-quoc-te" style="--cc:var(--logic)"><div class="c-top"><span class="c-badge">QT</span><b>Đề Toán quốc tế</b></div><p>Đề mô phỏng HKIMO, SASMO, TIMO, IMSO, AIMO, AMC 8 – bấm giờ, chấm điểm ngay.</p><div class="tags"><span>Lớp 1–12</span><span>6 kỳ thi</span></div></a>
-      </div>
     </div>
 
 
-    <section class="stack" id="faq" aria-labelledby="faqH">
-      <h2 id="faqH">Câu hỏi thường gặp</h2>
-      <div class="faq">
-        <details><summary>Giỏi Toán dành cho học sinh lớp mấy?</summary><p>Lớp 1 đến lớp 12, theo chương trình Toán 2018, chia theo từng chương. Có thêm phần nâng cao – học sinh giỏi, luyện Violympic, Kangaroo, đề quốc tế, thi vào lớp 6, thi vào lớp 10 và thi tốt nghiệp THPT.</p></details>
-        <details><summary>Học miễn phí được những gì?</summary><p>Tài khoản mới được dùng đầy đủ mọi phần trong 7 ngày. Sau đó vẫn học miễn phí 10 câu luyện tập và 1 đề thi thử mỗi ngày, có gợi ý và lời giải từng bước.</p></details>
-        <details><summary>Đề trên web có phải đề thi thật không?</summary><p>Đây là đề mô phỏng do Giỏi Toán soạn theo đúng cấu trúc và thời gian của đề thật, với số liệu mới. Mỗi câu có đáp án, gợi ý và lời giải để con tự học.</p></details>
-        <details><summary>Mấy anh chị em có dùng chung một tài khoản được không?</summary><p>Nên tạo cho mỗi con một tài khoản riêng để kết quả, sao và tiến độ không bị lẫn vào nhau.</p></details>
-        <details><summary>Thanh toán thế nào, bao lâu thì dùng được?</summary><p>Chuyển khoản bằng mã VietQR trong mục Tài khoản; gói được kích hoạt tự động sau khi nhận tiền. Xem thêm <a href="/chinh-sach-hoan-tien">chính sách hoàn tiền và đổi gói</a>.</p></details>
-        <details><summary>Cần hỗ trợ thì liên hệ ở đâu?</summary><p>Gọi hotline <a href="tel:0388130130">0388 130 130</a> hoặc nhắn tin <a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">fanpage Giỏi Toán</a>.</p></details>
-      </div>
-    </section>
-
-    <div class="stack"><div class="sec-h"><h2>Các kỳ thi toán</h2><a href="#ky-thi">Xem tất cả kỳ thi →</a></div>
+    <div class="stack"><div class="sec-h"><h2>Các kỳ thi Toán</h2><a href="#ky-thi">Thông tin các kỳ thi →</a></div>
       <div class="exgrid">
         <button type="button" class="exlogo" data-x="ex-vio"><span style="--wc:var(--red)">VIO</span>Violympic<small>Lớp 1–12 · trực tuyến</small></button>
         <button type="button" class="exlogo" data-x="ex-ikmc"><span style="--wc:var(--amber)">IKMC</span>Kangaroo<small>Lớp 1–12 · tháng 3</small></button>
@@ -706,6 +690,18 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
         <button type="button" class="exlogo" data-x="ex-amc"><span style="--wc:#1e3a8a">AMC</span>AMC 8/10/12<small>Toán Hoa Kỳ · MAA</small></button>
       </div>
     </div>
+
+    <section class="stack" id="faq" aria-labelledby="faqH">
+      <h2 id="faqH">Câu hỏi thường gặp</h2>
+      <div class="faq">
+        <details><summary>Giỏi Toán dành cho học sinh lớp mấy?</summary><p>Lớp 1 đến lớp 12, theo chương trình Toán 2018, chia theo từng chương. Có thêm phần nâng cao – học sinh giỏi, luyện Violympic, Kangaroo, đề quốc tế, thi vào lớp 6, thi vào lớp 10 và thi tốt nghiệp THPT.</p></details>
+        <details><summary>Học miễn phí được những gì?</summary><p>Tài khoản mới được dùng đầy đủ mọi phần trong 7 ngày. Sau đó vẫn học miễn phí 10 câu luyện tập và 1 đề thi thử mỗi ngày, có gợi ý và lời giải từng bước.</p></details>
+        <details><summary>Đề trên web có phải đề thi thật không?</summary><p>Đây là đề mô phỏng do Giỏi Toán soạn theo đúng cấu trúc và thời gian của đề thật, với số liệu mới. Mỗi câu có đáp án, gợi ý và lời giải để con tự học.</p></details>
+        <details><summary>Mấy anh chị em có dùng chung một tài khoản được không?</summary><p>Nên tạo cho mỗi con một tài khoản riêng để kết quả, sao và tiến độ không bị lẫn vào nhau.</p></details>
+        <details><summary>Thanh toán thế nào, bao lâu thì dùng được?</summary><p>Chuyển khoản bằng mã VietQR trong mục Tài khoản; gói được kích hoạt tự động sau khi nhận tiền. Xem thêm <a href="/chinh-sach-hoan-tien">chính sách hoàn tiền và đổi gói</a>.</p></details>
+        <details><summary>Cần hỗ trợ thì liên hệ ở đâu?</summary><p>Gọi hotline <a href="tel:0388130130">0388 130 130</a> hoặc nhắn tin <a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">fanpage Giỏi Toán</a>.</p></details>
+      </div>
+    </section>
   </section>
 
   <!-- PRACTICE -->
@@ -1094,11 +1090,11 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
   <!-- RESOURCES -->
 </main>
 <footer class="foot"><div class="wrap foot-in">
-  <div><div class="logo foot-logo"><svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="44" height="44" rx="11" fill="#c8102e"/><rect x="52" y="4" width="44" height="44" rx="11" fill="#f2a900"/><rect x="4" y="52" width="44" height="44" rx="11" fill="#2f7fd8"/><rect x="52" y="52" width="44" height="44" rx="11" fill="#1c1a17"/><g stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"><path d="M26 15v22M15 26h22"/><path d="M63 26h22" stroke="#1c1a17"/><path d="M18 66l16 16M34 66l-16 16"/><path d="M63 74h22"/></g><circle cx="74" cy="64.5" r="4" fill="#fff"/><circle cx="74" cy="83.5" r="4" fill="#fff"/></svg><span class="logo-txt"><span><em>GIỎI</em> TOÁN</span></span></div><p>Giỏi Toán (gioitoan.com.vn) – luyện toán lớp 1–12: Tiểu học, THCS, THPT. Giỏi toán mỗi ngày.</p><p>Hotline: <a href="tel:0388130130">0388 130 130</a></p></div>
+  <div><div class="logo foot-logo"><svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="44" height="44" rx="11" fill="#c8102e"/><rect x="52" y="4" width="44" height="44" rx="11" fill="#f2a900"/><rect x="4" y="52" width="44" height="44" rx="11" fill="#2f7fd8"/><rect x="52" y="52" width="44" height="44" rx="11" fill="#1c1a17"/><g stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"><path d="M26 15v22M15 26h22"/><path d="M63 26h22" stroke="#1c1a17"/><path d="M18 66l16 16M34 66l-16 16"/><path d="M63 74h22"/></g><circle cx="74" cy="64.5" r="4" fill="#fff"/><circle cx="74" cy="83.5" r="4" fill="#fff"/></svg><span class="logo-txt"><span><em>GIỎI</em> TOÁN</span></span></div><p>Giỏi Toán (gioitoan.com.vn) – luyện toán lớp 1–12: Tiểu học, THCS, THPT. Giỏi toán mỗi ngày.</p><p><a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">Fanpage Facebook</a></p></div>
   <div><b>Học tập</b><a href="#luyen-tap">Luyện tập</a><a href="#thi-thu">Thi thử</a><a href="#dang-toan">Dạng toán</a></div>
-  <div><b>Kỳ thi</b><a href="#violympic">Violympic</a><a href="#kangaroo">Kangaroo</a><a href="#vao-lop-6">Luyện thi vào lớp 6</a><a href="#ky-thi">Thông tin các kỳ thi</a></div>
+  <div><b>Kỳ thi</b><a href="#violympic">Violympic</a><a href="#kangaroo">Kangaroo</a><a href="#de-quoc-te">Đề Toán quốc tế</a><a href="#vao-lop-6">Thi vào lớp 6</a><a href="#vao-lop-10">Thi vào lớp 10</a><a href="#dai-hoc">Thi THPT</a></div>
   <div><b>Tài khoản</b><a href="#tai-khoan">Đăng nhập / Đăng ký</a><a href="#thanh-toan">Bảng giá &amp; thanh toán</a><b style="margin-top:8px">Hotline hỗ trợ</b><a href="tel:0388130130" class="foot-hot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z" fill="currentColor"/></svg>0388 130 130</a></div>
-</div><!--SEOLINKS--><nav class="wrap foot-seo" aria-label="Đề thi và luyện tập"><a href="/de-thi-vao-lop-6">Đề thi vào lớp 6 môn Toán</a><a href="/de-thi-vao-lop-10">Đề thi vào lớp 10 môn Toán Hà Nội và các tỉnh</a><a href="/de-thi-tot-nghiep-thpt-mon-toan">Đề thi tốt nghiệp THPT môn Toán (thi thử đại học)</a><a href="/de-thi-toan-quoc-te">Đề thi Toán quốc tế</a><a href="/luyen-thi-violympic">Luyện thi Violympic Toán</a><a href="/luyen-thi-kangaroo">Luyện thi Toán Kangaroo IKMC</a><a href="/luyen-toan-tieu-hoc">Luyện toán tiểu học lớp 1–5</a><a href="/luyen-toan-thcs">Luyện toán THCS lớp 6–9</a><a href="/luyen-toan-thpt">Luyện toán THPT lớp 10–12</a></nav><!--/SEOLINKS--><div class="wrap foot-copy"><div class="foot-legal"><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">Fanpage Facebook</a></div><p class="foot-own">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline <a href="tel:0388130130">0388 130 130</a> · Fanpage <a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">facebook.com/gioitoan.com.vn</a></p><p class="foot-own">© Giỏi Toán 2026</p></div></footer>
+</div><!--SEOLINKS--><nav class="wrap foot-seo" aria-label="Đề thi và luyện tập"><a href="/de-thi-vao-lop-6">Đề thi vào lớp 6 môn Toán</a><a href="/de-thi-vao-lop-10">Đề thi vào lớp 10 môn Toán Hà Nội và các tỉnh</a><a href="/de-thi-tot-nghiep-thpt-mon-toan">Đề thi tốt nghiệp THPT môn Toán (thi thử đại học)</a><a href="/de-thi-toan-quoc-te">Đề thi Toán quốc tế</a><a href="/luyen-thi-violympic">Luyện thi Violympic Toán</a><a href="/luyen-thi-kangaroo">Luyện thi Toán Kangaroo IKMC</a><a href="/luyen-toan-tieu-hoc">Luyện toán tiểu học lớp 1–5</a><a href="/luyen-toan-thcs">Luyện toán THCS lớp 6–9</a><a href="/luyen-toan-thpt">Luyện toán THPT lớp 10–12</a></nav><!--/SEOLINKS--><div class="wrap foot-copy"><div class="foot-legal"><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a></div><p class="foot-own">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline <a href="tel:0388130130">0388 130 130</a></p><p class="foot-own">© Giỏi Toán 2026</p></div></footer>
 <div class="modal" id="paywall" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
   <div class="modal-card stack"><h3 id="pwTitle"></h3><p id="pwText" class="note" style="font-size:1rem"></p>
     <div class="row"><button class="btn primary" id="pwGo" type="button"></button><button class="btn" id="pwClose" type="button">Để sau</button></div></div>
@@ -1364,7 +1360,7 @@ const NAV=[
  {label:"Thi vào lớp 6",views:["vao-lop-6"],items:[["Thông tin tuyển sinh các trường",{v:"vao-lop-6"}],["—"],["Đề mô phỏng Cầu Giấy",{v:"vao-lop-6",m:"CG"}],["Đề mô phỏng Nam Từ Liêm",{v:"vao-lop-6",m:"NTL"}],["Đề mô phỏng Thanh Xuân",{v:"vao-lop-6",m:"TX"}],["Đề mô phỏng Lê Lợi",{v:"vao-lop-6",m:"LL"}],["Đề mô phỏng Nguyễn Tất Thành",{v:"vao-lop-6",m:"NTT"}],["Đề mô phỏng Lương Thế Vinh",{v:"vao-lop-6",m:"LTV"}],["Đề mô phỏng Ngoại ngữ",{v:"vao-lop-6",m:"NN"}],["—"],["Đề mô phỏng Hà Nội – Amsterdam",{v:"vao-lop-6",m:"AMS"}],["Đề mô phỏng Ngôi Sao Hà Nội",{v:"vao-lop-6",m:"NS"}],["Đề mô phỏng Marie Curie",{v:"vao-lop-6",m:"MC"}],["Đề mô phỏng Archimedes",{v:"vao-lop-6",m:"ARC"}],["—"],["Đề chung các trường khác",{v:"vao-lop-6",m:"CHUNG"}]]},
  {label:"Thi vào lớp 10",views:["vao-lop-10"],items:[["Đề thi vào lớp 10 (Hà Nội và các tỉnh)",{v:"vao-lop-10"}],["—"],["Ôn thi vào lớp 10 theo dạng bài",{v:"luyen-tap",g:9,t:"Ôn thi vào lớp 10"}],["Luyện tập lớp 9 theo chương",{v:"luyen-tap",g:9}],["Nâng cao – Học sinh giỏi lớp 9",{v:"luyen-tap",g:9,t:"Nâng cao – Học sinh giỏi"}],["—"],["Đề thi thử lớp 9",{v:"thi-thu",g:9}]]},
  {label:"Thi THPT",views:["dai-hoc"],items:[["Đề thi tốt nghiệp THPT (thi đại học)",{v:"dai-hoc"}],["—"],["Luyện tập lớp 10 theo chương",{v:"luyen-tap",g:10}],["Luyện tập lớp 11 theo chương",{v:"luyen-tap",g:11}],["Luyện tập lớp 12 theo chương",{v:"luyen-tap",g:12}],["—"],["Nâng cao – Học sinh giỏi lớp 10",{v:"luyen-tap",g:10,t:"Nâng cao – Học sinh giỏi"}],["Nâng cao – Học sinh giỏi lớp 11",{v:"luyen-tap",g:11,t:"Nâng cao – Học sinh giỏi"}],["Nâng cao – Học sinh giỏi lớp 12",{v:"luyen-tap",g:12,t:"Nâng cao – Học sinh giỏi"}],["—"],["Đề thi thử lớp 10",{v:"thi-thu",g:10}],["Đề thi thử lớp 11",{v:"thi-thu",g:11}],["Đề thi thử lớp 12",{v:"thi-thu",g:12}]]},
- {label:"Đăng ký học →",views:["tai-khoan"],go:"tai-khoan",cta:true}];
+ {label:"Đăng nhập →",views:["tai-khoan"],go:"tai-khoan",cta:true}];
 function closeMenus(){document.querySelectorAll(".mainnav li.open").forEach(li=>{li.classList.remove("open");li.querySelector("button").setAttribute("aria-expanded","false");});}
 function setMobile(open){document.body.classList.toggle("nav-open",open);$("burger").setAttribute("aria-expanded",String(open));}
 function goTo(o){closeMenus();setMobile(false);
@@ -1392,7 +1388,8 @@ function goTo(o){closeMenus();setMobile(false);
  $("burger").onclick=e=>{e.stopPropagation();setMobile(!document.body.classList.contains("nav-open"));};
  document.addEventListener("click",e=>{if(!e.target.closest(".mainnav"))closeMenus();});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMenus();setMobile(false);}});
- document.querySelectorAll(".exlogo").forEach(b=>b.onclick=()=>goTo({v:"ky-thi",x:b.dataset.x}));})();
+ {const XG={"ex-vio":{v:"violympic"},"ex-ikmc":{v:"kangaroo"},"ex-hkimo":{v:"de-quoc-te",xm:"HKIMO"},"ex-imso":{v:"de-quoc-te",xm:"IMSO"},"ex-aimo":{v:"de-quoc-te",xm:"AIMO"},"ex-sasmo":{v:"de-quoc-te",xm:"SASMO"},"ex-timo":{v:"de-quoc-te",xm:"TIMO"},"ex-amc":{v:"de-quoc-te",xm:"AMC8"}};
+ document.querySelectorAll(".exlogo").forEach(b=>{const t=XG[b.dataset.x];if(t){b.title="Luyện đề "+b.firstChild.nextSibling.textContent.trim();const g=document.createElement("em");g.className="ex-go";g.textContent="Luyện đề →";b.appendChild(g);}b.onclick=()=>goTo(t||{v:"ky-thi",x:b.dataset.x});});}})();
 window.addEventListener("hashchange",route);
 function route(){const h=(location.hash||"").slice(1);view=VIEWS.some(v=>v[0]===h)?h:"trang-chu";
  const lvOf=g=>g<=5?"tieu-hoc":g<=9?"thcs":"thpt";document.querySelectorAll(".tab").forEach(b=>{const vs=(b.dataset.views||"").split(" ");if(vs.includes(view)&&(view!=="luyen-tap"||vs[0]===lvOf(grade)))b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
