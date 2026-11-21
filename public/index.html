@@ -644,6 +644,11 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .tch-up{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.tch-up .btn{cursor:pointer}
 .tch-tex{display:flex;flex-wrap:wrap;gap:6px}.pill.sm{padding:4px 10px;font-size:.8rem}.tch-texout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-height:420px;overflow:auto}.tp .katex{font-size:1.05em}.tp .katex-display{margin:.4em 0}
 .tch-acc{border-radius:14px;padding:12px 16px;font-size:.95rem;border:1px solid var(--line)}.tch-acc.trial{background:#fff8e6;border-color:#f3d68a}.tch-acc.ok{background:#eefaf1;border-color:#b9e3c4}.tch-acc.off{background:#fdecee;border-color:#f3b8c0}.tch-acc a{color:var(--red);font-weight:700}
+.td{gap:12px}.td-head{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.td-head b{font-size:1.05rem}.td-head i{margin-left:auto;font-style:normal;font-weight:800}.td-kpis{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.td-split{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}.td-l{font-weight:800;font-size:.85rem;margin:0 0 6px}.td-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.td-chart{display:flex;align-items:flex-end;gap:4px;height:110px;border-bottom:1px solid var(--line);padding-bottom:16px;position:relative}.td-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}.td-col i{display:block;width:100%;max-width:22px;background:var(--red);border-radius:4px 4px 0 0;min-height:2px}.td-col em{position:absolute;bottom:-16px;font-style:normal;font-size:.68rem;color:var(--muted)}
+.td-tbl td,.td-tbl th{white-space:nowrap}.td-tbl td:nth-child(2){white-space:normal;min-width:220px}.td-act{display:flex;gap:10px;align-items:center}.btn.sm{padding:5px 12px;font-size:.85rem}
+@media(max-width:760px){.td-split{grid-template-columns:1fr}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2920,9 +2925,60 @@ async function tchBanner(){const el=$("tchAcc");if(!el)return;if(!TACC||Date.now
   a.mode==="login"?`🔒 Đã hết 7 ngày dùng thử. <a href="#tai-khoan">Đăng nhập</a> và chọn gói giáo viên để tiếp tục ra đề.`:`🔒 Đã hết hạn dùng thử. <a href="#tai-khoan">Chọn gói giáo viên</a> để tiếp tục ra đề.`;
  el.hidden=!el.innerHTML;}
 async function tchGate(){if(!TACC||!TACC.ok){TACC=await tchAccess();TACC.t=Date.now();}if(TACC.ok)return true;showPaywall(TACC.reason);window.gt&&gt("teacher_paywall",{reason:TACC.reason});return false;}
+
+/* ---- Bảng điều khiển giáo viên: lịch sử đề đã tạo (máy + tài khoản) ---- */
+const TK_LAB={"15":"15 phút","45":"1 tiết",gk1:"Giữa kì I",hk1:"Cuối kì I",gk2:"Giữa kì II",hk2:"Cuối kì II",c:"Tùy chỉnh"};
+const TD={list:null,t:0,open:true,more:false,src:"local"};
+try{TD.open=localStorage.getItem("gt-gv-dash")!=="0";}catch(_){}
+const tdLoad=()=>{try{return JSON.parse(localStorage.getItem("gt-teacher-hist")||"[]");}catch(_){return[];}};
+const tdSave=L=>{L=L.slice(0,150);L.forEach((e,k)=>{if(k>=60)delete e.data;});for(let i=0;i<3;i++){try{localStorage.setItem("gt-teacher-hist",JSON.stringify(L));return;}catch(_){L.forEach((e,k)=>{if(k>=20>>i)delete e.data;});}}};
+const tdLogged=()=>ACCT.on&&ACCT.sb&&ACCT.status&&ACCT.status.logged_in;
+const tdStrip=q=>{const o={...q};["q","s","o"].forEach(k=>{if(o[k]==null)return;const f=v=>String(v).replace(/<img[^>]*src="data:[^"]*"[^>]*>/g,"[hình]");o[k]=Array.isArray(o[k])?o[k].map(f):f(o[k]);});return o;};
+function tdEntry(P){const e={lid:Date.now().toString(36)+Math.random().toString(36).slice(2,6),at:new Date().toISOString(),g:TCH.g,kind:TCH.type,title:tchTtl(),tt:TCH.title||"",min:TCH.min,n:P.items.length,mc:P.nMC,f:P.nF,ver:TCH.ver,codes:(TCH.paper&&TCH.paper.VS||[]).map(v=>v.code).join(", "),own:P.own||0,chs:(TCH.chs||[]).slice(0,30),dl:0,pr:0,
+  data:{P:{nMC:P.nMC,nF:P.nF,seed:P.seed,own:P.own||0,items:P.items.map(x=>({i:x.i,q:x.i<0?x.q:undefined}))}}};
+ const keep=JSON.stringify(e.data).length<300000;if(!keep)e.data={P:{nMC:P.nMC,nF:P.nF,seed:P.seed,own:P.own||0,items:P.items.map(x=>({i:x.i,q:x.i<0?tdStrip(x.q):undefined}))}};return e;}
+const tdRow=e=>({local_id:e.lid,created_at:e.at,grade:e.g,kind:e.kind,title:e.title.slice(0,200),minutes:e.min,n:e.n,n_mc:e.mc,n_f:e.f,ver:e.ver,codes:e.codes,own:e.own,chapters:e.chs,downloads:e.dl,prints:e.pr,data:e.data||null});
+const tdFrom=r=>({lid:r.local_id,at:r.created_at,g:r.grade,kind:r.kind,title:r.title,min:r.minutes,n:r.n,mc:r.n_mc,f:r.n_f,ver:r.ver,codes:r.codes,own:r.own,chs:r.chapters||[],dl:r.downloads,pr:r.prints,srv:1});
+async function tdRecord(P){const e=tdEntry(P);TCH.paper.lid=e.lid;const L=tdLoad();L.unshift(e);tdSave(L);if(TD.list)TD.list.unshift({...e});
+ if(tdLogged()){try{await ACCT.sb.from("teacher_papers").insert(tdRow(e));}catch(_){}}TD.t=0;tdRender();}
+async function tdHit(kind){const lid=TCH.paper&&TCH.paper.lid;if(!lid)return;const L=tdLoad(),e=L.find(x=>x.lid===lid);if(e){e[kind==="docx"?"dl":"pr"]++;tdSave(L);}
+ if(TD.list){const x=TD.list.find(x=>x.lid===lid);if(x)x[kind==="docx"?"dl":"pr"]++;}
+ if(tdLogged())try{await ACCT.sb.rpc("teacher_paper_hit",{p_local_id:lid,p_kind:kind});}catch(_){}tdRender(true);}
+async function tdFetch(){if(TD.list&&Date.now()-TD.t<60000)return TD.list;let L=tdLoad();TD.src="local";
+ if(ACCT.on){try{await ACCT.ready;if(!ACCT.status)await refreshStatus();}catch(_){}}
+ if(tdLogged()){try{
+   const un=L.filter(e=>!e.up);if(un.length){const {error}=await ACCT.sb.from("teacher_papers").upsert(un.slice(0,50).map(tdRow),{onConflict:"user_id,local_id",ignoreDuplicates:true});if(!error){un.slice(0,50).forEach(e=>e.up=1);tdSave(L);}}
+   const {data,error}=await ACCT.sb.from("teacher_papers").select("local_id,created_at,grade,kind,title,minutes,n,n_mc,n_f,ver,codes,own,chapters,downloads,prints").order("created_at",{ascending:false}).limit(300);
+   if(!error&&data){TD.src="acct";L=data.map(tdFrom);}}catch(_){}}
+ TD.list=L;TD.t=Date.now();return L;}
+async function tdOpen(lid){const msg=$("tdMsg");let e=tdLoad().find(x=>x.lid===lid&&x.data);
+ if(!e&&tdLogged()){try{const {data}=await ACCT.sb.from("teacher_papers").select("*").eq("local_id",lid).limit(1);if(data&&data[0])e={...tdFrom(data[0]),data:data[0].data};}catch(_){}}
+ if(!e||!e.data){if(msg)msg.textContent="Đề này không còn lưu nội dung để mở lại (chỉ còn thông tin tóm tắt).";return;}
+ const D=e.data.P,items=D.items.map(x=>x.i>=0?{q:DATA[e.g][x.i],i:x.i}:{q:x.q,i:x.i}).filter(x=>x.q);
+ Object.assign(TCH,{g:e.g,type:e.kind,min:e.min,n:e.n,ver:e.ver,title:e.tt||"",chs:e.chs&&e.chs.length?e.chs.slice():null});const P={items,nMC:D.nMC,nF:D.nF,seed:D.seed,pool:0,own:D.own};TCH.paper={P,VS:tchVersions(P),lid:e.lid};tchSave();renderTeacher();
+ setTimeout(()=>{const x=$("tchPrev");if(x)x.scrollIntoView({behavior:"smooth",block:"start"});},60);}
+async function tdDel(lid){if(!confirm("Xóa đề này khỏi lịch sử?"))return;tdSave(tdLoad().filter(x=>x.lid!==lid));if(tdLogged())try{await ACCT.sb.from("teacher_papers").delete().eq("local_id",lid);}catch(_){}TD.t=0;TD.list=null;tdRender();}
+async function tdRender(useCache){const el=$("tchDash");if(!el)return;const L=useCache&&TD.list?TD.list:await tdFetch();
+ const now=new Date(),mStart=new Date(now.getFullYear(),now.getMonth(),1),wk=Date.now()-7*864e5;
+ const inM=L.filter(e=>new Date(e.at)>=mStart).length,in7=L.filter(e=>Date.parse(e.at)>=wk).length,qs=L.reduce((a,e)=>a+(+e.n||0),0),dl=L.reduce((a,e)=>a+(+e.dl||0),0),pr=L.reduce((a,e)=>a+(+e.pr||0),0),ow=L.reduce((a,e)=>a+(+e.own||0),0);
+ const cnt=(f)=>{const o={};L.forEach(e=>{const k=f(e);o[k]=(o[k]||0)+1;});return Object.entries(o).sort((a,b)=>b[1]-a[1]);};
+ const byK=cnt(e=>TK_LAB[e.kind]||"Tùy chỉnh"),byG=cnt(e=>"Lớp "+e.g);
+ const days=[...Array(14)].map((_,k)=>{const d=new Date(Date.now()-(13-k)*864e5);const key=d.toDateString();return{d,n:L.filter(e=>new Date(e.at).toDateString()===key).length};}),mx=Math.max(1,...days.map(x=>x.n));
+ const show=TD.more?L:L.slice(0,10);const n=v=>(+v||0).toLocaleString("vi-VN");
+ el.innerHTML=`<div class="card stack td"><button type="button" class="td-head" id="tdTog" aria-expanded="${TD.open}"><b>📊 Bảng điều khiển giáo viên</b><span class="note">${n(L.length)} đề đã tạo${TD.src==="acct"?" · đồng bộ theo tài khoản":" · lưu trên máy này"}</span><i>${TD.open?"▾":"▸"}</i></button>
+ ${TD.open?`<div class="kpis td-kpis"><div class="kpi"><b>${n(L.length)}</b><span>đề đã tạo</span></div><div class="kpi"><b>${n(inM)}</b><span>đề tháng này</span></div><div class="kpi"><b>${n(in7)}</b><span>đề 7 ngày qua</span></div><div class="kpi"><b>${n(qs)}</b><span>câu hỏi đã dùng</span></div><div class="kpi"><b>${n(dl)}</b><span>lượt tải Word</span></div><div class="kpi"><b>${n(pr)}</b><span>lượt in / PDF</span></div>${ow?`<div class="kpi"><b>${n(ow)}</b><span>câu tự soạn</span></div>`:""}</div>
+ ${L.length?`<div class="td-split"><div><p class="td-l">Đề tạo 14 ngày qua</p><div class="td-chart" role="img" aria-label="Số đề tạo mỗi ngày">${days.map(x=>`<div class="td-col" title="${x.d.toLocaleDateString("vi-VN")}: ${x.n} đề"><i style="height:${Math.round(100*x.n/mx)}%"></i><em>${x.d.getDate()}</em></div>`).join("")}</div></div>
+  <div><p class="td-l">Theo loại đề</p><div class="td-chips">${byK.map(([k,v])=>`<span class="chip">${k}: <b>${v}</b></span>`).join("")}</div><p class="td-l">Theo lớp</p><div class="td-chips">${byG.map(([k,v])=>`<span class="chip">${k}: <b>${v}</b></span>`).join("")}</div></div></div>
+ <div class="tablewrap"><table class="td-tbl"><thead><tr><th>Ngày tạo</th><th>Đề</th><th>Lớp</th><th>Loại</th><th>Số câu</th><th>Mã đề</th><th>Tải/In</th><th></th></tr></thead><tbody>${show.map(e=>`<tr><td class="n">${new Date(e.at).toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</td><td>${escT(e.title)}${e.own?` <span class="chip">${e.own} câu tự soạn</span>`:""}</td><td class="n">${e.g}</td><td>${TK_LAB[e.kind]||"Tùy chỉnh"}${e.kind==="15"||e.kind==="45"?"":` · ${e.min}′`}</td><td class="n">${e.n} <span class="note">(${e.mc} TN, ${e.f} TL)</span></td><td class="n">${escT(e.codes||"—")}</td><td class="n">${+e.dl||0} / ${+e.pr||0}</td><td class="td-act"><button type="button" class="btn sm" data-tdo="${e.lid}">Mở lại</button><button type="button" class="linkbtn" data-tdd="${e.lid}" aria-label="Xóa">Xóa</button></td></tr>`).join("")}</tbody></table></div>
+ ${L.length>10?`<button type="button" class="linkbtn" id="tdMore">${TD.more?"Thu gọn":"Xem tất cả "+L.length+" đề"}</button>`:""}<p class="note" id="tdMsg"></p>
+ ${TD.src==="local"&&ACCT.on?`<p class="note">Lịch sử đang lưu trên trình duyệt này. <a href="#tai-khoan">Đăng nhập</a> để đồng bộ và xem trên mọi máy.</p>`:""}`
+ :`<p class="note">Chưa có đề nào. Chọn lớp, loại đề rồi bấm <b>Tạo đề</b> – đề sẽ được lưu ở đây để mở lại, tải lại bất cứ lúc nào.</p>`}`:""}</div>`;
+ $("tdTog").onclick=()=>{TD.open=!TD.open;try{localStorage.setItem("gt-gv-dash",TD.open?"1":"0");}catch(_){}tdRender(true);};
+ if($("tdMore"))$("tdMore").onclick=()=>{TD.more=!TD.more;tdRender(true);};
+ el.querySelectorAll("[data-tdo]").forEach(b=>b.onclick=()=>tdOpen(b.dataset.tdo));el.querySelectorAll("[data-tdd]").forEach(b=>b.onclick=()=>tdDel(b.dataset.tdd));}
 function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(TCH.g);if(!TCH.chs||!TCH.chs.every(c=>chs.includes(c)))TCH.chs=chs.slice();
  const nPool=DATA[TCH.g].filter(q=>(TCH.hsg&&q.c===HSG_C)||(q.c!==HSG_C&&TCH.chs.includes(tchKeyOf(TCH.g,q)))).length;
- box.innerHTML=`<div id="tchAcc" class="tch-acc" hidden></div><div class="card stack tch-form">
+ box.innerHTML=`<div id="tchAcc" class="tch-acc" hidden></div><div id="tchDash"></div><div class="card stack tch-form">
   <div class="tch-row"><span class="tch-l">Lớp</span><div class="tch-pills">${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<button type="button" class="xg${TCH.g===g?" on":""}" data-tg="${g}">${g}</button>`).join("")}</div></div>
   <div class="tch-row"><span class="tch-l">Loại đề</span><div class="stack" style="gap:6px"><div class="tch-pills">${[["15","Kiểm tra 15 phút"],["45","Kiểm tra 1 tiết (45 phút)"],["c","Tùy chỉnh"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div><div class="tch-pills">${[["gk1","Giữa học kì I"],["hk1","Cuối học kì I"],["gk2","Giữa học kì II"],["hk2","Cuối học kì II"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div>${isSem(TCH.type)?`<small class="note">Phạm vi kiến thức theo tiến độ CT GDPT 2018 (đã tự tích chương bên dưới, có thể sửa). Cấu trúc: ${(()=>{const S=semSpec(TCH.g);return `${S.mc} câu trắc nghiệm × ${vnum(S.mcp)} đ + ${S.n-S.mc} câu tự luận, tổng 10 điểm, ${S.min} phút`;})()}${TCH.type==="hk2"?"; cuối kì II có ôn lại một phần kiến thức học kì I":""}.</small>`:""}</div></div>
   <div class="tch-row"><span class="tch-l">Số câu · thời gian</span><div class="tch-inl"><label><input type="number" id="tchN" min="3" max="50" value="${TCH.n}"> câu</label><label><input type="number" id="tchMin" min="5" max="180" value="${TCH.min}"> phút</label></div></div>
@@ -2955,17 +3011,17 @@ function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(T
   catch(err){m.textContent=(err&&err.message&&err.message.length>20?err.message:"Chưa đọc được file này – kiểm tra lại định dạng .docx/.txt.");}};
  if($("tchOwnClr"))$("tchOwnClr").onclick=()=>{TCH.own="";for(const k in TIMG)delete TIMG[k];try{localStorage.removeItem("gt-teacher-img");}catch(e){}tchSave();renderTeacher();};
  box.querySelectorAll("[data-tm]").forEach(b=>b.onclick=()=>{sync();TCH.mode=b.dataset.tm;tchSave();renderTeacher();});
- box.querySelectorAll("[data-tv]").forEach(b=>b.onclick=()=>{sync();TCH.ver=+b.dataset.tv;if(TCH.paper)TCH.paper.VS=tchVersions(TCH.paper.P);tchSave();renderTeacher();});
+ box.querySelectorAll("[data-tv]").forEach(b=>b.onclick=()=>{sync();TCH.ver=+b.dataset.tv;if(TCH.paper){TCH.paper.VS=tchVersions(TCH.paper.P);}tchSave();renderTeacher();});
  box.querySelectorAll("[data-tc]").forEach(c=>c.onchange=()=>{sync();const v=c.dataset.tc;TCH.chs=c.checked?[...new Set([...TCH.chs,v])]:TCH.chs.filter(x=>x!==v);tchSave();renderTeacher();});
  $("tchHsg").onchange=()=>{sync();renderTeacher();};$("tchAll").onclick=()=>{sync();TCH.chs=chs.slice();renderTeacher();};$("tchNone").onclick=()=>{sync();TCH.chs=[];renderTeacher();};
  ["tchN","tchMin"].forEach(id=>$(id).onchange=()=>{sync();TCH.type="c";renderTeacher();});["tchSchool","tchTitle","tchYear"].forEach(id=>$(id).oninput=()=>{sync();if(TCH.paper)drawPrev();});["tchKey","tchSol"].forEach(id=>$(id).onchange=()=>{sync();if(TCH.paper)drawPrev();});
  $("tchGo").onclick=async()=>{sync();if(!(await tchGate()))return;const P=tchBuild(Math.floor(Math.random()*1e9));if(TCH.ownMode==="only"&&!P.items.length){$("tchMsg").textContent="Chưa có câu tự soạn hợp lệ – hãy gõ câu hỏi theo mẫu.";return;}if(TCH.ownMode!=="only"&&P.items.length<Math.min(3,TCH.n)){$("tchMsg").textContent="Kho chưa đủ câu cho lựa chọn này – hãy chọn thêm chương.";return;}
-  TCH.paper={P,VS:tchVersions(P)};window.gt&&gt("teacher_make",{grade:TCH.g,n:P.items.length});renderTeacher();setTimeout(()=>{const e=$("tchPrev");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});},50);};
- if($("tchDoc"))$("tchDoc").onclick=async()=>{if(!(await tchGate()))return;const b=$("tchDoc");b.disabled=true;b.textContent="Đang tạo file…";try{tchDownload(await tchDocx(TCH.paper.VS,TCH.paper.P),tchFile()+".docx");window.gt&&gt("teacher_docx",{grade:TCH.g});}catch(e){$("tchMsg").textContent="Chưa tạo được file Word, thử lại giúp mình.";}b.disabled=false;b.textContent="⬇ Tải Word (.docx)";};
- if($("tchPdf"))$("tchPdf").onclick=async()=>{if(!(await tchGate()))return;tchPrint(TCH.paper.VS,TCH.paper.P);window.gt&&gt("teacher_pdf",{grade:TCH.g});};
+  TCH.paper={P,VS:tchVersions(P)};window.gt&&gt("teacher_make",{grade:TCH.g,n:P.items.length});tdRecord(P);renderTeacher();setTimeout(()=>{const e=$("tchPrev");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});},50);};
+ if($("tchDoc"))$("tchDoc").onclick=async()=>{if(!(await tchGate()))return;const b=$("tchDoc");b.disabled=true;b.textContent="Đang tạo file…";try{tchDownload(await tchDocx(TCH.paper.VS,TCH.paper.P),tchFile()+".docx");tdHit("docx");window.gt&&gt("teacher_docx",{grade:TCH.g});}catch(e){$("tchMsg").textContent="Chưa tạo được file Word, thử lại giúp mình.";}b.disabled=false;b.textContent="⬇ Tải Word (.docx)";};
+ if($("tchPdf"))$("tchPdf").onclick=async()=>{if(!(await tchGate()))return;tchPrint(TCH.paper.VS,TCH.paper.P);tdHit("print");window.gt&&gt("teacher_pdf",{grade:TCH.g});};
  function drawPrev(){const pv=$("tchPrev");if(!pv||!TCH.paper)return;const {P,VS}=TCH.paper;
   pv.innerHTML=`<div class="tch-sum note">Đề gồm ${P.items.length} câu (${P.nMC} trắc nghiệm, ${P.nF} tự luận/điền đáp số${P.own?`, trong đó ${P.own} câu tự soạn`:""})${P.items.length<TCH.n&&TCH.ownMode!=="only"?` – kho chỉ đủ ${P.items.length} câu cho các chương đã chọn`:""}. ${VS.length>1?`Có ${VS.length} mã đề: ${VS.map(v=>v.code).join(", ")}. Xem trước mã ${VS[0].code}.`:""}</div><div class="tch-paper"><div class="tp">${tchPaperHTML(VS[0],P)}</div>${TCH.key?`<div class="tp tch-keyp">${tchKeyHTML(VS)}</div>`:""}</div>`;texIn(pv);}
- drawPrev();tchBanner();}
+ drawPrev();tchBanner();tdRender(!!TD.list);}
 addEventListener("hashchange",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,30);});
 addEventListener("load",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,200);});
 window.renderTeacher=renderTeacher;})();
