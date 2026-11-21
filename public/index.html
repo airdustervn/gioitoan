@@ -643,6 +643,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .tch-own{width:100%;font:14px/1.5 var(--mono,monospace);padding:10px 12px;border:1px solid var(--line);border-radius:12px;resize:vertical;min-height:180px;box-sizing:border-box}.tch-ownmsg{color:#b45309}
 .tch-up{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.tch-up .btn{cursor:pointer}
 .tch-tex{display:flex;flex-wrap:wrap;gap:6px}.pill.sm{padding:4px 10px;font-size:.8rem}.tch-texout{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-height:420px;overflow:auto}.tp .katex{font-size:1.05em}.tp .katex-display{margin:.4em 0}
+.tch-acc{border-radius:14px;padding:12px 16px;font-size:.95rem;border:1px solid var(--line)}.tch-acc.trial{background:#fff8e6;border-color:#f3d68a}.tch-acc.ok{background:#eefaf1;border-color:#b9e3c4}.tch-acc.off{background:#fdecee;border-color:#f3b8c0}.tch-acc a{color:var(--red);font-weight:700}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2310,13 +2311,15 @@ function showPaywall(reason){
     question:["Hết lượt luyện tập hôm nay",`Tài khoản miễn phí được ${s.limit_questions??10} câu luyện tập mỗi ngày. Nâng cấp để luyện không giới hạn.`],
     exam:["Hết lượt thi thử hôm nay",`Tài khoản miễn phí được ${s.limit_exams??1} đề thi mỗi ngày. Nâng cấp để thi không giới hạn.`],
     limit:["Đã mở nhiều đề trong 24 giờ","Để bảo vệ đề, mỗi tài khoản chỉ mở một số đề mới mỗi ngày. Các đề đã mở vẫn làm lại được."],
+    gv_login:["Hết 7 ngày dùng thử Góc giáo viên","Đăng nhập (hoặc tạo tài khoản miễn phí) rồi chọn gói giáo viên để tiếp tục ra đề, tải Word và in đề."],
+    gv_buy:["Hết hạn dùng thử Góc giáo viên","Tài khoản của thầy cô đã dùng hết 7 ngày thử. Chọn gói giáo viên (1, 3, 6 tháng hoặc 1 năm) để tiếp tục ra đề không giới hạn."],
     error:["Chưa kết nối được máy chủ","Kiểm tra mạng rồi thử lại."]}[reason]||["",""];
   $("pwTitle").textContent=msg[0];$("pwText").textContent=msg[1];
-  $("pwGo").textContent=reason==="login"?"Đăng nhập / Đăng ký":"Xem các gói";
-  $("paywall").hidden=false;
+  $("pwGo").textContent=reason==="login"||reason==="gv_login"?"Đăng nhập / Đăng ký":reason==="gv_buy"?"Xem gói giáo viên":"Xem các gói";
+  $("pwGo").dataset.r=reason;$("paywall").hidden=false;
 }
 $("pwClose").onclick=()=>{$("paywall").hidden=true;};
-$("pwGo").onclick=()=>{$("paywall").hidden=true;location.hash="tai-khoan";};
+$("pwGo").onclick=()=>{$("paywall").hidden=true;location.hash="tai-khoan";if(/gv_/.test($("pwGo").dataset.r||""))setTimeout(()=>{const c=$("gvCard");if(c)c.scrollIntoView({behavior:"smooth",block:"start"});},900);};
 $("acctBtn").onclick=()=>{location.hash="tai-khoan";};
 
 /* ----- Trang tài khoản ----- */
@@ -2385,7 +2388,7 @@ async function renderAdmin(){const box=$("admBox");
    <p class="note">${(+data.matched||0).toLocaleString("vi-VN")} kết quả · hiển thị ${R.length?ADM.off+1:0}–${ADM.off+R.length}</p>
    <div class="tablewrap"><table><thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Lớp</th><th>Cách đăng nhập</th><th>Đăng ký</th><th>Lần cuối vào</th><th>Hôm nay (câu/đề)</th><th>Học trong ${ADM.days||30} ngày</th><th>Gói</th><th>Cấp PRO</th></tr></thead>
    <tbody>${R.map((r,i)=>`<tr><td><b>${escH(r.username)}</b>${r.email?`<br><span class="note">${escH(r.email)}</span>`:""}</td><td>${escH(r.full_name)}</td><td class="n">${+r.grade||""}</td><td>${pv[r.provider]||escH(r.provider)}</td><td class="n">${fdate(r.created_at)}</td><td class="n">${(()=>{const t=[r.last_act,r.last_sign_in_at].filter(Boolean).sort().pop();return t?fdate(t):"—";})()}</td><td class="n">${+r.q_today}/${+r.e_today}</td><td class="n">${r.days_period!=null?`${+r.days_period} ngày · ${(+r.q_period||0).toLocaleString("vi-VN")} câu`:"—"}</td><td>${r.premium_until&&new Date(r.premium_until)>new Date()?`<span class="prem">PRO</span> đến ${fdate(r.premium_until)}`:r.trial_until&&new Date(r.trial_until)>new Date()?`<span class="prem trial">THỬ</span> đến ${fdate(r.trial_until)}`:"Miễn phí"}</td>
-    <td><select class="sel adm-d" data-i="${i}" aria-label="Số ngày PRO cho ${escH(r.username)}"><option value="">—</option><option value="30">+30 ngày</option><option value="90">+90 ngày</option><option value="365">+1 năm</option><option value="0">Thu hồi</option></select></td></tr>`).join("")}</tbody></table></div>
+    <td><select class="sel adm-d" data-i="${i}" aria-label="Số ngày PRO cho ${escH(r.username)}"><option value="">—</option><option value="30">+30 ngày</option><option value="90">+90 ngày</option><option value="365">+1 năm</option><option value="0">Thu hồi</option><optgroup label="Gói giáo viên"><option value="gv30">GV +30 ngày</option><option value="gv90">GV +90 ngày</option><option value="gv365">GV +1 năm</option><option value="gv0">GV thu hồi</option></optgroup></select></td></tr>`).join("")}</tbody></table></div>
    <div class="row"><button class="btn" type="button" id="admPrev" ${ADM.off?"":"disabled"}>← Trước</button><button class="btn" type="button" id="admNext" ${ADM.off+R.length<(+data.matched||0)?"":"disabled"}>Sau →</button></div>
    <p class="err" id="admErr" hidden></p></div>`;
  document.querySelectorAll("[data-days]").forEach(b=>b.onclick=()=>{ADM.days=+b.dataset.days;renderAdmin();});
@@ -2399,7 +2402,7 @@ async function renderAdmin(){const box=$("admBox");
   const csv="\ufeff"+cols.join(",")+"\n"+R.map(r=>cols.map(c=>cell(r[c])).join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="tai-khoan-gioitoan.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
  document.querySelectorAll(".adm-d").forEach(sel=>sel.onchange=async()=>{if(sel.value==="")return;const r=R[+sel.dataset.i];
-  const {error}=await ACCT.sb.rpc("admin_set_premium",{p_username:r.username,p_days:+sel.value});
+  const gv=sel.value.startsWith("gv"),{error}=await ACCT.sb.rpc(gv?"admin_set_teacher":"admin_set_premium",{p_username:r.username,p_days:+sel.value.replace("gv","")});if(!error&&gv){$("admErr").textContent="Đã cập nhật gói giáo viên cho "+r.username+".";$("admErr").hidden=false;sel.value="";return;}
   if(error){$("admErr").textContent="Không cập nhật được: "+error.message;$("admErr").hidden=false;sel.value="";return;}renderAdmin();});
 }
 async function renderAcct(){
@@ -2407,7 +2410,9 @@ async function renderAcct(){
   if(!ACCT.on){box.innerHTML=`<div class="card stack"><h3>Chế độ dùng thử</h3><p class="note">Trang đang chạy không cần đăng nhập. Để bật tài khoản học sinh và thu phí, điền SUPABASE_URL và SUPABASE_ANON_KEY trong phần CONFIG của file, theo hướng dẫn kèm theo.</p></div>`;return;}
   await refreshStatus();const s=ACCT.status;
   if(!s||!s.logged_in){box.innerHTML=authForms();bindAuth();return;}
-  const {data:plans}=await ACCT.sb.from("plans").select("*").order("sort");
+  const {data:allPlans}=await ACCT.sb.from("plans").select("*").order("sort");const plans=(allPlans||[]).filter(p=>(p.audience||"hs")!=="gv"),gvPlans=(allPlans||[]).filter(p=>p.audience==="gv");
+  let gvs=null;try{const r=await ACCT.sb.rpc("teacher_status",{p_start:false});gvs=r.data;}catch(_){}let gvUsed=false;try{gvUsed=!!localStorage.getItem("gt_gv_first");}catch(_){}
+  const showGv=gvPlans.length&&(gvUsed||(gvs&&gvs.started)||location.hash.includes("gv"));
   const {data:orders}=await ACCT.sb.from("orders").select("order_code,plan_id,amount,status,created_at,paid_at").order("created_at",{ascending:false}).limit(10);
   box.innerHTML=`
   <div class="acct-grid">
@@ -2425,11 +2430,15 @@ async function renderAcct(){
       <div id="payBox" hidden></div>
     </div>
   </div>
+  ${showGv?`<div class="card stack" id="gvCard"><div class="row" style="justify-content:space-between"><h3>Gói giáo viên – Góc giáo viên</h3>${gvs&&gvs.paid?'<span class="prem big">GV</span>':gvs&&gvs.trial?'<span class="prem big trial">DÙNG THỬ</span>':'<span class="chip">Chưa có gói</span>'}</div>
+   <p class="note">${gvs&&gvs.paid?`Gói giáo viên còn hạn đến <b>${fdate(gvs.teacher_until)}</b>.`:gvs&&gvs.trial?`Đang dùng thử Góc giáo viên đến <b>${fdate(gvs.trial_until)}</b>.`:gvs&&gvs.started?"Đã hết hạn dùng thử Góc giáo viên.":"Dùng thử miễn phí 7 ngày khi mở Góc giáo viên."} Gói giáo viên mở khóa ra đề kiểm tra 15 phút, 1 tiết, giữa kì, cuối kì không giới hạn; nhiều mã đề; tải Word, in/PDF; câu hỏi tự soạn, tải file, công thức LaTeX. Gói giáo viên tính riêng với gói học sinh.</p>
+   <div class="plans">${gvPlans.map(p=>`<button class="plan" type="button" data-plan="${p.id}" id="plan-${p.id}"><b>${p.name}</b><span class="price">${vnd(p.price_vnd)}</span><span class="note">${p.days} ngày · khoảng ${vnd(Math.round(p.price_vnd/p.days*30/1000)*1000)}/tháng</span></button>`).join("")}</div>
+   <a class="btn" href="#giao-vien" style="align-self:flex-start">Mở Góc giáo viên →</a></div>`:""}
   <div class="card stack" id="payHistCard"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${orders.map(o=>`<tr><td class="n">${o.order_code}</td><td>${o.plan_id}</td><td class="n">${vnd(o.amount)}</td><td>${{pending:"Chờ thanh toán",paid:"Đã thanh toán",cancelled:"Đã hủy"}[o.status]}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
   {const ph=$("payHistCard"),pw=$("payHist");if(ph&&pw){pw.innerHTML="";pw.appendChild(ph);}}
   $("acOut").onclick=async()=>{await ACCT.sb.auth.signOut();await renderAcct();};
   $("acGrade").onchange=async e=>{await ACCT.sb.from("profiles").update({grade:+e.target.value}).eq("username",s.username);};
-  document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>{window.gt&&gt("begin_checkout",{plan:b.dataset.plan});buy(b.dataset.plan);});
+  document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>{window.gt&&gt("begin_checkout",{plan:b.dataset.plan});const pb=$("payBox"),pl=b.closest(".plans");if(pb&&pl&&pl.nextElementSibling!==pb)pl.after(pb);buy(b.dataset.plan);});
 }
 function authForms(){const ge=window.SB_OAUTH_ERROR;return `
   <div class="trial-banner">🎁 <b>Tài khoản mới được dùng thử đầy đủ 7 ngày</b> – luyện tập, thi thử, Violympic, Kangaroo, luyện thi vào lớp 6 không giới hạn. Không cần thanh toán.</div>
@@ -2889,9 +2898,31 @@ async function tchDocx(VS,P){if(VS.some(V=>V.qs.some(({q})=>/class="tex"/.test(q
  return zip(files);}
 function tchDownload(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);}
 const tchFile=()=>("De-kiem-tra-"+({"15":"15-phut","45":"1-tiet",gk1:"giua-ki-1",hk1:"cuoi-ki-1",gk2:"giua-ki-2",hk2:"cuoi-ki-2"}[TCH.type]||TCH.min+"-phut")+"-Toan-"+TCH.g).replace(/\s+/g,"-");
+
+/* ---- Quyền dùng Góc giáo viên: thử 7 ngày, sau đó đăng nhập + gói giáo viên ---- */
+const GV_DAYS=7;
+const gvFirst=()=>{let t=null;try{t=+localStorage.getItem("gt_gv_first");}catch(_){}if(!t){t=Date.now();try{localStorage.setItem("gt_gv_first",String(t));}catch(_){}}return t;};
+async function tchAccess(){const first=gvFirst(),left=Math.ceil((first+GV_DAYS*864e5-Date.now())/864e5);
+ if(!ACCT.on)return{ok:true,mode:"open"};
+ await ACCT.ready;if(!ACCT.status)try{await refreshStatus();}catch(_){}
+ const logged=ACCT.sb&&ACCT.status&&ACCT.status.logged_in;
+ if(logged){try{const {data,error}=await ACCT.sb.rpc("teacher_status",{p_first:new Date(first).toISOString(),p_start:true});
+   if(!error&&data&&data.logged_in){if(data.paid)return{ok:true,mode:"paid",until:data.teacher_until};if(data.is_admin)return{ok:true,mode:"admin"};if(data.trial)return{ok:true,mode:"trial",until:data.trial_until};return{ok:false,mode:"expired",reason:"gv_buy"};}}catch(_){}
+  }
+ if(left>0)return{ok:true,mode:"demo",left};
+ return{ok:false,mode:logged?"expired":"login",reason:logged?"gv_buy":"gv_login"};}
+let TACC=null;
+async function tchBanner(){const el=$("tchAcc");if(!el)return;if(!TACC||Date.now()-TACC.t>60000){TACC=await tchAccess();TACC.t=Date.now();}const a=TACC,dl=u=>Math.max(1,Math.ceil((Date.parse(u)-Date.now())/864e5));
+ el.className="tch-acc "+(a.ok?(a.mode==="paid"||a.mode==="admin"||a.mode==="open"?"ok":"trial"):"off");
+ el.innerHTML=a.mode==="open"?"":a.mode==="paid"?`✅ Gói giáo viên còn hạn đến <b>${fdate(a.until)}</b>.`:a.mode==="admin"?"Quản trị viên – dùng không giới hạn.":
+  a.mode==="trial"?`🎁 Đang dùng thử Góc giáo viên – còn <b>${dl(a.until)} ngày</b> (đến ${fdate(a.until)}). <a href="#tai-khoan">Mua gói giáo viên</a> để dùng tiếp sau thời gian thử.`:
+  a.mode==="demo"?`🎁 Dùng thử miễn phí Góc giáo viên – còn <b>${a.left} ngày</b>. Sau 7 ngày cần <a href="#tai-khoan">đăng nhập</a> và mua gói giáo viên (giá như gói học sinh: 1 tháng, 3 tháng, 6 tháng, 1 năm).`:
+  a.mode==="login"?`🔒 Đã hết 7 ngày dùng thử. <a href="#tai-khoan">Đăng nhập</a> và chọn gói giáo viên để tiếp tục ra đề.`:`🔒 Đã hết hạn dùng thử. <a href="#tai-khoan">Chọn gói giáo viên</a> để tiếp tục ra đề.`;
+ el.hidden=!el.innerHTML;}
+async function tchGate(){if(!TACC||!TACC.ok){TACC=await tchAccess();TACC.t=Date.now();}if(TACC.ok)return true;showPaywall(TACC.reason);window.gt&&gt("teacher_paywall",{reason:TACC.reason});return false;}
 function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(TCH.g);if(!TCH.chs||!TCH.chs.every(c=>chs.includes(c)))TCH.chs=chs.slice();
  const nPool=DATA[TCH.g].filter(q=>(TCH.hsg&&q.c===HSG_C)||(q.c!==HSG_C&&TCH.chs.includes(tchKeyOf(TCH.g,q)))).length;
- box.innerHTML=`<div class="card stack tch-form">
+ box.innerHTML=`<div id="tchAcc" class="tch-acc" hidden></div><div class="card stack tch-form">
   <div class="tch-row"><span class="tch-l">Lớp</span><div class="tch-pills">${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<button type="button" class="xg${TCH.g===g?" on":""}" data-tg="${g}">${g}</button>`).join("")}</div></div>
   <div class="tch-row"><span class="tch-l">Loại đề</span><div class="stack" style="gap:6px"><div class="tch-pills">${[["15","Kiểm tra 15 phút"],["45","Kiểm tra 1 tiết (45 phút)"],["c","Tùy chỉnh"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div><div class="tch-pills">${[["gk1","Giữa học kì I"],["hk1","Cuối học kì I"],["gk2","Giữa học kì II"],["hk2","Cuối học kì II"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div>${isSem(TCH.type)?`<small class="note">Phạm vi kiến thức theo tiến độ CT GDPT 2018 (đã tự tích chương bên dưới, có thể sửa). Cấu trúc: ${(()=>{const S=semSpec(TCH.g);return `${S.mc} câu trắc nghiệm × ${vnum(S.mcp)} đ + ${S.n-S.mc} câu tự luận, tổng 10 điểm, ${S.min} phút`;})()}${TCH.type==="hk2"?"; cuối kì II có ôn lại một phần kiến thức học kì I":""}.</small>`:""}</div></div>
   <div class="tch-row"><span class="tch-l">Số câu · thời gian</span><div class="tch-inl"><label><input type="number" id="tchN" min="3" max="50" value="${TCH.n}"> câu</label><label><input type="number" id="tchMin" min="5" max="180" value="${TCH.min}"> phút</label></div></div>
@@ -2928,13 +2959,13 @@ function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(T
  box.querySelectorAll("[data-tc]").forEach(c=>c.onchange=()=>{sync();const v=c.dataset.tc;TCH.chs=c.checked?[...new Set([...TCH.chs,v])]:TCH.chs.filter(x=>x!==v);tchSave();renderTeacher();});
  $("tchHsg").onchange=()=>{sync();renderTeacher();};$("tchAll").onclick=()=>{sync();TCH.chs=chs.slice();renderTeacher();};$("tchNone").onclick=()=>{sync();TCH.chs=[];renderTeacher();};
  ["tchN","tchMin"].forEach(id=>$(id).onchange=()=>{sync();TCH.type="c";renderTeacher();});["tchSchool","tchTitle","tchYear"].forEach(id=>$(id).oninput=()=>{sync();if(TCH.paper)drawPrev();});["tchKey","tchSol"].forEach(id=>$(id).onchange=()=>{sync();if(TCH.paper)drawPrev();});
- $("tchGo").onclick=()=>{sync();const P=tchBuild(Math.floor(Math.random()*1e9));if(TCH.ownMode==="only"&&!P.items.length){$("tchMsg").textContent="Chưa có câu tự soạn hợp lệ – hãy gõ câu hỏi theo mẫu.";return;}if(TCH.ownMode!=="only"&&P.items.length<Math.min(3,TCH.n)){$("tchMsg").textContent="Kho chưa đủ câu cho lựa chọn này – hãy chọn thêm chương.";return;}
+ $("tchGo").onclick=async()=>{sync();if(!(await tchGate()))return;const P=tchBuild(Math.floor(Math.random()*1e9));if(TCH.ownMode==="only"&&!P.items.length){$("tchMsg").textContent="Chưa có câu tự soạn hợp lệ – hãy gõ câu hỏi theo mẫu.";return;}if(TCH.ownMode!=="only"&&P.items.length<Math.min(3,TCH.n)){$("tchMsg").textContent="Kho chưa đủ câu cho lựa chọn này – hãy chọn thêm chương.";return;}
   TCH.paper={P,VS:tchVersions(P)};window.gt&&gt("teacher_make",{grade:TCH.g,n:P.items.length});renderTeacher();setTimeout(()=>{const e=$("tchPrev");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});},50);};
- if($("tchDoc"))$("tchDoc").onclick=async()=>{const b=$("tchDoc");b.disabled=true;b.textContent="Đang tạo file…";try{tchDownload(await tchDocx(TCH.paper.VS,TCH.paper.P),tchFile()+".docx");window.gt&&gt("teacher_docx",{grade:TCH.g});}catch(e){$("tchMsg").textContent="Chưa tạo được file Word, thử lại giúp mình.";}b.disabled=false;b.textContent="⬇ Tải Word (.docx)";};
- if($("tchPdf"))$("tchPdf").onclick=()=>{tchPrint(TCH.paper.VS,TCH.paper.P);window.gt&&gt("teacher_pdf",{grade:TCH.g});};
+ if($("tchDoc"))$("tchDoc").onclick=async()=>{if(!(await tchGate()))return;const b=$("tchDoc");b.disabled=true;b.textContent="Đang tạo file…";try{tchDownload(await tchDocx(TCH.paper.VS,TCH.paper.P),tchFile()+".docx");window.gt&&gt("teacher_docx",{grade:TCH.g});}catch(e){$("tchMsg").textContent="Chưa tạo được file Word, thử lại giúp mình.";}b.disabled=false;b.textContent="⬇ Tải Word (.docx)";};
+ if($("tchPdf"))$("tchPdf").onclick=async()=>{if(!(await tchGate()))return;tchPrint(TCH.paper.VS,TCH.paper.P);window.gt&&gt("teacher_pdf",{grade:TCH.g});};
  function drawPrev(){const pv=$("tchPrev");if(!pv||!TCH.paper)return;const {P,VS}=TCH.paper;
   pv.innerHTML=`<div class="tch-sum note">Đề gồm ${P.items.length} câu (${P.nMC} trắc nghiệm, ${P.nF} tự luận/điền đáp số${P.own?`, trong đó ${P.own} câu tự soạn`:""})${P.items.length<TCH.n&&TCH.ownMode!=="only"?` – kho chỉ đủ ${P.items.length} câu cho các chương đã chọn`:""}. ${VS.length>1?`Có ${VS.length} mã đề: ${VS.map(v=>v.code).join(", ")}. Xem trước mã ${VS[0].code}.`:""}</div><div class="tch-paper"><div class="tp">${tchPaperHTML(VS[0],P)}</div>${TCH.key?`<div class="tp tch-keyp">${tchKeyHTML(VS)}</div>`:""}</div>`;texIn(pv);}
- drawPrev();}
+ drawPrev();tchBanner();}
 addEventListener("hashchange",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,30);});
 addEventListener("load",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,200);});
 window.renderTeacher=renderTeacher;})();
