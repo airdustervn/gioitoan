@@ -329,6 +329,7 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 @media (max-width:760px){.hero{grid-template-columns:1fr; padding:28px 22px} .hero-art{min-height:0} .hero-art .mascot{width:110px} .hero-art .mascot.m2{width:90px}}
 .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:-8px}
 .kpi{background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; text-align:center; box-shadow:0 6px 18px rgba(28,26,23,.06)}
+button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,box-shadow .15s}button.kpi:hover{border-color:var(--red);box-shadow:0 6px 18px rgba(200,16,46,.14)}button.kpi:focus-visible{outline:3px solid var(--red);outline-offset:2px}button.kpi.on{border:2px solid var(--red);background:#fff5f5}button.kpi span:after{content:" ›";color:var(--red)}.adm-filter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff5f5;border:1px solid #f1c6c6;border-radius:12px;padding:8px 12px}
 .kpi b{display:block; font-size:2rem; font-weight:900; color:var(--red); line-height:1.1}
 .kpi span{color:var(--muted); font-weight:600}
 @media (max-width:640px){.kpis{grid-template-columns:repeat(3,1fr)}}
@@ -568,7 +569,7 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 .util-hot{font-weight:900;color:#fff;background:#ff6a00;border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
 @media (max-width:640px){.hot{padding:14px}.hot-list{grid-template-columns:1fr}}
 .g-card{max-width:520px}.g-btn{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;background:#fff;border:1px solid var(--line);font-weight:800}
-.adm-kpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.adm-kpis{grid-template-columns:repeat(auto-fit,minmax(min(100%,128px),1fr))}@media(min-width:900px){.adm-kpis{grid-template-columns:repeat(4,1fr)}.act-dash .adm-kpis{grid-template-columns:repeat(3,1fr)}}
 .v6{margin:18px 0 6px;padding:18px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px rgba(28,26,23,.06)}
 .v6 h2{margin:0;color:var(--ink)}.v6-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .v6-card{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px 14px;border-radius:14px;background:#fbf7ef;border:1px solid var(--line);cursor:pointer;font:inherit;color:inherit;transition:transform .15s,box-shadow .15s}
@@ -2123,22 +2124,23 @@ function trafficHTML(t,err){if(err||!t)return `<div class="card"><p class="note"
   ${(t.sources||[]).map(r=>`<tr><td>${escH(lab[r.source]||r.source)}</td><td>${escH(r.campaign||"—")}</td><td class="n">${n(r.visits)}</td><td class="n">${n(r.uniques)}</td><td class="n"><b>${n(r.signups)}</b></td><td class="n">${pct(r.signups,r.uniques)}</td></tr>`).join("")||'<tr><td colspan="6" class="note">Chưa có lượt truy cập nào.</td></tr>'}</tbody></table></div>
   ${(t.referrers||[]).length?`<p class="note">Trang giới thiệu nhiều nhất: ${t.referrers.map(r=>`${escH(r.ref_host)} (${n(r.visits)})`).join(" · ")}</p>`:""}
   <p class="note">Gắn link có mã để biết bài nào hiệu quả, ví dụ: <code>${escH(location.origin)}/?utm_source=facebook&amp;utm_campaign=ten-bai-dang</code></p></div>`;}
-const ADM={q:"",off:0,lim:50,data:null,days:30};
+const ADM={q:"",off:0,lim:50,data:null,days:30,f:"all"};
+const ADM_F={all:"Tất cả tài khoản",today:"Đăng ký hôm nay",week:"Đăng ký 7 ngày",premium:"Gói PRO còn hạn",trial:"Đang dùng thử",free:"Gói miễn phí",google:"Đăng nhập Google",active:"Đang học hôm nay",dau:"Đang học hôm nay",wau:"Học trong 7 ngày",mau:"Học trong 30 ngày",learned:"Có làm câu luyện tập trong kỳ",examined:"Có nộp đề trong kỳ",returning:"Quay lại học ≥ 2 ngày trong kỳ",new:"Tài khoản mới trong kỳ",new_on:"Tài khoản mới đã bắt đầu học",new_off:"Tài khoản mới chưa học",new_7:"Tài khoản mới còn học tuần này"};
 function barsSVG(vals,labels,color,unit){const W=640,H=150,pad=22,n=vals.length||1,mx=Math.max(1,...vals),bw=(W-pad)/n;
  const bars=vals.map((v,i)=>{const h=Math.round((H-34)*v/mx),x=pad+i*bw;return `<rect x="${(x+bw*0.15).toFixed(1)}" y="${H-18-h}" width="${(bw*0.7).toFixed(1)}" height="${h}" rx="2" fill="${color}"><title>${escH(labels[i])}: ${v.toLocaleString("vi-VN")} ${unit}</title></rect>`;}).join("");
  const step=Math.ceil(n/8),ticks=labels.map((l,i)=>i%step===0||i===n-1?`<text x="${(pad+i*bw+bw/2).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="10" fill="#8a8178">${escH(l)}</text>`:"").join("");
  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Biểu đồ ${unit}" style="display:block"><line x1="${pad}" y1="${H-18}" x2="${W}" y2="${H-18}" stroke="#e7e1d8"/><text x="0" y="12" font-size="10" fill="#8a8178">${mx.toLocaleString("vi-VN")}</text>${bars}${ticks}</svg>`;}
 function activityHTML(d,err){if(err||!d)return `<div class="card"><p class="note">Chưa có số liệu hoạt động${err?": "+escH(err.message):""}. (Cần chạy SQL 0008_activity.sql.)</p></div>`;
  const K=d.kpi||{},S=d.series||[],C=d.cohort||{},num=v=>v==null?"–":(+v).toLocaleString("vi-VN"),pc=(a,b)=>b?Math.round(100*a/b)+"%":"–";
- const kp=(v,t,sub)=>`<div class="kpi"><b>${v}</b><span>${t}</span>${sub?`<small class="note" style="display:block">${sub}</small>`:""}</div>`;
+ const kp=(v,t,sub,f)=>{const tg=f?"button":"div";return `<${tg} class="kpi${f&&ADM.f===f?" on":""}"${f?` type="button" data-f="${f}" title="Bấm để xem danh sách tài khoản"`:""}><b>${v}</b><span>${t}</span>${sub?`<small class="note" style="display:block">${sub}</small>`:""}</${tg}>`;};
  const lab=S.map(r=>{const p=String(r.day).split("-");return p[2]+"/"+p[1];});
  const plan={"PRO":"tag-pro","Dùng thử":"tag-trial"};
  const ago=t=>{if(!t)return"";const m=Math.round((Date.now()-new Date(t))/60000);return m<1?"vừa xong":m<60?m+" phút trước":m<1440?Math.round(m/60)+" giờ trước":Math.round(m/1440)+" ngày trước";};
  const hours=Array.from({length:24},(_,h)=>{const x=(d.hours||[]).find(o=>o.h===h);return x?+x.c:0;});
  return `<div class="card stack act-dash"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><h3 style="margin:0">Hoạt động học</h3><div class="row" style="gap:6px">${[7,30,90].map(n=>`<button type="button" class="btn${(ADM.days||30)===n?" primary":""}" data-days="${n}">${n} ngày</button>`).join("")}</div></div>
- <div class="kpis adm-kpis">${kp(num(K.dau),"đang học hôm nay")}${kp(num(K.wau),"học trong 7 ngày")}${kp(num(K.mau),"học trong 30 ngày")}
- ${kp(num(K.q_period),"câu đã làm",K.acc_period!=null?"đúng "+K.acc_period+"%":"")}${kp(num(K.exams_period),"đề đã nộp",K.avg_pct!=null?"điểm TB "+K.avg_pct+"%":"")}${kp(K.min_per_user!=null?num(K.min_per_user)+"'":"–","phút / người / ngày học")}
- ${kp(pc(C.activated,C.signed),"tài khoản mới đã bắt đầu học",num(C.activated)+" / "+num(C.signed))}${kp(pc(C.active7,C.signed),"tài khoản mới còn học tuần này")}${kp(num(K.returning),"quay lại ≥ 2 ngày")}</div>
+ <div class="kpis adm-kpis">${kp(num(K.dau),"đang học hôm nay","","dau")}${kp(num(K.wau),"học trong 7 ngày","","wau")}${kp(num(K.mau),"học trong 30 ngày","","mau")}
+ ${kp(num(K.q_period),"câu đã làm",K.acc_period!=null?"đúng "+K.acc_period+"%":"","learned")}${kp(num(K.exams_period),"đề đã nộp",K.avg_pct!=null?"điểm TB "+K.avg_pct+"%":"","examined")}${kp(K.min_per_user!=null?num(K.min_per_user)+"'":"–","phút / người / ngày học")}
+ ${kp(pc(C.activated,C.signed),"tài khoản mới đã bắt đầu học",num(C.activated)+" / "+num(C.signed),"new_on")}${kp(pc(C.active7,C.signed),"tài khoản mới còn học tuần này","","new_7")}${kp(num(K.returning),"quay lại ≥ 2 ngày","","returning")}</div>
  <div class="grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
   <div><p class="note" style="margin:0 0 4px"><b>Người học mỗi ngày</b></p>${barsSVG(S.map(r=>+r.active),lab,"#d4483b","người")}</div>
   <div><p class="note" style="margin:0 0 4px"><b>Số câu làm mỗi ngày</b></p>${barsSVG(S.map(r=>+r.questions),lab,"#2f7d5b","câu")}</div>
@@ -2162,24 +2164,29 @@ async function renderAdmin(){const box=$("admBox");
  if(!s||!s.logged_in){box.innerHTML='<div class="card stack"><p class="note">Hãy đăng nhập bằng tài khoản quản trị.</p><a class="btn primary" href="#tai-khoan" style="align-self:flex-start">Đăng nhập</a></div>';return;}
  if(!s.is_admin){box.innerHTML='<div class="card"><p class="note">Tài khoản này không có quyền quản trị.</p></div>';return;}
  box.innerHTML='<p class="note">Đang tải…</p>';
- const {data,error}=await ACCT.sb.rpc("admin_users",{q:ADM.q,lim:ADM.lim,off:ADM.off});
+ const {data,error}=await ACCT.sb.rpc("admin_users",{q:"",lim:1,off:0});
+ const fl=await ACCT.sb.rpc("admin_users_f",{q:ADM.q,lim:ADM.lim,off:ADM.off,f:ADM.f,p_days:ADM.days||30});
+ if(!error&&data){if(!fl.error&&fl.data){data.rows=fl.data.rows;data.matched=fl.data.matched;}else{const o=await ACCT.sb.rpc("admin_users",{q:ADM.q,lim:ADM.lim,off:ADM.off});if(o.data){data.rows=o.data.rows;data.matched=o.data.matched;}ADM.f="all";}}
  if(error||!data){box.innerHTML=`<div class="card"><p class="err">Không tải được danh sách: ${escH(error&&error.message)}</p></div>`;return;}
  ADM.data=data;const R=data.rows||[];const tr=await ACCT.sb.rpc("admin_traffic",{p_days:ADM.days||30});const ac=await ACCT.sb.rpc("admin_activity",{p_days:ADM.days||30});const pv={google:"Google",email:"Tên đăng nhập"};
- const kp=(n,t)=>`<div class="kpi"><b>${(+n||0).toLocaleString("vi-VN")}</b><span>${t}</span></div>`;
- box.innerHTML=activityHTML(ac.data,ac.error)+trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản")}${kp(data.today,"đăng ký hôm nay")}${kp(data.week,"đăng ký 7 ngày")}${kp(data.active,"đang học hôm nay")}${kp(data.premium,"gói PRO còn hạn")}${data.trial!=null?kp(data.trial,"đang dùng thử"):""}${kp(data.google,"đăng nhập Google")}</div>
-  <div class="card stack">
+ const kp=(n,t,f)=>`<button type="button" class="kpi${ADM.f===f?" on":""}" data-f="${f}" title="Bấm để xem danh sách tài khoản"><b>${(+n||0).toLocaleString("vi-VN")}</b><span>${t}</span></button>`;
+ box.innerHTML=activityHTML(ac.data,ac.error)+trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản","all")}${kp(data.today,"đăng ký hôm nay","today")}${kp(data.week,"đăng ký 7 ngày","week")}${kp(data.active,"đang học hôm nay","active")}${kp(data.premium,"gói PRO còn hạn","premium")}${data.trial!=null?kp(data.trial,"đang dùng thử","trial"):""}${kp(Math.max(0,(+data.total||0)-(+data.premium||0)-(+data.trial||0)),"gói miễn phí","free")}${kp(data.google,"đăng nhập Google","google")}</div>
+  <div class="card stack" id="admList">
+   ${ADM.f!=="all"?`<div class="adm-filter"><span>Đang xem: <b>${escH(ADM_F[ADM.f]||ADM.f)}</b>${/^(learned|examined|returning|new)/.test(ADM.f)?` (${ADM.days||30} ngày)`:""}</span><button class="btn" type="button" id="admClr">✕ Bỏ lọc</button></div>`:""}
    <form class="row" id="admF" role="search"><input id="admQ" class="sel" type="search" placeholder="Tìm tên đăng nhập, họ tên, email…" value="${escH(ADM.q)}" style="flex:1;min-width:200px"><button class="btn primary" type="submit">Tìm</button><button class="btn" type="button" id="admCsv">Tải CSV</button></form>
    <p class="note">${(+data.matched||0).toLocaleString("vi-VN")} kết quả · hiển thị ${R.length?ADM.off+1:0}–${ADM.off+R.length}</p>
-   <div class="tablewrap"><table><thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Lớp</th><th>Cách đăng nhập</th><th>Đăng ký</th><th>Lần cuối vào</th><th>Hôm nay (câu/đề)</th><th>Gói</th><th>Cấp PRO</th></tr></thead>
-   <tbody>${R.map((r,i)=>`<tr><td><b>${escH(r.username)}</b>${r.email?`<br><span class="note">${escH(r.email)}</span>`:""}</td><td>${escH(r.full_name)}</td><td class="n">${+r.grade||""}</td><td>${pv[r.provider]||escH(r.provider)}</td><td class="n">${fdate(r.created_at)}</td><td class="n">${r.last_sign_in_at?fdate(r.last_sign_in_at):"—"}</td><td class="n">${+r.q_today}/${+r.e_today}</td><td>${r.premium_until&&new Date(r.premium_until)>new Date()?`<span class="prem">PRO</span> đến ${fdate(r.premium_until)}`:r.trial_until&&new Date(r.trial_until)>new Date()?`<span class="prem trial">THỬ</span> đến ${fdate(r.trial_until)}`:"Miễn phí"}</td>
+   <div class="tablewrap"><table><thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Lớp</th><th>Cách đăng nhập</th><th>Đăng ký</th><th>Lần cuối vào</th><th>Hôm nay (câu/đề)</th><th>Học trong ${ADM.days||30} ngày</th><th>Gói</th><th>Cấp PRO</th></tr></thead>
+   <tbody>${R.map((r,i)=>`<tr><td><b>${escH(r.username)}</b>${r.email?`<br><span class="note">${escH(r.email)}</span>`:""}</td><td>${escH(r.full_name)}</td><td class="n">${+r.grade||""}</td><td>${pv[r.provider]||escH(r.provider)}</td><td class="n">${fdate(r.created_at)}</td><td class="n">${(()=>{const t=[r.last_act,r.last_sign_in_at].filter(Boolean).sort().pop();return t?fdate(t):"—";})()}</td><td class="n">${+r.q_today}/${+r.e_today}</td><td class="n">${r.days_period!=null?`${+r.days_period} ngày · ${(+r.q_period||0).toLocaleString("vi-VN")} câu`:"—"}</td><td>${r.premium_until&&new Date(r.premium_until)>new Date()?`<span class="prem">PRO</span> đến ${fdate(r.premium_until)}`:r.trial_until&&new Date(r.trial_until)>new Date()?`<span class="prem trial">THỬ</span> đến ${fdate(r.trial_until)}`:"Miễn phí"}</td>
     <td><select class="sel adm-d" data-i="${i}" aria-label="Số ngày PRO cho ${escH(r.username)}"><option value="">—</option><option value="30">+30 ngày</option><option value="90">+90 ngày</option><option value="365">+1 năm</option><option value="0">Thu hồi</option></select></td></tr>`).join("")}</tbody></table></div>
    <div class="row"><button class="btn" type="button" id="admPrev" ${ADM.off?"":"disabled"}>← Trước</button><button class="btn" type="button" id="admNext" ${ADM.off+R.length<(+data.matched||0)?"":"disabled"}>Sau →</button></div>
    <p class="err" id="admErr" hidden></p></div>`;
  document.querySelectorAll("[data-days]").forEach(b=>b.onclick=()=>{ADM.days=+b.dataset.days;renderAdmin();});
+ box.querySelectorAll("button.kpi[data-f]").forEach(b=>b.onclick=async()=>{ADM.f=ADM.f===b.dataset.f&&b.dataset.f!=="all"?"all":b.dataset.f;ADM.off=0;ADM.q="";await renderAdmin();const L=$("admList");if(L){const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:L.getBoundingClientRect().top+scrollY-h-70,behavior:"smooth"});}});
+ if($("admClr"))$("admClr").onclick=()=>{ADM.f="all";ADM.off=0;renderAdmin();};
  $("admF").onsubmit=e=>{e.preventDefault();ADM.q=$("admQ").value.trim();ADM.off=0;renderAdmin();};
  $("admPrev").onclick=()=>{ADM.off=Math.max(0,ADM.off-ADM.lim);renderAdmin();};
  $("admNext").onclick=()=>{ADM.off+=ADM.lim;renderAdmin();};
- $("admCsv").onclick=()=>{const cols=["username","full_name","email","grade","provider","created_at","last_sign_in_at","premium_until","q_today","e_today"];
+ $("admCsv").onclick=()=>{const cols=["username","full_name","email","grade","provider","created_at","last_sign_in_at","premium_until","trial_until","q_today","e_today","days_period","q_period"];
   const cell=v=>{let t=String(v??"");if(/^[=+\-@]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"';};
   const csv="\ufeff"+cols.join(",")+"\n"+R.map(r=>cols.map(c=>cell(r[c])).join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="tai-khoan-gioitoan.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
