@@ -1054,6 +1054,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
       <div class="stats" hidden><div class="stat"><b id="hsDone">0</b></div><div class="stat"><b id="hsStar">0</b></div><div class="stat"><b id="hsBest">0</b></div></div>
       <div id="dashBox" class="stack"></div>
     </div>
+    <div id="payHist"></div>
   </section>
 
   <section id="sec-quan-tri" class="stack" hidden>
@@ -2236,7 +2237,7 @@ async function renderAdmin(){const box=$("admBox");
   if(error){$("admErr").textContent="Không cập nhật được: "+error.message;$("admErr").hidden=false;sel.value="";return;}renderAdmin();});
 }
 async function renderAcct(){
-  const box=$("acctBox");
+  const box=$("acctBox");{const pw=$("payHist");if(pw)pw.innerHTML="";}
   if(!ACCT.on){box.innerHTML=`<div class="card stack"><h3>Chế độ dùng thử</h3><p class="note">Trang đang chạy không cần đăng nhập. Để bật tài khoản học sinh và thu phí, điền SUPABASE_URL và SUPABASE_ANON_KEY trong phần CONFIG của file, theo hướng dẫn kèm theo.</p></div>`;return;}
   await refreshStatus();const s=ACCT.status;
   if(!s||!s.logged_in){box.innerHTML=authForms();bindAuth();return;}
@@ -2258,7 +2259,8 @@ async function renderAcct(){
       <div id="payBox" hidden></div>
     </div>
   </div>
-  <div class="card stack"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${orders.map(o=>`<tr><td class="n">${o.order_code}</td><td>${o.plan_id}</td><td class="n">${vnd(o.amount)}</td><td>${{pending:"Chờ thanh toán",paid:"Đã thanh toán",cancelled:"Đã hủy"}[o.status]}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
+  <div class="card stack" id="payHistCard"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${orders.map(o=>`<tr><td class="n">${o.order_code}</td><td>${o.plan_id}</td><td class="n">${vnd(o.amount)}</td><td>${{pending:"Chờ thanh toán",paid:"Đã thanh toán",cancelled:"Đã hủy"}[o.status]}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
+  {const ph=$("payHistCard"),pw=$("payHist");if(ph&&pw){pw.innerHTML="";pw.appendChild(ph);}}
   $("acOut").onclick=async()=>{await ACCT.sb.auth.signOut();await renderAcct();};
   $("acGrade").onchange=async e=>{await ACCT.sb.from("profiles").update({grade:+e.target.value}).eq("username",s.username);};
   document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>{window.gt&&gt("begin_checkout",{plan:b.dataset.plan});buy(b.dataset.plan);});
