@@ -586,6 +586,7 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 @media (min-width:1361px){.mainnav li:nth-last-child(-n+3) .dd{left:auto;right:0}}
 @media (min-width:1361px) and (max-width:1680px){.mainnav .tab{font-size:.86rem;padding:12px 6px;letter-spacing:0;gap:3px}}
 .util-fb{display:inline-flex;align-items:center;gap:4px}.util-fb svg{width:18px;height:18px}@media(max-width:560px){.util-fb{display:none}}
+.steps li{padding:0}.steps li>a{display:flex;flex-direction:column;padding:18px 18px 18px 70px;color:inherit;text-decoration:none;border-radius:16px;height:100%;box-sizing:border-box}.steps li:hover{border-style:solid;border-color:var(--red);box-shadow:0 6px 18px rgba(200,16,46,.12)}.steps li>a:hover b{color:var(--red)}.steps li>a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -683,10 +684,10 @@ body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45d
 
     <div class="stack"><h2>Bắt đầu trong 4 bước</h2>
       <ol class="steps">
-        <li><b>Tạo tài khoản</b><span>Mỗi học sinh một tài khoản riêng.</span></li>
-        <li><b>Chọn lớp</b><span>Từ lớp 1 đến lớp 12.</span></li>
-        <li><b>Luyện theo dạng</b><span>Làm bài, xem gợi ý và lời giải.</span></li>
-        <li><b>Thi thử</b><span>Đo tiến bộ bằng đề bấm giờ.</span></li>
+        <li><a href="#tai-khoan"><b>Tạo tài khoản →</b><span>Mỗi học sinh một tài khoản riêng, dùng thử 7 ngày.</span></a></li>
+        <li><a href="#trang-chu" data-scroll="gradeCards"><b>Chọn lớp →</b><span>Từ lớp 1 đến lớp 12.</span></a></li>
+        <li><a href="#luyen-tap"><b>Luyện theo dạng →</b><span>Làm bài, xem gợi ý và lời giải.</span></a></li>
+        <li><a href="#thi-thu"><b>Thi thử →</b><span>Đo tiến bộ bằng đề bấm giờ.</span></a></li>
       </ol>
     </div>
 
@@ -2061,6 +2062,7 @@ function EXAM_LOG(k){try{let r=0,n=0,t="",has=false;const cnt=(qs,ans,eq)=>{has=
  else if(k==="t"){cnt(TQ(),ts.ans);t="Vào 10/THPT: "+nm(TP());}
  else if(k==="dh"){t="Đánh giá năng lực: "+nm(DHS[dhI]);}
  ACT.exam(t.trim(),has?r:null,has?n:null,has&&n?Math.round(r/n*1000)/10:null);}catch(_){}}
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[data-scroll]");if(!a)return;const el=document.getElementById(a.dataset.scroll);if(!el)return;e.preventDefault();if(location.hash!=="#trang-chu")location.hash="#trang-chu";setTimeout(()=>{const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:el.getBoundingClientRect().top+scrollY-h-70,behavior:"smooth"});},80);});
 const vnd=n=>Number(n).toLocaleString("vi-VN")+"đ";
 const fdate=s=>s?new Date(s).toLocaleDateString("vi-VN"):"";
 
