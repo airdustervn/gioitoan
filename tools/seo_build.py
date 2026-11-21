@@ -123,7 +123,7 @@ def page(slug, title, h1, desc, lead, body, hsh, kw):
 <meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet"><style>{CSS}</style>
-<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script></head>
+<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script><script src="/ga.js"></script></head>
 <body><header><div class="w top"><a class="brand" href="/">{LOGO}<span><em>GIỎI</em> TOÁN</span></a><nav class="nav"><a href="/#{hsh}">Làm bài</a><a href="/#tai-khoan">Đăng nhập</a></nav></div></header>
 <main class="w"><div class="crumb"><a href="/">Giỏi Toán</a> › {E(h1)}</div><h1>{E(h1)}</h1><p class="lead">{E(lead)}</p>
 <a class="cta" href="/#{hsh}">Làm bài ngay – miễn phí →</a>{body}

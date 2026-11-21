@@ -617,7 +617,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
-</head>
+<script src="/ga.js"></script></head>
 <body>
 <div class="util"><div class="wrap util-in">
   <span class="util-l">gioitoan.com.vn · Giỏi toán mỗi ngày</span>
@@ -2074,7 +2074,7 @@ const ACT=(()=>{let busy=Date.now();const on=()=>ACCT.on&&ACCT.sb&&ACCT.status&&
  if(ACCT.on)ACCT.ready.then(async()=>{if(!ACCT.sb)return;let f=false;try{f=sessionStorage.getItem("gt_sess")==="1";}catch(_){}if(f)return;
   try{await refreshStatus();}catch(_){}if(!on())return;try{sessionStorage.setItem("gt_sess","1");}catch(_){}send("session");});
  return {q:ok=>send("q",{p_ok:!!ok}),exam:(t,r,n,pct)=>send("exam",{p_title:String(t||"").slice(0,80),p_r:r,p_n:n,p_pct:pct})};})();
-function EXAM_LOG(k){try{let r=0,n=0,t="",has=false;const cnt=(qs,ans,eq)=>{has=true;(qs||[]).forEach((q,i)=>{n++;const a=ans&&ans[i];if(a!==undefined&&a!==""&&(eq?a===q.a:isRight(q,a)))r++;});};
+function EXAM_LOG(k){try{window.gt&&gt("exam_complete",{exam_type:k});}catch(e){}try{let r=0,n=0,t="",has=false;const cnt=(qs,ans,eq)=>{has=true;(qs||[]).forEach((q,i)=>{n++;const a=ans&&ans[i];if(a!==undefined&&a!==""&&(eq?a===q.a:isRight(q,a)))r++;});};
  const nm=o=>o?[o.name,o.year].filter(Boolean).join(" "):"";
  if(k==="mock"){cnt(mock.set,mock.ans);t="Thi thử lớp "+(typeof grade!=="undefined"?grade:"");}
  else if(k==="vio"){cnt(vio.set,vio.ans);t="Violympic";}
@@ -2241,7 +2241,7 @@ async function renderAcct(){
   <div class="card stack"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${orders.map(o=>`<tr><td class="n">${o.order_code}</td><td>${o.plan_id}</td><td class="n">${vnd(o.amount)}</td><td>${{pending:"Chờ thanh toán",paid:"Đã thanh toán",cancelled:"Đã hủy"}[o.status]}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
   $("acOut").onclick=async()=>{await ACCT.sb.auth.signOut();await renderAcct();};
   $("acGrade").onchange=async e=>{await ACCT.sb.from("profiles").update({grade:+e.target.value}).eq("username",s.username);};
-  document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>buy(b.dataset.plan));
+  document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>{window.gt&&gt("begin_checkout",{plan:b.dataset.plan});buy(b.dataset.plan);});
 }
 function authForms(){const ge=window.SB_OAUTH_ERROR;return `
   <div class="trial-banner">🎁 <b>Tài khoản mới được dùng thử đầy đủ 7 ngày</b> – luyện tập, thi thử, Violympic, Kangaroo, luyện thi vào lớp 6 không giới hạn. Không cần thanh toán.</div>
@@ -2271,7 +2271,7 @@ function bindAuth(){
   $("fReg").onsubmit=async e=>{e.preventDefault();err("rgErr","");
     const u=$("rgUser").value.trim().toLowerCase();
     if(!/^[a-z0-9_.]{4,30}$/.test(u)){err("rgErr","Tên đăng nhập 4–30 ký tự, chỉ gồm chữ thường không dấu, số, dấu chấm, gạch dưới.");return;}
-    const {error}=await ACCT.sb.auth.signUp({email:mail(u),password:$("rgPass").value,options:{data:{username:u,full_name:$("rgName").value.trim(),grade:+$("rgGrade").value}}});
+    window.gt&&gt("sign_up",{method:"username"});const {error}=await ACCT.sb.auth.signUp({email:mail(u),password:$("rgPass").value,options:{data:{username:u,full_name:$("rgName").value.trim(),grade:+$("rgGrade").value}}});
     if(error){err("rgErr",/registered|exists/i.test(error.message)?"Tên đăng nhập đã có người dùng.":"Không tạo được tài khoản: "+error.message);return;}
     await renderAcct();};
 }
