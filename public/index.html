@@ -640,6 +640,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 @media(max-width:760px){.tch-row{grid-template-columns:1fr}.tch-l{padding-top:0}.tch-grid{grid-template-columns:1fr}.tch-paper{padding:16px 14px}.tp{font-size:12pt}.tp-head td{display:block;text-align:left!important}.tp-opts.s{grid-template-columns:1fr 1fr}}
 @media(min-width:1361px){.nav-mob{display:none!important}}@media(max-width:1360px){.util-gv{display:none}}
 .strand-lbl{flex-basis:100%;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted,#667);margin:6px 0 -2px}.m-part{margin:14px 0 4px;font-size:1.02rem}
+.tch-own{width:100%;font:14px/1.5 var(--mono,monospace);padding:10px 12px;border:1px solid var(--line);border-radius:12px;resize:vertical;min-height:180px;box-sizing:border-box}.tch-ownmsg{color:#b45309}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1070,7 +1071,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
   </section>
 
   <section id="sec-giao-vien" class="stack" hidden>
-    <div><h2>Góc giáo viên – Ra đề kiểm tra</h2><p class="lead">Chọn lớp, loại đề và chương; hệ thống lấy câu từ kho hơn 11.000 câu có đáp án và lời giải, trải đều theo chương. Xem trước, đổi đề khác, rồi tải file <b>Word (.docx)</b> để chỉnh sửa hoặc <b>in / lưu PDF</b>. Có thể tạo nhiều mã đề và kèm bảng đáp án.</p></div>
+    <div><h2>Góc giáo viên – Ra đề kiểm tra</h2><p class="lead">Chọn lớp, loại đề (15 phút, 1 tiết, giữa kì, cuối kì) và chương, hoặc tự gõ câu hỏi của mình; hệ thống lấy câu từ kho hơn 11.000 câu có đáp án và lời giải, trải đều theo chương. Xem trước, đổi đề khác, rồi tải file <b>Word (.docx)</b> để chỉnh sửa hoặc <b>in / lưu PDF</b>. Có thể tạo nhiều mã đề và kèm bảng đáp án.</p></div>
     <div id="tchBox" class="stack"></div>
   </section>
 
@@ -2664,38 +2665,86 @@ addEventListener("hashchange",()=>{if(location.hash==="#tai-khoan")setTimeout(re
 addEventListener("load",()=>{if(location.hash==="#tai-khoan")setTimeout(renderDash,300);});
 
 (()=>{/* ===== Góc giáo viên: ra đề kiểm tra 15 phút / 1 tiết từ kho câu hỏi, xuất Word (.docx) và PDF ===== */
-const TCH={g:6,type:"15",n:10,min:15,mode:"mix",ver:1,chs:null,hsg:false,key:true,sol:false,school:"",title:"",year:"",paper:null};
+const TCH={g:6,type:"15",n:10,min:15,mode:"mix",ver:1,chs:null,hsg:false,key:true,sol:false,school:"",title:"",year:"",paper:null,own:"",ownMode:"off"};
 try{Object.assign(TCH,JSON.parse(localStorage.getItem("gt-teacher")||"{}"),{paper:null});}catch(e){}
 const tchSave=()=>{try{const o={...TCH};delete o.paper;localStorage.setItem("gt-teacher",JSON.stringify(o));}catch(e){}};
 const tchChs=g=>{const C=(typeof CHUYEN!=="undefined"&&CHUYEN[g])?CHUYEN[g].filter(c=>c!==HSG_C):[];if(C.length)return C;return[...new Set(DATA[g].map(q=>q.t))];};
 const tchKeyOf=(g,q)=>(typeof CHUYEN!=="undefined"&&CHUYEN[g]&&CHUYEN[g].length)?q.c:q.t;
+const TSEM={
+1:{gk1:["Các số từ 0 đến 10","Hình phẳng và hình khối","Vị trí, định hướng trong không gian"],hk1:["Các số từ 0 đến 10","Phép cộng, phép trừ trong phạm vi 10","Hình phẳng và hình khối","Vị trí, định hướng trong không gian"],gk2:["Các số trong phạm vi 100","Độ dài và đo độ dài"],hk2:["Các số trong phạm vi 100","Cộng, trừ trong phạm vi 100","Độ dài và đo độ dài","Thời gian: giờ và lịch","Phép cộng, phép trừ trong phạm vi 10"]},
+2:{gk1:["Phép cộng, phép trừ trong phạm vi 100","Điểm, đoạn thẳng, đường gấp khúc, tứ giác"],hk1:["Phép cộng, phép trừ trong phạm vi 100","Điểm, đoạn thẳng, đường gấp khúc, tứ giác","Đo lường: ki-lô-gam, lít, mét, ki-lô-mét","Thời gian: ngày, giờ, tháng"],gk2:["Phép nhân, phép chia","Hình khối: khối trụ, khối cầu","Các số trong phạm vi 1000"],hk2:["Phép nhân, phép chia","Hình khối: khối trụ, khối cầu","Các số trong phạm vi 1000","Cộng, trừ trong phạm vi 1000","Tiền Việt Nam","Thống kê và xác suất","Phép cộng, phép trừ trong phạm vi 100"]},
+3:{gk1:["Bảng nhân, bảng chia","Nhân, chia với số có một chữ số","Góc, hình tam giác, hình tứ giác, hình tròn"],hk1:["Bảng nhân, bảng chia","Nhân, chia với số có một chữ số","Biểu thức số","Làm quen với phân số","Góc, hình tam giác, hình tứ giác, hình tròn","Đo lường: mi-li-mét, gam, mi-li-lít, nhiệt độ"],gk2:["Các số trong phạm vi 10 000 và 100 000","Chu vi và diện tích","Số La Mã"],hk2:["Các số trong phạm vi 10 000 và 100 000","Chu vi và diện tích","Thời gian, tháng – năm","Số La Mã","Thống kê và xác suất","Biểu thức số"]},
+4:{gk1:["Số có nhiều chữ số","Góc, đường thẳng vuông góc, song song","Đo lường: yến, tạ, tấn; giây, thế kỉ; dm², m²"],hk1:["Số có nhiều chữ số","Bốn phép tính với số tự nhiên","Tính chất các phép tính","Trung bình cộng","Tìm hai số khi biết tổng và hiệu","Góc, đường thẳng vuông góc, song song","Đo lường: yến, tạ, tấn; giây, thế kỉ; dm², m²"],gk2:["Phân số","Các phép tính với phân số","Hình bình hành, hình thoi"],hk2:["Phân số","Các phép tính với phân số","Hình bình hành, hình thoi","Tổng – tỉ, hiệu – tỉ","Thống kê và xác suất","Bốn phép tính với số tự nhiên"]},
+5:{gk1:["Ôn tập phân số, hỗn số","Số thập phân"],hk1:["Ôn tập phân số, hỗn số","Số thập phân","Các phép tính với số thập phân","Hình tam giác, hình thang","Hình tròn"],gk2:["Tỉ số phần trăm","Tỉ lệ bản đồ","Hình hộp chữ nhật, hình lập phương"],hk2:["Tỉ số phần trăm","Tỉ lệ bản đồ","Hình hộp chữ nhật, hình lập phương","Số đo thời gian","Chuyển động đều","Thống kê và xác suất","Các phép tính với số thập phân"]},
+6:{gk1:["Tập hợp các số tự nhiên","Tính chia hết"],hk1:["Tập hợp các số tự nhiên","Tính chia hết","Số nguyên","Hình phẳng trong thực tiễn","Tính đối xứng của hình phẳng"],gk2:["Phân số","Hình học cơ bản"],hk2:["Phân số","Số thập phân","Hình học cơ bản","Dữ liệu và xác suất thực nghiệm","Số nguyên"]},
+7:{gk1:["Số hữu tỉ","Số thực","Góc và đường thẳng song song"],hk1:["Số hữu tỉ","Số thực","Góc và đường thẳng song song","Tam giác bằng nhau","Thu thập và biểu diễn dữ liệu"],gk2:["Tỉ lệ thức và đại lượng tỉ lệ","Biểu thức đại số và đa thức","Biến cố và xác suất"],hk2:["Tỉ lệ thức và đại lượng tỉ lệ","Biểu thức đại số và đa thức","Biến cố và xác suất","Quan hệ trong tam giác","Hình khối trong thực tiễn"]},
+8:{gk1:["Đa thức","Hằng đẳng thức đáng nhớ","Định lí Pythagore"],hk1:["Đa thức","Hằng đẳng thức đáng nhớ","Định lí Pythagore","Tứ giác","Định lí Thalès","Dữ liệu và biểu đồ"],gk2:["Phân thức đại số","Phương trình và hàm số bậc nhất"],hk2:["Phân thức đại số","Phương trình và hàm số bậc nhất","Xác suất của biến cố","Tam giác đồng dạng","Hình khối trong thực tiễn"]},
+9:{gk1:["Phương trình, bất phương trình bậc nhất","Hệ phương trình bậc nhất hai ẩn","Căn bậc hai, căn bậc ba"],hk1:["Phương trình, bất phương trình bậc nhất","Hệ phương trình bậc nhất hai ẩn","Căn bậc hai, căn bậc ba","Hệ thức lượng trong tam giác vuông","Đường tròn"],gk2:["Hàm số y = ax² và phương trình bậc hai","Tần số và tần số tương đối","Góc với đường tròn"],hk2:["Hàm số y = ax² và phương trình bậc hai","Tần số và tần số tương đối","Xác suất","Góc với đường tròn","Đa giác đều","Hình khối trong thực tiễn"]},
+10:{gk1:["Mệnh đề và tập hợp","Bất phương trình bậc nhất hai ẩn","Hệ thức lượng trong tam giác"],hk1:["Mệnh đề và tập hợp","Bất phương trình bậc nhất hai ẩn","Hệ thức lượng trong tam giác","Vectơ","Số đặc trưng của mẫu số liệu"],gk2:["Hàm số và đồ thị","Tọa độ trong mặt phẳng"],hk2:["Hàm số và đồ thị","Tọa độ trong mặt phẳng","Ba đường conic","Đại số tổ hợp","Xác suất cổ điển"]},
+11:{gk1:["Hàm số và phương trình lượng giác","Dãy số, cấp số cộng, cấp số nhân"],hk1:["Hàm số và phương trình lượng giác","Dãy số, cấp số cộng, cấp số nhân","Mẫu số liệu ghép nhóm","Quan hệ song song trong không gian","Giới hạn, hàm số liên tục"],gk2:["Hàm số mũ và lôgarit","Quan hệ vuông góc trong không gian"],hk2:["Hàm số mũ và lôgarit","Quan hệ vuông góc trong không gian","Quy tắc tính xác suất","Đạo hàm"]},
+12:{gk1:["Khảo sát hàm số","Vectơ và tọa độ trong không gian"],hk1:["Khảo sát hàm số","Vectơ và tọa độ trong không gian","Độ phân tán của mẫu số liệu"],gk2:["Nguyên hàm và tích phân","Phương pháp tọa độ trong không gian"],hk2:["Nguyên hàm và tích phân","Phương pháp tọa độ trong không gian","Xác suất có điều kiện"]}};
+const TT_LAB={"15":"15 PHÚT","45":"1 TIẾT",gk1:"GIỮA HỌC KÌ I",hk1:"CUỐI HỌC KÌ I",gk2:"GIỮA HỌC KÌ II",hk2:"CUỐI HỌC KÌ II"};
+const isSem=t=>/^(gk|hk)[12]$/.test(t);
+const semSpec=g=>g<=5?{n:8,mc:6,min:40,mcp:1}:g<=9?{n:16,mc:8,min:90,mcp:.25}:{n:19,mc:12,min:90,mcp:.25};
+const tchTtl=()=>TCH.title||("ĐỀ KIỂM TRA "+(TT_LAB[TCH.type]||TCH.min+" PHÚT")+" – MÔN TOÁN "+TCH.g);
+const escT=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmtT=x=>escT(x.trim()).replace(/\^\{([^}]+)\}/g,"<sup>$1</sup>").replace(/\^(-?\d+|[a-zA-Z])/g,"<sup>$1</sup>").replace(/_\{([^}]+)\}/g,"<sub>$1</sub>").replace(/\n/g,"<br>");
+/* Câu hỏi giáo viên tự gõ: "Câu 1. ...", phương án "A. ... B. ...", dòng "Đáp án: B", dòng "Lời giải: ..." (tuỳ chọn). Đánh dấu * trước phương án đúng cũng được. Không có phương án → câu tự luận. */
+function tchParse(text){const items=[],errs=[];const t=String(text||"").replace(/\r/g,"").trim();if(!t)return{items,errs};
+ let blocks=t.split(/\n(?=\s*(?:Câu|Bài|Question)\s*\d+\s*[.:)])/i);if(blocks.length===1&&!/^\s*(?:Câu|Bài)\s*\d+/i.test(t))blocks=t.split(/\n\s*\n+/);
+ blocks.forEach((b,k)=>{b=b.trim();if(!b)return;let ans="",sol="";const lines=[];let inSol=false;
+  b.split("\n").forEach(l=>{let m;if((m=l.match(/^\s*(?:Đáp án|Đáp số|ĐA|Answer)\s*[:：]\s*(.*)$/i))){ans=m[1].trim();inSol=false;}else if((m=l.match(/^\s*(?:Lời giải|Hướng dẫn|HD|Giải)\s*[:：]\s*(.*)$/i))){sol=m[1];inSol=true;}else if(inSol)sol+="\n"+l;else lines.push(l);});
+  let body=lines.join("\n").replace(/^\s*(?:Câu|Bài|Question)\s*\d+\s*[.:)]\s*(\([^)]*điểm[^)]*\)\s*)?/i,"");
+  const re=/(^|\s)(\*?)([A-Fa-f])[.)]\s+/g;let marks=[],m;while((m=re.exec(body))){const L0=m[3].toUpperCase();const want="ABCDEF"[marks.length];if(L0===want&&(marks.length||L0==="A"))marks.push({i:m.index+m[1].length,end:re.lastIndex,star:!!m[2]});}
+  const q={t:"Đại số",d:"Tự soạn",c:"Câu tự soạn",p:1,nofig:true,s:sol.trim()?[fmtT(sol)]:[],m:""};
+  if(marks.length>=2){q.q=fmtT(body.slice(0,marks[0].i));q.o=marks.map((x,j)=>fmtT(body.slice(x.end,j+1<marks.length?marks[j+1].i:body.length)));
+   let a=marks.findIndex(x=>x.star);const al=ans.replace(/[^A-Fa-f]/g,"").toUpperCase();if(al)a="ABCDEF".indexOf(al[0]);
+   if(a<0||a>=q.o.length){errs.push(`Câu ${k+1}: chưa có đáp án đúng (thêm dòng "Đáp án: B" hoặc dấu * trước phương án đúng).`);a=0;q.noKey=true;}q.a=a;}
+  else{q.q=fmtT(body);q.f=true;q.a=ans;if(!ans)q.noKey=true;}
+  if(!q.q.replace(/<[^>]+>/g,"").trim()){errs.push(`Câu ${k+1}: thiếu nội dung câu hỏi.`);return;}
+  items.push(q);});
+ return{items,errs};}
+const OWN_EX=`Câu 1. Kết quả của phép tính 3^2 + 4^2 là
+A. 14     B. 25     C. 49     D. 7
+Đáp án: B
+Lời giải: 9 + 16 = 25.
+
+Câu 2. Tam giác ABC vuông tại A có AB = 6 cm, AC = 8 cm. Tính BC (cm).
+Đáp án: 10
+Lời giải: BC² = 6² + 8² = 100 nên BC = 10 cm.`;
 function tchRand(seed){let s=seed>>>0||1;return()=>{s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
 function tchShuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function tchBuild(seed){const g=TCH.g,chs=TCH.chs&&TCH.chs.length?TCH.chs:tchChs(g),r=tchRand(seed);
+ const own=TCH.ownMode!=="off"?tchParse(TCH.own).items.map((q,k)=>({q,i:-1-k})):[],oMC=own.filter(x=>!x.q.f),oF=own.filter(x=>x.q.f);
+ if(TCH.ownMode==="only")return{items:[...oMC,...oF],nMC:oMC.length,nF:oF.length,pool:own.length,seed,own:own.length};
  let pool=DATA[g].map((q,i)=>({q,i})).filter(({q})=>(TCH.hsg&&q.c===HSG_C)||(q.c!==HSG_C&&chs.includes(tchKeyOf(g,q))));
- const mc=tchShuffle(pool.filter(x=>!x.q.f&&x.q.o),r),fl=tchShuffle(pool.filter(x=>x.q.f),r);let nMC,nF,n=TCH.n;
- if(TCH.mode==="mc"){nMC=Math.min(n,mc.length);nF=0;}else if(TCH.mode==="fill"){nF=Math.min(n,fl.length);nMC=0;}else{nMC=Math.min(mc.length,Math.round(n*.6));nF=Math.min(fl.length,n-nMC);if(nMC+nF<n)nMC=Math.min(mc.length,n-nF);}
- // trải đều theo chương
+ const mc=tchShuffle(pool.filter(x=>!x.q.f&&x.q.o),r),fl=tchShuffle(pool.filter(x=>x.q.f),r),n=TCH.n;
+ let tMC,tF;if(TCH.mode==="mc"){tMC=n;tF=0;}else if(TCH.mode==="fill"){tMC=0;tF=n;}else{tMC=isSem(TCH.type)?Math.min(n,semSpec(g).mc):Math.round(n*.6);tF=n-tMC;}
+ let nMC=Math.max(0,tMC-oMC.length),nF=Math.max(0,tF-oF.length);
+ if(nMC>mc.length){nF+=TCH.mode==="mc"?0:nMC-mc.length;nMC=mc.length;}if(nF>fl.length){nMC=Math.min(mc.length,nMC+(TCH.mode==="fill"?0:nF-fl.length));nF=fl.length;}
  const spread=(arr,k)=>{const by={};arr.forEach(x=>{const c=tchKeyOf(g,x.q)||"";(by[c]=by[c]||[]).push(x);});const keys=tchShuffle(Object.keys(by),r),out=[];while(out.length<k&&keys.some(c=>by[c].length))keys.forEach(c=>{if(out.length<k&&by[c].length)out.push(by[c].shift());});return out;};
- const A=spread(mc,nMC),B=spread(fl,nF);return{items:[...A,...B],nMC:A.length,nF:B.length,pool:pool.length,seed};}
+ const A=[...oMC,...spread(mc,nMC)],B=[...oF,...spread(fl,nF)];return{items:[...A,...B],nMC:A.length,nF:B.length,pool:pool.length,seed,own:own.length};}
 function tchVersions(P){const vs=[];for(let v=0;v<TCH.ver;v++){const r=tchRand(P.seed*31+v*977+7);
  const mcs=v?tchShuffle(P.items.slice(0,P.nMC),r):P.items.slice(0,P.nMC),fls=v?tchShuffle(P.items.slice(P.nMC),r):P.items.slice(P.nMC);
  const qs=[...mcs,...fls].map(({q,i})=>{if(q.f||!q.o||!v)return{q,i};const ord=tchShuffle(q.o.map((_,k)=>k),r);return{q:{...q,o:ord.map(k=>q.o[k]),a:ord.indexOf(q.a)},i};});
  vs.push({code:String(101+v+Math.floor(r()*0)).padStart(3,"0"),qs});}
  vs.forEach((x,k)=>x.code=String(101+k*16+(P.seed%7)));return vs;}
 const tchPts=n=>{const p=Math.floor(10/n*4)/4;const arr=Array(n).fill(p);let rest=Math.round((10-p*n)*100)/100;for(let k=n-1;rest>0&&k>=0;k--){const add=Math.min(rest,.25);arr[k]=Math.round((arr[k]+add)*100)/100;rest=Math.round((rest-add)*100)/100;}return arr;};
+const tchPtsP=(P,n)=>{if(!isSem(TCH.type)||!P.nMC||!P.nF)return tchPts(n);const mp=semSpec(TCH.g).mcp,mcT=Math.round(mp*P.nMC*100)/100;if(mcT>=10)return tchPts(n);
+ const rest=10-mcT,each=Math.floor(rest/P.nF*4)/4,arr=[...Array(P.nMC).fill(mp),...Array(P.nF).fill(each)];let left=Math.round((rest-each*P.nF)*100)/100;for(let k=n-1;left>0&&k>=P.nMC;k--){const add=Math.min(left,.25);arr[k]=Math.round((arr[k]+add)*100)/100;left=Math.round((left-add)*100)/100;}return arr;};
 const vnum=x=>String(x).replace(".",",");
-const tchAns=q=>q.f?String(q.a).replace(".",","):L[q.a];
-function tchPaperHTML(V,P,forPrint){const n=V.qs.length,pts=tchPts(n),same=pts.every(x=>x===pts[0]);const ttl=TCH.title||("ĐỀ KIỂM TRA "+(TCH.type==="15"?"15 PHÚT":TCH.type==="45"?"1 TIẾT":TCH.min+" PHÚT")+" – MÔN TOÁN "+TCH.g);
+const tchAns=q=>q.noKey?"—":q.f?String(q.a).replace(".",","):L[q.a];
+function tchPaperHTML(V,P,forPrint){const n=V.qs.length,pts=tchPtsP(P,n),same=pts.every(x=>x===pts[0]);const ttl=tchTtl();
  const esc=s=>String(s).replace(/</g,"&lt;");
  let h=`<table class="tp-head"><tr><td><b>${esc(TCH.school||"TRƯỜNG ......................................")}</b><br>Lớp: ${TCH.g} ......&nbsp; Họ và tên: ..............................................</td><td class="r"><b>${esc(ttl)}</b><br>${TCH.year?"Năm học "+esc(TCH.year)+" · ":""}Thời gian: ${TCH.min} phút<br>${TCH.ver>1?`<span class="tp-code">Mã đề ${V.code}</span>`:""}</td></tr></table>
  <p class="tp-note"><i>Học sinh làm bài trực tiếp vào đề. ${same?`Mỗi câu ${vnum(pts[0])} điểm.`:"Tổng 10 điểm."}</i></p>`;
  const sec=(t)=>`<p class="tp-sec">${t}</p>`;
  if(P.nMC)h+=sec(`PHẦN I. TRẮC NGHIỆM (${vnum(pts.slice(0,P.nMC).reduce((a,b)=>a+b,0))} điểm) – Khoanh vào chữ cái đặt trước câu trả lời đúng.`);
  V.qs.forEach(({q},k)=>{if(k===P.nMC&&P.nF)h+=sec(`PHẦN ${P.nMC?"II":"I"}. ${P.nMC?"TỰ LUẬN":"BÀI TẬP"} (${vnum(pts.slice(P.nMC).reduce((a,b)=>a+b,0))} điểm) – Ghi đáp số vào chỗ chấm.`);
-  const F=q.fig||(typeof autoFig==="function"?autoFig(q):"");
+  const F=q.nofig?"":q.fig||(typeof autoFig==="function"?autoFig(q):"");
   h+=`<div class="tp-q"><p><b>Câu ${k+1}${same?"":` (${vnum(pts[k])} đ)`}.</b> ${q.q}</p>${F?`<div class="tp-fig">${F}</div>`:""}`;
-  if(q.f)h+=`<p class="tp-fill">Đáp số: ..............................................</p>`;
+  if(q.f)h+=q.d==="Tự soạn"?`<p class="tp-fill">${"."
+.repeat(110)}<br>${".".repeat(110)}</p>`:`<p class="tp-fill">Đáp số: ..............................................</p>`;
   else{const short=q.o.every(o=>String(o).replace(/<[^>]+>/g,"").length<=16);h+=`<div class="tp-opts${short?" s":""}">${q.o.map((o,j)=>`<span><b>${L[j]}.</b> ${o}</span>`).join("")}</div>`;}
   h+="</div>";});
  h+=`<p class="tp-end">— HẾT —</p>`;return h;}
@@ -2732,7 +2781,7 @@ function runsOf(html,base={}){const d=document.createElement("div");d.innerHTML=
 const R=r=>r.br?"<w:r><w:br/></w:r>":`<w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>${r.b?"<w:b/>":""}${r.i?"<w:i/>":""}${r.sup?'<w:vertAlign w:val="superscript"/>':r.sub?'<w:vertAlign w:val="subscript"/>':""}<w:sz w:val="${r.sz||26}"/></w:rPr><w:t xml:space="preserve">${xe(r.t)}</w:t></w:r>`;
 const Pp=(runs,o={})=>`<w:p><w:pPr>${o.keep?"<w:keepNext/>":""}${o.brk?"<w:pageBreakBefore/>":""}<w:spacing w:before="${o.before||40}" w:after="${o.after||40}"/>${o.jc?`<w:jc w:val="${o.jc}"/>`:""}${o.ind?`<w:ind w:left="${o.ind}"/>`:""}${o.tabs?`<w:tabs>${o.tabs.map(t=>`<w:tab w:val="left" w:pos="${t}"/>`).join("")}</w:tabs>`:""}</w:pPr>${runs.map(x=>typeof x==="string"?x:R(x)).join("")}</w:p>`;
 const TAB="<w:r><w:tab/></w:r>";
-async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,pts=tchPts(n),same=pts.every(x=>x===pts[0]);const ttl=TCH.title||("ĐỀ KIỂM TRA "+(TCH.type==="15"?"15 PHÚT":TCH.type==="45"?"1 TIẾT":TCH.min+" PHÚT")+" – MÔN TOÁN "+TCH.g);
+async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,pts=tchPtsP(P,n),same=pts.every(x=>x===pts[0]);const ttl=tchTtl();
  const cell=(paras,w)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/></w:tcPr>${paras}</w:tc>`;
  const img=async(svg)=>{const p=await svgPng(svg);if(!p)return"";media.push(p.data);const id=media.length,cx=Math.round(Math.min(240,p.w)*9525),cy=Math.round(Math.min(240,p.w)/p.w*p.h*9525);
   return `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${id}" name="Hinh ${id}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${id}" name="hinh${id}.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rImg${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;};
@@ -2745,7 +2794,7 @@ async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,
   for(let k=0;k<V.qs.length;k++){const q=V.qs[k].q;
    if(k===P.nMC&&P.nF)body+=Pp([{t:`PHẦN ${P.nMC?"II":"I"}. ${P.nMC?"TỰ LUẬN":"BÀI TẬP"} (${vnum(pts.slice(P.nMC).reduce((a,b)=>a+b,0))} điểm) – Ghi đáp số vào chỗ chấm.`,b:1}],{before:160});
    body+=Pp([{t:`Câu ${k+1}${same?"":` (${vnum(pts[k])} đ)`}. `,b:1},...runsOf(q.q)],{keep:1,before:100});
-   const F=q.fig||(typeof autoFig==="function"?autoFig(q):"");if(F)body+=await img(F);
+   const F=q.nofig?"":q.fig||(typeof autoFig==="function"?autoFig(q):"");if(F)body+=await img(F);
    if(q.f)body+=Pp([{t:"Đáp số: ......................................................"}],{ind:360});
    else{const short=q.o.every(o=>String(o).replace(/<[^>]+>/g,"").length<=16);
     if(short){const runs=[];q.o.forEach((o,j)=>{if(j)runs.push(TAB);runs.push({t:L[j]+". ",b:1},...runsOf(o));});body+=Pp(runs,{ind:360,tabs:q.o.length>4?[2160,3960,5760,7560]:[2520,4680,6840]});}
@@ -2763,34 +2812,42 @@ async function tchDocx(VS,P){const media=[];let body="";const n=VS[0].qs.length,
   {name:"word/document.xml",data:doc},...media.map((d,k)=>({name:`word/media/image${k+1}.png`,data:d}))];
  return zip(files);}
 function tchDownload(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);}
-const tchFile=()=>("De-kiem-tra-"+(TCH.type==="15"?"15-phut":TCH.type==="45"?"1-tiet":TCH.min+"-phut")+"-Toan-"+TCH.g).replace(/\s+/g,"-");
+const tchFile=()=>("De-kiem-tra-"+({"15":"15-phut","45":"1-tiet",gk1:"giua-ki-1",hk1:"cuoi-ki-1",gk2:"giua-ki-2",hk2:"cuoi-ki-2"}[TCH.type]||TCH.min+"-phut")+"-Toan-"+TCH.g).replace(/\s+/g,"-");
 function renderTeacher(){const box=$("tchBox");if(!box)return;const chs=tchChs(TCH.g);if(!TCH.chs||!TCH.chs.every(c=>chs.includes(c)))TCH.chs=chs.slice();
  const nPool=DATA[TCH.g].filter(q=>(TCH.hsg&&q.c===HSG_C)||(q.c!==HSG_C&&TCH.chs.includes(tchKeyOf(TCH.g,q)))).length;
  box.innerHTML=`<div class="card stack tch-form">
   <div class="tch-row"><span class="tch-l">Lớp</span><div class="tch-pills">${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<button type="button" class="xg${TCH.g===g?" on":""}" data-tg="${g}">${g}</button>`).join("")}</div></div>
-  <div class="tch-row"><span class="tch-l">Loại đề</span><div class="tch-pills">${[["15","Kiểm tra 15 phút"],["45","Kiểm tra 1 tiết (45 phút)"],["c","Tùy chỉnh"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div></div>
+  <div class="tch-row"><span class="tch-l">Loại đề</span><div class="stack" style="gap:6px"><div class="tch-pills">${[["15","Kiểm tra 15 phút"],["45","Kiểm tra 1 tiết (45 phút)"],["c","Tùy chỉnh"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div><div class="tch-pills">${[["gk1","Giữa học kì I"],["hk1","Cuối học kì I"],["gk2","Giữa học kì II"],["hk2","Cuối học kì II"]].map(([k,t])=>`<button type="button" class="pill" data-tt="${k}" aria-pressed="${TCH.type===k}">${t}</button>`).join("")}</div>${isSem(TCH.type)?`<small class="note">Phạm vi kiến thức theo tiến độ CT GDPT 2018 (đã tự tích chương bên dưới, có thể sửa). Cấu trúc: ${(()=>{const S=semSpec(TCH.g);return `${S.mc} câu trắc nghiệm × ${vnum(S.mcp)} đ + ${S.n-S.mc} câu tự luận, tổng 10 điểm, ${S.min} phút`;})()}${TCH.type==="hk2"?"; cuối kì II có ôn lại một phần kiến thức học kì I":""}.</small>`:""}</div></div>
   <div class="tch-row"><span class="tch-l">Số câu · thời gian</span><div class="tch-inl"><label><input type="number" id="tchN" min="3" max="50" value="${TCH.n}"> câu</label><label><input type="number" id="tchMin" min="5" max="180" value="${TCH.min}"> phút</label></div></div>
   <div class="tch-row"><span class="tch-l">Hình thức</span><div class="tch-pills">${[["mix","Trắc nghiệm + điền đáp số"],["mc","Chỉ trắc nghiệm"],["fill","Chỉ điền đáp số"]].map(([k,t])=>`<button type="button" class="pill" data-tm="${k}" aria-pressed="${TCH.mode===k}">${t}</button>`).join("")}</div></div>
   <div class="tch-row"><span class="tch-l">Chương / dạng bài <small>${nPool} câu trong kho</small></span><div class="tch-chs">${chs.map(c=>`<label><input type="checkbox" data-tc="${c.replace(/"/g,"&quot;")}" ${TCH.chs.includes(c)?"checked":""}> ${c}</label>`).join("")}<label><input type="checkbox" id="tchHsg" ${TCH.hsg?"checked":""}> Nâng cao – HSG</label><span class="tch-sa"><button type="button" class="linkbtn" id="tchAll">Chọn hết</button> · <button type="button" class="linkbtn" id="tchNone">Bỏ hết</button></span></div></div>
+  <div class="tch-row"><span class="tch-l">Câu hỏi tự soạn <small id="tchOwnCnt"></small></span><div class="stack" style="gap:8px"><div class="tch-pills">${[["off","Không dùng"],["add","Thêm vào đề, phần còn lại lấy từ kho"],["only","Chỉ dùng câu tự soạn"]].map(([k,t])=>`<button type="button" class="pill" data-to="${k}" aria-pressed="${TCH.ownMode===k}">${t}</button>`).join("")}</div>
+   ${TCH.ownMode!=="off"?`<textarea id="tchOwn" class="tch-own" rows="10" spellcheck="false" placeholder="Câu 1. Nội dung câu hỏi&#10;A. ...   B. ...   C. ...   D. ...&#10;Đáp án: B&#10;Lời giải: ... (không bắt buộc)&#10;&#10;Câu 2. Câu tự luận (không có A, B, C, D)&#10;Đáp án: 12">${escT(TCH.own||"")}</textarea>
+   <small class="note">Gõ hoặc dán từ Word: mỗi câu bắt đầu bằng <b>Câu 1.</b>, <b>Câu 2.</b>…; phương án <b>A. B. C. D.</b> (cùng dòng hoặc mỗi dòng một phương án); dòng <b>Đáp án: B</b> (hoặc thêm dấu * trước phương án đúng); dòng <b>Lời giải:</b> tùy chọn. Câu không có phương án được tính là câu tự luận. Lũy thừa gõ x^2 → x². <button type="button" class="linkbtn" id="tchOwnEx">Chèn ví dụ</button></small><div id="tchOwnMsg" class="note tch-ownmsg"></div>`:""}</div></div>
   <div class="tch-row"><span class="tch-l">Số mã đề</span><div class="tch-pills">${[1,2,3,4].map(v=>`<button type="button" class="xg${TCH.ver===v?" on":""}" data-tv="${v}">${v}</button>`).join("")}<small class="note">Các mã đảo thứ tự câu và đáp án</small></div></div>
   <div class="tch-grid"><label>Tên trường<input id="tchSchool" value="${(TCH.school||"").replace(/"/g,"&quot;")}" placeholder="VD: TRƯỜNG THCS ĐÔNG THỌ"></label><label>Tiêu đề đề<input id="tchTitle" value="${(TCH.title||"").replace(/"/g,"&quot;")}" placeholder="Để trống: ĐỀ KIỂM TRA 15 PHÚT – MÔN TOÁN ${TCH.g}"></label><label>Năm học<input id="tchYear" value="${(TCH.year||"").replace(/"/g,"&quot;")}" placeholder="2026–2027"></label></div>
   <div class="tch-row"><span class="tch-l">Kèm theo</span><div class="tch-inl"><label><input type="checkbox" id="tchKey" ${TCH.key?"checked":""}> Đáp án</label><label><input type="checkbox" id="tchSol" ${TCH.sol?"checked":""}> Lời giải</label></div></div>
   <div class="row"><button type="button" class="btn primary" id="tchGo">${TCH.paper?"Tạo đề khác":"Tạo đề"}</button>${TCH.paper?`<button type="button" class="btn" id="tchDoc">⬇ Tải Word (.docx)</button><button type="button" class="btn" id="tchPdf">🖨 In / Lưu PDF</button>`:""}<span class="note" id="tchMsg"></span></div>
  </div><div id="tchPrev"></div>`;
- const sync=()=>{TCH.n=Math.max(3,Math.min(50,+$("tchN").value||10));TCH.min=Math.max(5,Math.min(180,+$("tchMin").value||15));TCH.school=$("tchSchool").value.trim();TCH.title=$("tchTitle").value.trim();TCH.year=$("tchYear").value.trim();TCH.key=$("tchKey").checked;TCH.sol=$("tchSol").checked;TCH.hsg=$("tchHsg").checked;tchSave();};
- box.querySelectorAll("[data-tg]").forEach(b=>b.onclick=()=>{sync();TCH.g=+b.dataset.tg;TCH.chs=null;TCH.paper=null;tchSave();renderTeacher();});
- box.querySelectorAll("[data-tt]").forEach(b=>b.onclick=()=>{sync();TCH.type=b.dataset.tt;if(TCH.type==="15"){TCH.n=10;TCH.min=15;}if(TCH.type==="45"){TCH.n=20;TCH.min=45;}tchSave();renderTeacher();});
+ const sync=()=>{if($("tchOwn"))TCH.own=$("tchOwn").value;TCH.n=Math.max(3,Math.min(50,+$("tchN").value||10));TCH.min=Math.max(5,Math.min(180,+$("tchMin").value||15));TCH.school=$("tchSchool").value.trim();TCH.title=$("tchTitle").value.trim();TCH.year=$("tchYear").value.trim();TCH.key=$("tchKey").checked;TCH.sol=$("tchSol").checked;TCH.hsg=$("tchHsg").checked;tchSave();};
+ box.querySelectorAll("[data-tg]").forEach(b=>b.onclick=()=>{sync();TCH.g=+b.dataset.tg;TCH.chs=null;TCH.paper=null;if(isSem(TCH.type)){const S=semSpec(TCH.g),all=tchChs(TCH.g),T=(TSEM[TCH.g]||{})[TCH.type]||all;TCH.n=S.n;TCH.min=S.min;TCH.chs=all.filter(c=>T.includes(c));}tchSave();renderTeacher();});
+ box.querySelectorAll("[data-tt]").forEach(b=>b.onclick=()=>{sync();TCH.type=b.dataset.tt;if(TCH.type==="15"){TCH.n=10;TCH.min=15;}if(TCH.type==="45"){TCH.n=20;TCH.min=45;}
+  if(isSem(TCH.type)){const S=semSpec(TCH.g),T=(TSEM[TCH.g]||{})[TCH.type]||chs;TCH.n=S.n;TCH.min=S.min;TCH.mode="mix";TCH.chs=chs.filter(c=>T.includes(c));if(!TCH.chs.length)TCH.chs=chs.slice();}TCH.paper=null;tchSave();renderTeacher();});
+ box.querySelectorAll("[data-to]").forEach(b=>b.onclick=()=>{sync();TCH.ownMode=b.dataset.to;tchSave();renderTeacher();});
+ const ownInfo=()=>{const R=tchParse(TCH.own),c=$("tchOwnCnt"),m=$("tchOwnMsg");if(c)c.textContent=TCH.ownMode==="off"?"":`${R.items.length} câu hợp lệ (${R.items.filter(q=>!q.f).length} trắc nghiệm, ${R.items.filter(q=>q.f).length} tự luận)`;if(m)m.innerHTML=R.errs.length?R.errs.map(escT).join("<br>"):(R.items.length?"✓ Đã đọc được tất cả câu.":"");};
+ if($("tchOwn")){let tO;$("tchOwn").oninput=()=>{TCH.own=$("tchOwn").value;clearTimeout(tO);tO=setTimeout(()=>{tchSave();ownInfo();},250);};$("tchOwnEx").onclick=()=>{const e=$("tchOwn");e.value=(e.value.trim()?e.value.trim()+"\n\n":"")+OWN_EX;TCH.own=e.value;tchSave();ownInfo();e.focus();};}
+ ownInfo();
  box.querySelectorAll("[data-tm]").forEach(b=>b.onclick=()=>{sync();TCH.mode=b.dataset.tm;tchSave();renderTeacher();});
  box.querySelectorAll("[data-tv]").forEach(b=>b.onclick=()=>{sync();TCH.ver=+b.dataset.tv;if(TCH.paper)TCH.paper.VS=tchVersions(TCH.paper.P);tchSave();renderTeacher();});
  box.querySelectorAll("[data-tc]").forEach(c=>c.onchange=()=>{sync();const v=c.dataset.tc;TCH.chs=c.checked?[...new Set([...TCH.chs,v])]:TCH.chs.filter(x=>x!==v);tchSave();renderTeacher();});
  $("tchHsg").onchange=()=>{sync();renderTeacher();};$("tchAll").onclick=()=>{sync();TCH.chs=chs.slice();renderTeacher();};$("tchNone").onclick=()=>{sync();TCH.chs=[];renderTeacher();};
  ["tchN","tchMin"].forEach(id=>$(id).onchange=()=>{sync();TCH.type="c";renderTeacher();});["tchSchool","tchTitle","tchYear"].forEach(id=>$(id).oninput=()=>{sync();if(TCH.paper)drawPrev();});["tchKey","tchSol"].forEach(id=>$(id).onchange=()=>{sync();if(TCH.paper)drawPrev();});
- $("tchGo").onclick=()=>{sync();const P=tchBuild(Math.floor(Math.random()*1e9));if(P.items.length<Math.min(3,TCH.n)){$("tchMsg").textContent="Kho chưa đủ câu cho lựa chọn này – hãy chọn thêm chương.";return;}
+ $("tchGo").onclick=()=>{sync();const P=tchBuild(Math.floor(Math.random()*1e9));if(TCH.ownMode==="only"&&!P.items.length){$("tchMsg").textContent="Chưa có câu tự soạn hợp lệ – hãy gõ câu hỏi theo mẫu.";return;}if(TCH.ownMode!=="only"&&P.items.length<Math.min(3,TCH.n)){$("tchMsg").textContent="Kho chưa đủ câu cho lựa chọn này – hãy chọn thêm chương.";return;}
   TCH.paper={P,VS:tchVersions(P)};window.gt&&gt("teacher_make",{grade:TCH.g,n:P.items.length});renderTeacher();setTimeout(()=>{const e=$("tchPrev");if(e)e.scrollIntoView({behavior:"smooth",block:"start"});},50);};
  if($("tchDoc"))$("tchDoc").onclick=async()=>{const b=$("tchDoc");b.disabled=true;b.textContent="Đang tạo file…";try{tchDownload(await tchDocx(TCH.paper.VS,TCH.paper.P),tchFile()+".docx");window.gt&&gt("teacher_docx",{grade:TCH.g});}catch(e){$("tchMsg").textContent="Chưa tạo được file Word, thử lại giúp mình.";}b.disabled=false;b.textContent="⬇ Tải Word (.docx)";};
  if($("tchPdf"))$("tchPdf").onclick=()=>{tchPrint(TCH.paper.VS,TCH.paper.P);window.gt&&gt("teacher_pdf",{grade:TCH.g});};
  function drawPrev(){const pv=$("tchPrev");if(!pv||!TCH.paper)return;const {P,VS}=TCH.paper;
-  pv.innerHTML=`<div class="tch-sum note">Đề gồm ${P.items.length} câu (${P.nMC} trắc nghiệm, ${P.nF} điền đáp số)${P.items.length<TCH.n?` – kho chỉ đủ ${P.items.length} câu cho các chương đã chọn`:""}. ${VS.length>1?`Có ${VS.length} mã đề: ${VS.map(v=>v.code).join(", ")}. Xem trước mã ${VS[0].code}.`:""}</div><div class="tch-paper"><div class="tp">${tchPaperHTML(VS[0],P)}</div>${TCH.key?`<div class="tp tch-keyp">${tchKeyHTML(VS)}</div>`:""}</div>`;}
+  pv.innerHTML=`<div class="tch-sum note">Đề gồm ${P.items.length} câu (${P.nMC} trắc nghiệm, ${P.nF} tự luận/điền đáp số${P.own?`, trong đó ${P.own} câu tự soạn`:""})${P.items.length<TCH.n&&TCH.ownMode!=="only"?` – kho chỉ đủ ${P.items.length} câu cho các chương đã chọn`:""}. ${VS.length>1?`Có ${VS.length} mã đề: ${VS.map(v=>v.code).join(", ")}. Xem trước mã ${VS[0].code}.`:""}</div><div class="tch-paper"><div class="tp">${tchPaperHTML(VS[0],P)}</div>${TCH.key?`<div class="tp tch-keyp">${tchKeyHTML(VS)}</div>`:""}</div>`;}
  drawPrev();}
 addEventListener("hashchange",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,30);});
 addEventListener("load",()=>{if(location.hash==="#giao-vien")setTimeout(renderTeacher,200);});
