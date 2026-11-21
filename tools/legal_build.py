@@ -11,9 +11,9 @@ main{padding:28px 0 40px}h1{font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.2;m
 h2{font-size:1.15rem;margin:26px 0 8px}h2:first-child{margin-top:0}ul{padding-left:22px}li{margin:4px 0}
 .toc{columns:2;column-gap:28px;margin:0 0 4px;padding-left:20px}@media(max-width:600px){.toc{columns:1}.card{padding:18px}}
 footer{border-top:1px solid #e7dcc7;padding:18px 0 28px;color:#6f6758;font-size:.92rem}footer a{margin-right:14px}.own{margin:8px 0 4px;line-height:1.6}'''
-OWNER='''<p class="own">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: P1803, CT2B Nam Cường, Phường Nghĩa Đô, TP Hà Nội · Hotline: <a href="tel:0388130130">0388 130 130</a>'''+(f' · Email: <a href="mailto:{EMAIL}">{EMAIL}</a>' if EMAIL else '')+'''</p>'''
+OWNER='''<p class="own">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Đông Thọ, Thành Phố Thanh Hóa · Hotline: <a href="tel:0388130130">0388 130 130</a>'''+(f' · Email: <a href="mailto:{EMAIL}">{EMAIL}</a>' if EMAIL else '')+'''</p>'''
 LINKS='<a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a>'
-CONTACT='''<ul><li>Chủ sở hữu: Lê Anh Tuấn – Mã số thuế: 038088003952</li><li>Địa chỉ: P1803, CT2B Nam Cường, Phường Nghĩa Đô, TP Hà Nội</li><li>Website: <a href="https://gioitoan.com.vn">gioitoan.com.vn</a></li>'''+(f'<li>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></li>' if EMAIL else '')+'''<li>Hotline: <a href="tel:0388130130">0388 130 130</a></li></ul>'''
+CONTACT='''<ul><li>Chủ sở hữu: Lê Anh Tuấn – Mã số thuế: 038088003952</li><li>Địa chỉ: 02 Thành Công, Đông Thọ, Thành Phố Thanh Hóa</li><li>Website: <a href="https://gioitoan.com.vn">gioitoan.com.vn</a></li>'''+(f'<li>Email: <a href="mailto:{EMAIL}">{EMAIL}</a></li>' if EMAIL else '')+'''<li>Hotline: <a href="tel:0388130130">0388 130 130</a></li></ul>'''
 def page(title,desc,sections,path,eff="17/11/2026"):
     toc=''.join(f'<li><a href="#m{i+1}">{html.escape(h)}</a></li>' for i,(h,_) in enumerate(sections))
     body=''.join(f'<h2 id="m{i+1}">{i+1}. {html.escape(h)}</h2>{c}' for i,(h,c) in enumerate(sections))

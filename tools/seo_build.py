@@ -129,7 +129,7 @@ def page(slug, title, h1, desc, lead, body, hsh, kw):
 <a class="cta" href="/#{hsh}">Làm bài ngay – miễn phí →</a>{body}
 <div class="card"><h2>Vì sao luyện trên Giỏi Toán</h2>{FEAT}</div>
 <div class="card"><h2>Xem thêm</h2><div class="more">{others}<a href="/#hot">🔥 Đề thi nóng hổi</a></div></div></main>
-<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: P1803, CT2B Nam Cường, Phường Nghĩa Đô, TP Hà Nội · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
+<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Đông Thọ, Thành Phố Thanh Hóa · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
 """
 for p in PAGES:
     os.makedirs(os.path.join(ROOT, p[0]), exist_ok=True)
