@@ -35,14 +35,29 @@ INTL=[("AMC8","amc8",40,25,"25 câu · 40 phút",[["25 câu trắc nghiệm A–
  ("HKIMO","flat4",90,100,"25 câu · 90 phút",[["25 câu điền đáp số · 4 điểm/câu",25]],0,25,4),
  ("IMSO","flat1",60,25,"25 câu · 60 phút",[["Short Answer · 25 câu (1 điểm/câu)",25]],0,25,4),
  ("AIMO","flat5",90,150,"30 câu · 150 điểm",[["30 câu điền đáp số · 5 điểm/câu",30]],0,30,4)]
+# Đề quốc tế theo cấp lớp: mỗi lần chạy, mỗi kỳ thi lấy một cấp lớp theo vòng (lớp 1–2, 3–4, 5–6, 7–9, 10–12)
+from intl_lv import BANDS,mcs
+LVB={"SASMO":"ABCDE","TIMO":"ABCD","HKIMO":"ABCD","AIMO":"ABCDE","AMC10":"E","AMC12":"E"}
+INTL=INTL+[("AMC10","flat6",75,150,"25 câu · 75 phút",[["25 câu trắc nghiệm A–E · đúng 6 điểm",25]],25,0,5),("AMC12","flat6",75,150,"25 câu · 75 phút",[["25 câu trắc nghiệm A–E · đúng 6 điểm",25]],25,0,5)]
+GNM={"AMC8":"AMC 8","AMC10":"AMC 10","AMC12":"AMC 12"}
 for j,(g,rule,mn,mx,tag,secs,nmc,nop,mo) in enumerate(INTL):
-    def mk(sd,trial,nmc=nmc,nop=nop,mo=mo):
-        qs=intl_build(gens,mc,sd+j,nmc,nop,mo,trial);return qs,(0 if len(qs)==nmc+nop else 1)
+    bs=LVB.get(g,"C");band=bs[N%len(bs)];fn,lab,gr=BANDS[band]
+    if g=="AMC10": gr,lab=[9,10],"lớp 9–10"
+    if g=="AMC12": gr,lab=[11,12],"lớp 11–12"
+    if g=="SASMO" and band=="E": gr,lab=[10],"lớp 10"
+    if g=="AMC8": gr,lab=[7,8],"lớp 7–8"
+    if g=="IMSO": gr,lab=[4,5,6],"lớp 4–6"
+    def mk(sd,trial,nmc=nmc,nop=nop,mo=mo,fn=fn):
+        qs=intl_build(fn,mcs,sd+j,nmc,nop,mo,trial);return qs,(0 if len(qs)==nmc+nop else 1)
     qs=try_make(mk)
     if qs is None: skipped.append(g);continue
-    n=nxt=cnt[g]=cnt.get(g,0)+1;nm=f"{'AMC 8' if g=='AMC8' else g} · Đề {n}";key=f"{g}_{n}"
-    full={"name":nm,"title":"Đề mô phỏng "+nm.replace(" ·"," –"),"min":mn,"rule":rule,"max":mx,"tag":tag,"secs":secs,"note":"Đề mô phỏng do Giỏi Toán tự sinh theo đúng thể thức kỳ thi; đáp án được máy tính kiểm tra; không câu nào trùng với đề đã có.","qs":qs}
-    add({"cat":"x","g":g,"key":key,"name":nm,"min":mn,"rule":rule,"max":mx,"tag":tag,"title":full["title"]},full)
+    if band=="C" and g in ("AMC8","IMSO"):
+        n=cnt[g]=cnt.get(g,0)+1;nm=f"{GNM.get(g,g)} · Đề {n}";key=f"{g}_{n}"
+    else:
+        pre=f"{g}_{band}";n=1+sum(1 for b in M for it in b["items"] if str(it.get("key","")).startswith(pre) and it.get("key","")[len(pre):].isdigit())+sum(1 for it in items if str(it.get("key","")).startswith(pre))
+        nm=f"{GNM.get(g,g)} {lab} · Đề {n}";key=f"{pre}{n}"
+    full={"name":nm,"title":"Đề mô phỏng "+nm.replace(" ·"," –"),"min":mn,"rule":rule,"max":mx,"tag":f"{lab[0].upper()+lab[1:]} · {tag}","secs":secs,"note":"Đề mô phỏng do Giỏi Toán tự sinh theo đúng thể thức kỳ thi và cấp lớp; đáp án được máy tính kiểm tra; không câu nào trùng với đề đã có.","qs":qs,"gr":gr}
+    add({"cat":"x","g":g,"key":key,"name":nm,"min":mn,"rule":rule,"max":mx,"tag":full["tag"],"title":full["title"],"gr":gr},full)
 for j in range(5):
     newf=j<4
     d=try_make((lambda sd,tr:thpt_new(pn,sd+100+j,tr)) if newf else (lambda sd,tr:thpt_old(po,sd+100+j,tr)))

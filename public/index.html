@@ -614,6 +614,8 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 @media(max-width:760px){.qmap{right:10px;bottom:10px;width:min(300px,calc(100vw - 20px))}.qmap.min{width:auto}.qm-grid{grid-template-columns:repeat(7,1fr)}}
 @media print{.qmap{display:none}}
 .qm-t{font-family:var(--mono);font-weight:800;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:99px;font-size:.88rem;white-space:nowrap}.qm-t:empty{display:none}.qm-t.warn{background:var(--amber);color:#3b2600}.qm-t.over{background:#fff;color:var(--red);animation:qmb 1s steps(2) infinite}@keyframes qmb{50%{opacity:.45}}.qmap .qm-head{gap:6px}.qmap{width:268px}
+.xgrades{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}.xg-l{font-weight:800;font-size:.85rem;color:var(--muted);margin-right:2px}.xg{font:inherit;font-weight:700;font-size:.88rem;min-width:40px;padding:5px 10px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;gap:4px;align-items:baseline;justify-content:center}.xg small{font-size:.7rem;color:var(--muted);font-weight:600}.xg:hover{border-color:var(--red)}.xg.on{background:var(--red);border-color:var(--red);color:#fff}.xg.on small{color:#ffd9d9}.xg:disabled{opacity:.4;cursor:not-allowed}.xg:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+@media(max-width:560px){.xgrades{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.xgrades::-webkit-scrollbar{display:none}.xg{flex:none}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -867,10 +869,11 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
   <!-- ĐỀ MÔ PHỎNG KỲ THI QUỐC TẾ -->
   <section id="sec-de-quoc-te" class="stack">
     <div><h2>Đề mô phỏng các kỳ thi Toán quốc tế</h2>
-      <p class="lead">Làm thử đề theo đúng thể thức AMC 8, SASMO, TIMO, HKIMO, IMSO, AIMO và IKMC (Kangaroo) (hàng trăm đề, bổ sung tự động): cùng số câu, thời gian, cách chấm điểm và các mảng kiến thức. Đề tiếng Anh, có nút dịch tiếng Việt và lời giải tiếng Việt sau khi nộp.</p></div>
+      <p class="lead">Chọn lớp rồi làm đề theo đúng thể thức AMC 8, AMC 10, AMC 12, SASMO, TIMO, HKIMO, IMSO, AIMO và IKMC (Kangaroo), từ lớp 1 đến lớp 12 (hàng trăm đề, bổ sung tự động): cùng số câu, thời gian, cách chấm điểm và các mảng kiến thức. Đề tiếng Anh, có nút dịch tiếng Việt và lời giải tiếng Việt sau khi nộp.</p></div>
     <div class="win" id="xWin" style="--wc:var(--geo); scroll-margin-top:90px">
       <div class="win-head"><span class="lights"><i></i><i></i><i></i></span>MODE_INTL · MOCK<span class="r">đề mô phỏng</span></div>
       <div class="win-body stack">
+        <div class="xgrades" id="xGrades" role="group" aria-label="Lọc đề theo lớp"></div>
         <div class="pills" id="xModes"></div>
         <h3 id="xTitle"></h3>
         <div class="row"><span class="timer" id="xTimer">--:--</span><label class="tedit" data-k="x" title="Đổi thời gian làm bài">Thời gian <input type="number" min="1" max="240" step="1" inputmode="numeric" aria-label="Số phút làm bài"> phút</label><span style="flex:1"></span>
@@ -1305,8 +1308,8 @@ DATA[5].push({t:"Số học",d:"Chia có dư (điền đáp án)",p:5,f:true,q:"
  s:["Gọi số cần tìm là N. Vì chia đều dư 1 nên N − 1 chia hết cho 2, 3, 4, 5 và 6.","Số nhỏ nhất (khác 0) chia hết cho cả 2, 3, 4, 5, 6 là 60 (60 chia hết cho 4, 5 và 3).","N − 1 = 60, nên N = 61.","Kiểm tra: 61 chia 2, 3, 4, 5, 6 đều dư 1. Đúng."],
  m:"Mẹo: \"chia cho nhiều số đều dư như nhau\" thì bớt phần dư đi để đưa về bài chia hết. Đề nói lớn hơn 1 vì số 1 cũng thỏa mãn."});
 
-const TOPIC_CLASS={"Khoa học":"t-logic","Đại số":"t-num","Hình học":"t-geo","Logic":"t-logic","Số học":"t-num","Tổ hợp":"t-comb"};
-const TOPIC_COLOR={"Khoa học":"var(--logic)","Đại số":"var(--num)","Hình học":"var(--geo)","Logic":"var(--logic)","Số học":"var(--num)","Tổ hợp":"var(--comb)"};
+const TOPIC_CLASS={"Giải tích":"t-num","Lượng giác":"t-geo","Xác suất":"t-comb","Khoa học":"t-logic","Đại số":"t-num","Hình học":"t-geo","Logic":"t-logic","Số học":"t-num","Tổ hợp":"t-comb"};
+const TOPIC_COLOR={"Giải tích":"var(--num)","Lượng giác":"var(--geo)","Xác suất":"var(--comb)","Khoa học":"var(--logic)","Đại số":"var(--num)","Hình học":"var(--geo)","Logic":"var(--logic)","Số học":"var(--num)","Tổ hợp":"var(--comb)"};
 const LEVEL={1:"Pre-Ecolier",2:"Pre-Ecolier",3:"Ecolier",4:"Ecolier",5:"Benjamin"};
 const L=["A","B","C","D","E"];
 const TYPEMAP=[
@@ -1321,7 +1324,7 @@ let answers=store.get("ttd2-answers",{});   // key -> value (index or string)
 let log=store.get("ttd2-log",[]);            // booleans in answer order
 let grade=store.get("ttd2-grade",1), topic="Tất cả", idx=0, view="trang-chu";
 const $=id=>document.getElementById(id);
-const nrm=x=>String(x).trim().replace(/\s/g,"").replace(",",".");
+const nrm=x=>String(x).trim().replace(/\s/g,"").replace(/[−–]/g,"-").replace(",",".");
 const isRight=(q,v)=>{if(!q.f)return v===q.a;const a=nrm(v),b=nrm(q.a);return a===b||(a!==""&&!isNaN(+a)&&+a===+b);};
 function totals(){let done=0,ok=0;for(const g in DATA)DATA[g].forEach((q,i)=>{const v=answers[g+"-"+i];if(v!==undefined){done++;if(isRight(q,v))ok++;}});return{done,ok};}
 function streaks(){let cur=0,best=0,run=0;log.forEach(b=>{run=b?run+1:0;best=Math.max(best,run);});for(let i=log.length-1;i>=0&&log[i];i--)cur++;return{cur,best};}
@@ -1535,7 +1538,7 @@ function buildQ(q,num,opt){ // opt:{v, reveal, onAnswer, hint, idp}
   const vp=document.createElement("p");vp.className="hint";vp.hidden=true;vp.textContent=q.vi;vb.onclick=()=>{vp.hidden=!vp.hidden;vb.textContent=vp.hidden?"Dịch tiếng Việt":"Ẩn bản dịch";};
   c.insertBefore(vp,c.children[2]);c.insertBefore(vb,vp);}
  if(q.f){const w=document.createElement("div");w.className="fill";const iid=opt.idp+"-in";
-  w.innerHTML=`<label for="${iid}">Điền đáp án (chỉ ghi số)</label><input id="${iid}" inputmode="numeric" autocomplete="off" value="${opt.v??""}">`;
+  w.innerHTML=`<label for="${iid}">Điền đáp án (chỉ ghi số)</label><input id="${iid}" inputmode="${/-/.test(String(q.a))||/Đại số|Giải tích|Lượng giác|Xác suất/.test(q.t||"")?"text":"numeric"}" autocomplete="off" value="${opt.v??""}">`;
   const inp=w.querySelector("input");
   if(opt.reveal){inp.disabled=true;if(opt.v!==undefined&&opt.v!=="")inp.classList.add(isRight(q,opt.v)?"ok":"no");}
   else if(opt.live){inp.oninput=()=>opt.onAnswer(inp.value);}
@@ -2003,12 +2006,21 @@ resetHn();$("hBank").textContent=HN_MC.length+HN_FILL.length+HN_SCI.length;
 const XP={"AMC8":{"name":"AMC 8","title":"Đề mô phỏng AMC 8","min":40,"rule":"amc8","max":25,"tag":"Lớp 8 trở xuống · 25 câu · 40 phút","note":"Theo thể thức AMC 8 của Hiệp hội Toán học Hoa Kỳ (MAA): 25 câu trắc nghiệm 5 đáp án, 40 phút, độ khó tăng dần; không bị trừ điểm khi sai.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_AMC8"},"SASMO":{"name":"SASMO","title":"Đề mô phỏng SASMO – Primary 5 (lớp 5)","min":90,"rule":"sasmo","max":85,"tag":"Lớp 5 · 25 câu · 90 phút","note":"Theo thể thức SASMO: 25 câu trong 90 phút; Section A trắc nghiệm có trừ điểm khi sai, Section B câu hỏi không quen thuộc. Mỗi thí sinh được cộng sẵn 15 điểm, tối đa 85 điểm.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_SASMO"},"TIMO":{"name":"TIMO","title":"Đề mô phỏng TIMO – vòng Heat lớp 5","min":90,"rule":"flat4","max":100,"tag":"Lớp 5 · 25 câu · 90 phút","note":"Theo thể thức vòng Heat TIMO: 25 câu, 5 mảng kiến thức, mỗi mảng 5 câu, mỗi câu 4 điểm, tổng 100 điểm, làm trong 90 phút.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_TIMO"},"HKIMO":{"name":"HKIMO","title":"Đề mô phỏng HKIMO – vòng Heat lớp 3–4","min":90,"rule":"flat4","max":100,"tag":"Lớp 3–4 · 25 câu · 90 phút","note":"Theo thể thức vòng Heat HKIMO: 25 câu điền đáp số, 5 mảng kiến thức, mỗi câu 4 điểm, tổng 100 điểm, 90 phút. (Vòng loại tại Việt Nam có thể là trắc nghiệm song ngữ 60 phút.)","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_HKIMO"}};
 let xMode="AMC8",xs={running:false,done:false,ans:{},left:0,tid:null};
 function resetX(){clearInterval(xs.tid);xs={running:false,done:false,ans:{},left:tMin("x",XP[xMode].min)*60,tid:null};}
+let xGr=0;try{xGr=+(localStorage.getItem("xGr")||0)||0}catch(e){}
+function confirmLeaveX(){return true;}
+function xGrOf(k){const P=XP[k]||{};if(P.gr)return P.gr;const g=k.split("_")[0];
+ if(g==="AMC8")return[7,8];if(g==="IMSO")return[4,5,6];if(k==="HKIMO"||k==="HKIMO_2"||k==="HKIMO_3")return[3,4];if(/^(SASMO|TIMO)(_[234])?$/.test(k))return[5];return[5,6];}
+function xGrLab(k){const g=xGrOf(k);return "lớp "+(g.length>1?g[0]+"–"+g[g.length-1]:g[0]);}
 function xScore(P){let sc=P.rule==="sasmo"?15:P.rule==="kang"?30:0,r=0,w=0,b=0;P.qs.forEach((q,k)=>{const a=xs.ans[k];if(a===undefined||a===""){b++;return;}const ok=isRight(q,a);if(ok)r++;else w++;
   if(P.rule==="kang")sc+=ok?q.p:-q.p/4;else if(P.rule==="amc8")sc+=ok?1:0;else if(/^flat/.test(P.rule))sc+=ok?+P.rule.slice(4):0;else sc+=k<15?(ok?2:-1):(ok?4:0);});return{sc,r,w,b};}
 function renderX(){const P=XP[xMode],t=$("xTimer");t.textContent=fmt(xs.left);t.classList.toggle("low",xs.running&&xs.left<=120);
- const mb=$("xModes"),grp=k=>k.split("_")[0],GR=[...new Set(XO.map(grp))],GN={AMC8:"AMC 8",IKMC:"IKMC (Kangaroo)"};
- mb.innerHTML=GR.map(g=>`<button type="button" class="pill" data-g="${g}" aria-pressed="${grp(xMode)===g}">${GN[g]||g}</button>`).join("")+`<select class="yrsel on" id="xSel" aria-label="Chọn đề">${XO.filter(k=>grp(k)===grp(xMode)).map(k=>`<option value="${k}" ${k===xMode?"selected":""}>${XP[k].name} · ${XP[k].min} phút</option>`).join("")}</select>`;
- mb.querySelectorAll(".pill").forEach(b=>b.onclick=()=>{xMode=XO.find(k=>grp(k)===b.dataset.g);delete tOv.x;resetX();renderX();$("xStart").onclick();});$("xSel").onchange=e=>{xMode=e.target.value;delete tOv.x;resetX();renderX();$("xStart").onclick();};
+ const mb=$("xModes"),grp=k=>k.split("_")[0],GN={AMC8:"AMC 8",AMC10:"AMC 10",AMC12:"AMC 12",IKMC:"IKMC (Kangaroo)"};
+ const okG=k=>!xGr||xGrOf(k).includes(xGr);if(!okG(xMode)){const alt=XO.find(k=>grp(k)===grp(xMode)&&okG(k))||XO.find(okG);if(alt){xMode=alt;resetX();}}
+ const GR=[...new Set(XO.filter(okG).map(grp))];
+ const gb=$("xGrades");if(gb){gb.innerHTML=`<span class="xg-l">Lớp</span>`+[0,1,2,3,4,5,6,7,8,9,10,11,12].map(g=>{const n=g?XO.filter(k=>xGrOf(k).includes(g)).length:XO.length;return `<button type="button" class="xg${xGr===g?" on":""}" data-gr="${g}" aria-pressed="${xGr===g}" ${n?"":"disabled"}>${g||"Tất cả"}<small>${n}</small></button>`;}).join("");
+  gb.querySelectorAll("[data-gr]").forEach(b=>b.onclick=()=>{if(xs.running&&!confirmLeaveX())return;xGr=+b.dataset.gr;try{localStorage.setItem("xGr",xGr)}catch(e){}renderX();});}
+ mb.innerHTML=GR.map(g=>`<button type="button" class="pill" data-g="${g}" aria-pressed="${grp(xMode)===g}">${GN[g]||g}</button>`).join("")+`<select class="yrsel on" id="xSel" aria-label="Chọn đề">${XO.filter(k=>grp(k)===grp(xMode)&&okG(k)).map(k=>`<option value="${k}" ${k===xMode?"selected":""}>${XP[k].name}${/lớp/i.test(XP[k].name)?"":" ("+xGrLab(k)+")"} · ${XP[k].min} phút</option>`).join("")}</select>`;
+ mb.querySelectorAll(".pill").forEach(b=>b.onclick=()=>{xMode=XO.find(k=>grp(k)===b.dataset.g&&okG(k));delete tOv.x;resetX();renderX();$("xStart").onclick();});$("xSel").onchange=e=>{xMode=e.target.value;delete tOv.x;resetX();renderX();$("xStart").onclick();};
  $("xTitle").textContent=P.title;$("xStart").hidden=xs.running||xs.done;$("xSubmit").hidden=!xs.running;$("xAgain").hidden=!xs.done;
  const box=$("xList");box.innerHTML="";
  if(!xs.running&&!xs.done){box.innerHTML=`<div class="card stack"><p class="note"><b>${P.tag}.</b> ${P.note}</p><p class="note" style="margin:0">Câu hỏi do Giỏi Toán tự soạn theo dạng đề của kỳ thi, không phải đề gốc. Xem thông tin kỳ thi tại mục <a href="#ky-thi">Các kỳ thi</a>.</p></div>`;$("xResult").hidden=true;return;}
@@ -2028,7 +2040,7 @@ Object.assign(XP,{"IMSO_4":{"name":"IMSO · Đề 4","title":"Đề mô phỏng 
 Object.assign(XP,{"IKMC_1":{"name":"IKMC lớp 5 · Đề 1","title":"Đề mô phỏng IKMC (Kangaroo) lớp 5–6 – Đề 1","min":75,"rule":"kang","max":150,"tag":"30 câu · 75 phút · 5 lựa chọn","note":"Mô phỏng thể thức IKMC cấp Benjamin (lớp 5–6): 30 câu trắc nghiệm 5 lựa chọn, 75 phút; cộng sẵn 30 điểm, câu sai bị trừ 1/4 số điểm của câu, bỏ trống không trừ; tối đa 150 điểm. Mỗi câu là bản mô phỏng (số liệu mới) của một dạng bài IKMC các năm, theo bộ “37 chủ đề IKMC lớp 5”.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IKMC_1"},"IKMC_2":{"name":"IKMC lớp 5 · Đề 2","title":"Đề mô phỏng IKMC (Kangaroo) lớp 5–6 – Đề 2","min":75,"rule":"kang","max":150,"tag":"30 câu · 75 phút · 5 lựa chọn","note":"Mô phỏng thể thức IKMC cấp Benjamin (lớp 5–6): 30 câu trắc nghiệm 5 lựa chọn, 75 phút; cộng sẵn 30 điểm, câu sai bị trừ 1/4 số điểm của câu, bỏ trống không trừ; tối đa 150 điểm. Mỗi câu là bản mô phỏng (số liệu mới) của một dạng bài IKMC các năm, theo bộ “37 chủ đề IKMC lớp 5”.","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IKMC_2"}});
 Object.assign(XP,{"IKMC_3":{"name":"IKMC lớp 5 · Đề 3","title":"Đề mô phỏng IKMC (Kangaroo) lớp 5–6 – Đề 3","min":75,"rule":"kang","max":150,"tag":"30 câu · 75 phút · 5 lựa chọn","note":"Mô phỏng thể thức IKMC cấp Benjamin (lớp 5–6): 30 câu trắc nghiệm 5 lựa chọn, 75 phút; cộng sẵn 30 điểm, câu sai bị trừ 1/4 số điểm của câu, bỏ trống không trừ; tối đa 150 điểm. Mỗi câu là bản mô phỏng (số liệu mới) của một dạng bài IKMC các năm, theo bộ “37 chủ đề IKMC lớp 5” (đề này có đủ 5 chủ đề còn lại: khẳng định chắc chắn đúng, cực trị với các số khác nhau, diện tích, hình chữ nhật, hình lập phương – xúc xắc).","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IKMC_3"},"IKMC_4":{"name":"IKMC lớp 5 · Đề 4","title":"Đề mô phỏng IKMC (Kangaroo) lớp 5–6 – Đề 4","min":75,"rule":"kang","max":150,"tag":"30 câu · 75 phút · 5 lựa chọn","note":"Mô phỏng thể thức IKMC cấp Benjamin (lớp 5–6): 30 câu trắc nghiệm 5 lựa chọn, 75 phút; cộng sẵn 30 điểm, câu sai bị trừ 1/4 số điểm của câu, bỏ trống không trừ; tối đa 150 điểm. Mỗi câu là bản mô phỏng (số liệu mới) của một dạng bài IKMC các năm, theo bộ “37 chủ đề IKMC lớp 5” (đề này có đủ 5 chủ đề còn lại: khẳng định chắc chắn đúng, cực trị với các số khác nhau, diện tích, hình chữ nhật, hình lập phương – xúc xắc).","secs":[],"qs":[],"lazy":"data/x.js","id":"S_x_IKMC_4"}});
 const XO=["AMC8","AMC8_2","AMC8_3","AMC8_4","SASMO","SASMO_2","SASMO_3","SASMO_4","TIMO","TIMO_2","TIMO_3","HKIMO","HKIMO_2","HKIMO_3","IMSO","IMSO_2","IMSO_3","IMSO_4","AIMO","AIMO_2","IKMC_1","IKMC_2","IKMC_3","IKMC_4"];
-AUTO_I("x").forEach(it=>{XP[it.key]={name:it.name,title:it.title,min:it.min,rule:it.rule,max:it.max,tag:it.tag,note:"Đề mô phỏng do Giỏi Toán tự sinh theo đúng thể thức kỳ thi; đáp án được máy tính kiểm tra.",secs:[],qs:[],lazy:it.f,id:it.id};let at=-1;XO.forEach((k,x)=>{if(k.split("_")[0]===it.g)at=x;});XO.splice(at+1,0,it.key);});
+AUTO_I("x").forEach(it=>{XP[it.key]={name:it.name,title:it.title,min:it.min,rule:it.rule,max:it.max,tag:it.tag,gr:it.gr,note:"Đề mô phỏng do Giỏi Toán tự sinh theo đúng thể thức kỳ thi; đáp án được máy tính kiểm tra.",secs:[],qs:[],lazy:it.f,id:it.id};let at=-1;XO.forEach((k,x)=>{if(k.split("_")[0]===it.g)at=x;});XO.splice(at<0?XO.length:at+1,0,it.key);});
 resetX();
 document.querySelectorAll(".x-go").forEach(b=>b.onclick=()=>goTo({v:"de-quoc-te",xm:b.dataset.xm}));
 document.querySelectorAll(".ex-jump").forEach(b=>b.onclick=()=>document.getElementById(b.dataset.t).scrollIntoView({behavior:"smooth",block:"start"}));
