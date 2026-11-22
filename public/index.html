@@ -667,6 +667,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .acct-btn .prem,.acct-m .prem{font-weight:900;letter-spacing:.02em}
 .acct-btn .prem{font-size:.78rem;padding:2px 7px}
 @media (max-width:640px){.acct-m .prem{font-size:.7rem!important;padding:2px 6px!important;top:-11px!important;right:-8px!important;border:2px solid #fff!important;box-shadow:0 1px 4px rgba(0,0,0,.2)}}
+.print-ex{margin-left:8px;background:#fff;border:1.5px solid var(--line);font-weight:800}.print-ex:hover{border-color:var(--red);color:var(--red)}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1811,7 +1812,7 @@ const autoFig=(()=>{const N="(\\d+(?:[.,]\\d+)?)",U="\\s*(cm|dm|mm|m|km)?";
   return"";}catch(e){return"";}};})();
 
 function buildQ(q,num,opt){ // opt:{v, reveal, onAnswer, hint, idp}
- const win=document.createElement("article");win.className="win q "+TOPIC_CLASS[q.t];win.style.setProperty("--wc",TOPIC_COLOR[q.t]);
+ const win=document.createElement("article");win.className="win q "+TOPIC_CLASS[q.t];win._q=q;win.style.setProperty("--wc",TOPIC_COLOR[q.t]);
  const slug=q.t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").toUpperCase().replace(/ /g,"_");
  win.innerHTML=`<div class="win-head"><span class="lights"><i></i><i></i><i></i></span>Q_${String(num).padStart(2,"0")} · ${slug}<span class="r">${q.pl||String(q.p).replace(".",",")+" điểm"}</span></div><div class="win-body"></div>`;
  const c=win.querySelector(".win-body");
@@ -2743,6 +2744,50 @@ setInterval(()=>{document.querySelectorAll(".tedit").forEach(l=>{const k=l.datas
  ["click","input","change","keyup"].forEach(t=>document.addEventListener(t,()=>setTimeout(upd,30),true));
  addEventListener("hashchange",()=>setTimeout(upd,120));setInterval(upd,1000);setInterval(tick,250);})();
 
+
+/* ===== In đề thi thử ra PDF (cho học sinh muốn làm trên giấy) ===== */
+(function(){const R=[["m","mList","timer"],["v","vList","vTimer"],["k","kList","kTimer"],["h","hList","hTimer"],["x","xList","xTimer"],["t","tList","tTimer"],["d","dList","dTimer"]];
+ const E=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+ const CSS=`@page{size:A4;margin:0}html,body{margin:0}body{font-family:"Times New Roman",Times,serif;font-size:13.5pt;line-height:1.45;color:#000}
+ .pg{width:100%;border-collapse:collapse}.pg>thead td,.pg>tfoot td{height:14mm}.pg>tbody>tr>td{padding:0 15mm 0 18mm;vertical-align:top}.pg+.pg{break-before:page;page-break-before:always}
+ .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:1.5px solid #000;padding-bottom:6px;margin-bottom:8px}.hd .b{font-weight:700}.hd .r{text-align:right}
+ h1{font-size:15pt;text-align:center;margin:6px 0 2px}.sub{text-align:center;font-style:italic;margin:0 0 6px}.who{margin:6px 0 10px}
+ h3{font-size:13.5pt;margin:12px 0 4px}.stem{margin:8px 0 2px;font-style:italic}.q{margin:7px 0;break-inside:avoid;page-break-inside:avoid}.q p{margin:0}
+ .o{display:grid;grid-template-columns:repeat(4,1fr);gap:2px 14px;margin:3px 0 0 18px}.o.o2{grid-template-columns:repeat(2,1fr)}.o.o1{grid-template-columns:1fr}
+ .fig{text-align:center;margin:4px 0}.fig svg{max-width:230px;height:auto}.fig small{display:none}.ln{margin:3px 0 0 18px;color:#444}
+ .key{border-collapse:collapse;margin:8px auto}.key td,.key th{border:1px solid #000;padding:3px 10px;text-align:center;font-size:12pt}
+ .ft{margin-top:14px;text-align:center;font-size:11pt;color:#555}img{max-width:100%}`;
+ const room=k=>R.find(r=>r[0]===k);
+ function collect(listId){const L=document.getElementById(listId);if(!L)return[];const out=[];let n=0;
+  [...L.children].forEach(el=>{if(el.matches("h3,.part-h"))out.push({h:el.textContent.trim()});else if(el.classList.contains("dh-stem"))out.push({stem:el.innerHTML});
+   else if(el.matches("article.win.q")){n++;const q=el._q,b=el.querySelector(".win-body"),qt=b&&b.querySelector(".qtext"),fig=b&&b.querySelector(".fig svg"),pts=(el.querySelector(".win-head .r")||{}).textContent||"";
+    const opts=[...el.querySelectorAll(".opt")].map(o=>{const c=o.querySelectorAll("span");return c[1]?c[1].innerHTML:o.innerHTML;});
+    out.push({n,q,text:qt?qt.innerHTML:"",fig:fig?fig.outerHTML:"",opts,fill:!!el.querySelector(".fill"),pts:pts.trim()});}});return out;}
+ function html(items,title,info,withKey){const L="ABCDEFGH";let body="",key=[];
+  items.forEach(it=>{if(it.h)body+=`<h3>${E(it.h)}</h3>`;else if(it.stem)body+=`<p class="stem">${it.stem}</p>`;else{
+    const lens=it.opts.map(o=>o.replace(/<[^>]+>/g,"").length),mx=Math.max(0,...lens),cls=mx>34?"o o1":mx>16?"o o2":"o";
+    body+=`<div class="q"><p><b>Câu ${it.n}.</b>${it.pts&&!/ý đúng/.test(it.pts)?` <i>(${E(it.pts)})</i>`:""} ${it.text}</p>${it.fig?`<div class="fig">${it.fig}</div>`:""}${it.opts.length?`<div class="${cls}">${it.opts.map((o,j)=>`<span><b>${L[j]}.</b> ${o}</span>`).join("")}</div>`:""}${it.fill||!it.opts.length?`<p class="ln">Đáp số: ................................................</p>`:""}</div>`;
+    const q=it.q;key.push([it.n,q?(q.f?String(q.a).replace(".",","):(q.o&&q.a!=null?L[q.a]:"—")):"—"]);}});
+  const head=`<div class="hd"><div><span class="b">GIỎI TOÁN</span><br>Luyện toán lớp 1–12</div><div class="r"><span class="b">ĐỀ LUYỆN TẬP</span><br>${E(info)}</div></div><h1>${E(title)}</h1><p class="who">Họ và tên: ........................................................ Lớp: ............ Điểm: ............</p>`;
+  const page1=`<table class="pg"><thead><tr><td></td></tr></thead><tbody><tr><td>${head}${body}<p class="ft">— HẾT —</p></td></tr></tbody><tfoot><tr><td></td></tr></tfoot></table>`;
+  let page2="";if(withKey&&key.length){const cols=Math.min(5,Math.ceil(key.length/10)),rows=Math.ceil(key.length/cols);let t="<table class='key'><tr>"+Array(cols).fill("<th>Câu</th><th>Đáp án</th>").join("")+"</tr>";
+   for(let r=0;r<rows;r++){t+="<tr>";for(let c=0;c<cols;c++){const k=key[c*rows+r];t+=k?`<td>${k[0]}</td><td><b>${E(k[1])}</b></td>`:"<td></td><td></td>";}t+="</tr>";}t+="</table>";
+   page2=`<table class="pg"><thead><tr><td></td></tr></thead><tbody><tr><td><h1>ĐÁP ÁN</h1><p class="sub">${E(title)} – dùng để tự chấm sau khi làm xong</p>${t}<p class="ft">Xem lời giải chi tiết: làm đề trên web gioitoan.com.vn rồi bấm Nộp bài.</p></td></tr></tbody><tfoot><tr><td></td></tr></tfoot></table>`;}
+  return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title> </title><style>${CSS}</style></head><body>${page1}${page2}</body></html>`;}
+ function printDoc(doc){const f=document.createElement("iframe");f.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0";document.body.appendChild(f);
+  const d=f.contentWindow.document;d.open();d.write(doc);d.close();setTimeout(()=>{try{f.contentWindow.focus();f.contentWindow.print();}catch(e){}setTimeout(()=>f.remove(),60000);},450);}
+ async function go(k,btn){const r=room(k),startB=document.getElementById(k+"Start");let list=document.getElementById(r[1]);
+  let had=list&&list.querySelector("article.win.q");let started=false;const t0=btn.textContent;btn.disabled=true;btn.textContent="Đang chuẩn bị…";
+  try{if(!had&&startB&&startB.onclick){await startB.onclick();started=true;await new Promise(z=>setTimeout(z,120));list=document.getElementById(r[1]);}
+   const items=collect(r[1]);if(!items.some(i=>i.n)){btn.textContent=t0;btn.disabled=false;return;}
+   const tm=(document.getElementById(r[2])||{}).textContent||"",mm=tm.match(/^(\d+):/),sec=startB&&startB.closest("section"),
+    tEl=document.getElementById(k+"Title"),xs=k==="x"&&document.getElementById("xSel"),title=(((tEl&&tEl.textContent.trim())||(sec&&(sec.querySelector(".win-title,h2")||{}).textContent)||"Đề thi thử")+(xs&&xs.selectedIndex>=0?" – "+xs.options[xs.selectedIndex].text:"")).replace(/\s+/g," ").trim(),
+    nq=items.filter(i=>i.n).length,info=(mm?`Thời gian: ${+mm[1]} phút · `:"")+nq+" câu";
+   const withKey=!document.getElementById("prxNoKey")||!document.getElementById("prxNoKey").checked;
+   printDoc(html(items,title,info,withKey));window.gt&&gt("exam_print",{room:k,n:nq});}
+  finally{if(started){const a=document.getElementById(k+"Again");if(a&&a.onclick)a.onclick();}btn.textContent=t0;btn.disabled=false;}}
+ R.forEach(([k])=>{const sb=document.getElementById(k+"Start");if(!sb)return;const b=document.createElement("button");b.type="button";b.className="btn print-ex";b.id=k+"Print";b.textContent="🖨 In đề (PDF)";b.title="In đề ra giấy hoặc lưu PDF để làm trên giấy (đáp án ở trang cuối)";b.onclick=()=>go(k,b);sb.insertAdjacentElement("afterend",b);});
+})();
 /* ===== Bảng học tập của học sinh (trang Tài khoản) ===== */
 const HIST=(()=>{const K="gt-hist",W="gt-wrongx";const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
  const get=()=>store.get(K,{days:{},exams:[]}),put=h=>store.set(K,h);
