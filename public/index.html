@@ -650,6 +650,15 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .td-tbl td,.td-tbl th{white-space:nowrap}.td-tbl td:nth-child(2){white-space:normal;min-width:220px}.td-act{display:flex;gap:10px;align-items:center}.btn.sm{padding:5px 12px;font-size:.85rem}
 @media(max-width:760px){.td-split{grid-template-columns:1fr}}
 .tch-dl{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;margin-right:10px}.tch-dl b{font-size:.85rem}.tch-sheet-l{font-weight:800;margin:14px 0 6px}
+.acct-m{display:none}
+@media (max-width:640px){.util .acct-btn{display:none!important}
+ .acct-m:not([hidden]){display:inline-flex;align-items:center;gap:5px;margin-left:auto;margin-right:8px;max-width:46vw;height:44px;padding:0 12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-weight:800;font-size:.92rem;cursor:pointer;flex-shrink:1;min-width:0}
+ .acct-m svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--red);stroke-width:2.2;stroke-linecap:round}
+ .acct-m .am-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+ .acct-m .prem{flex:none;font-size:.62rem;padding:1px 5px}
+ .nav-in .logo{flex-shrink:0}}
+@media (max-width:440px){.acct-m:not([hidden]){position:relative;width:44px;padding:0;justify-content:center;margin-right:6px}.acct-m .am-n{display:none}.acct-m svg{width:22px;height:22px}
+ .acct-m .prem{position:absolute;top:-7px;right:-8px;font-size:.55rem;padding:1px 4px;border:1.5px solid #fff}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -669,6 +678,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 <header class="topbar">
   <div class="wrap nav-in">
     <a class="logo" href="#trang-chu" aria-label="Giỏi Toán – Trang chủ"><svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="44" height="44" rx="11" fill="#c8102e"/><rect x="52" y="4" width="44" height="44" rx="11" fill="#f2a900"/><rect x="4" y="52" width="44" height="44" rx="11" fill="#2f7fd8"/><rect x="52" y="52" width="44" height="44" rx="11" fill="#1c1a17"/><g stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none"><path d="M26 15v22M15 26h22"/><path d="M63 26h22" stroke="#1c1a17"/><path d="M18 66l16 16M34 66l-16 16"/><path d="M63 74h22"/></g><circle cx="74" cy="64.5" r="4" fill="#fff"/><circle cx="74" cy="83.5" r="4" fill="#fff"/></svg><span class="logo-txt"><span><em>GIỎI</em> TOÁN</span><small>Luyện toán lớp 1–12</small></span></a>
+    <button class="acct-m" id="acctBtnM" type="button" hidden aria-label="Tài khoản"></button>
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Mở menu"><span></span><span></span><span></span></button>
     <nav class="mainnav" id="mainNav" aria-label="Menu chính"><ul id="tabsTop"></ul></nav>
   </div>
@@ -2402,6 +2412,7 @@ function renderAcctBtn(){
   if(!ACCT.on){b.hidden=true;return;}
   b.hidden=false;const s=ACCT.status;
   b.innerHTML=s&&s.logged_in?`${escH(s.username)}${s.trial?' <span class="prem trial">THỬ</span>':s.premium?' <span class="prem">PRO</span>':''}`:"Đăng nhập";
+  const m=$("acctBtnM");if(m){m.hidden=false;m.innerHTML=s&&s.logged_in?`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="am-n">${escH(s.username)}</span>${s.trial?'<span class="prem trial">THỬ</span>':s.premium?'<span class="prem">PRO</span>':''}`:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="am-n">Đăng nhập</span>`;m.setAttribute("aria-label",s&&s.logged_in?"Tài khoản "+s.username:"Đăng nhập");}
 }
 
 /* Kiểm tra quyền trước khi làm bài. kind: 'question' | 'exam'. Trả về true nếu được phép. */
@@ -2432,7 +2443,7 @@ function showPaywall(reason){
 }
 $("pwClose").onclick=()=>{$("paywall").hidden=true;};
 $("pwGo").onclick=()=>{$("paywall").hidden=true;location.hash="tai-khoan";if(/gv_/.test($("pwGo").dataset.r||""))setTimeout(()=>{const c=$("gvCard");if(c)c.scrollIntoView({behavior:"smooth",block:"start"});},900);};
-$("acctBtn").onclick=()=>{location.hash="tai-khoan";};
+$("acctBtn").onclick=()=>{location.hash="tai-khoan";};$("acctBtnM").onclick=()=>{location.hash="tai-khoan";};
 
 /* ----- Trang tài khoản ----- */
 /* ===== Trang quản trị ===== */
