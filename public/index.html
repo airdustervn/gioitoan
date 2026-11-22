@@ -668,6 +668,10 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 .acct-btn .prem{font-size:.78rem;padding:2px 7px}
 @media (max-width:640px){.acct-m .prem{font-size:.7rem!important;padding:2px 6px!important;top:-11px!important;right:-8px!important;border:2px solid #fff!important;box-shadow:0 1px 4px rgba(0,0,0,.2)}}
 .print-ex{margin-left:8px;background:#fff;border:1.5px solid var(--line);font-weight:800}.print-ex:hover{border-color:var(--red);color:var(--red)}
+#pDots{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-behavior:smooth;padding:4px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+#pDots .dot{flex:none}
+@media (max-width:1100px){#sec-luyen-tap .navrow{position:sticky;bottom:0;z-index:20;background:linear-gradient(to top,var(--bg,#fffaf2) 75%,transparent);padding:14px 0 calc(10px + env(safe-area-inset-bottom));margin-top:4px}
+ #sec-luyen-tap .navrow .btn{flex:1;min-height:52px;font-size:1.05rem}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -1846,11 +1850,11 @@ function renderPractice(anim){
  const TL=CHUYEN[grade]?["Tất cả",...CHUYEN[grade]]:[...TOPICS,HSG_C];if(TOPICS.includes(topic)&&!TL.includes(topic)&&DATA[grade].some(q=>q.t===topic))TL.push(topic);if(!TL.includes(topic))topic="Tất cả";
  $("pTitle").textContent=`Luyện tập lớp ${grade}`;
  const tb=$("pTopics");tb.innerHTML="";let lastSt="";const STN={S:"Số và Đại số",H:"Hình học và Đo lường",X:"Thống kê và Xác suất",E:"Mở rộng"};TL.forEach((t,k)=>{const stc=(CT_STRAND[grade]||{})[t]||(t===HSG_C?"E":"");if(stc&&stc!==lastSt){lastSt=stc;const l=document.createElement("span");l.className="strand-lbl";l.textContent=STN[stc];tb.appendChild(l);}const b=document.createElement("button");b.type="button";b.className="pill";b.id="pt-"+k;b.setAttribute("aria-pressed",String(t===topic));
-  if(t.includes("Học sinh giỏi"))b.classList.add("hsg");b.innerHTML=t.includes("Học sinh giỏi")?"★ "+t:(t==="Tất cả"||!TOPIC_COLOR[t])?t:`<i style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:${TOPIC_COLOR[t]}"></i>${t}`;b.onclick=()=>{topic=t;idx=0;renderPractice();};tb.appendChild(b);});
+  if(t.includes("Học sinh giỏi"))b.classList.add("hsg");b.innerHTML=t.includes("Học sinh giỏi")?"★ "+t:(t==="Tất cả"||!TOPIC_COLOR[t])?t:`<i style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:${TOPIC_COLOR[t]}"></i>${t}`;b.onclick=()=>{topic=t;idx=0;renderPractice();pFocus();};tb.appendChild(b);});
  const list=visible();if(idx>=list.length)idx=0;
  const dots=$("pDots");dots.innerHTML="";
  list.forEach(([q,i],k)=>{const v=answers[grade+"-"+i],d=document.createElement("button");d.type="button";d.className="dot";d.id="pd-"+k;d.textContent=k+1;d.setAttribute("aria-label","Câu "+(k+1));
-  if(v!==undefined)d.classList.add(isRight(q,v)?"ok":"no");if(k===idx)d.classList.add("cur");d.onclick=()=>{idx=k;renderPractice();};dots.appendChild(d);});
+  if(v!==undefined)d.classList.add(isRight(q,v)?"ok":"no");if(k===idx)d.classList.add("cur");d.onclick=()=>{idx=k;renderPractice();pFocus();};dots.appendChild(d);});requestAnimationFrame(()=>{const cur=dots.querySelector(".cur");if(cur)dots.scrollLeft=cur.offsetLeft-dots.clientWidth/2+cur.offsetWidth/2;});
  const qs=DATA[grade],ok=qs.filter((q,i)=>answers[grade+"-"+i]!==undefined&&isRight(q,answers[grade+"-"+i])).length,done=qs.filter((q,i)=>answers[grade+"-"+i]!==undefined).length;
  $("pProg").textContent=`Đã làm ${done}/${qs.length} · đúng ${ok}`;$("pBar").style.width=(ok/qs.length*100)+"%";
  const box=$("pCard");box.innerHTML="";
@@ -1861,8 +1865,11 @@ function renderPractice(anim){
  box.appendChild(card);
  $("pPrev").disabled=idx===0;$("pNext").textContent=idx===list.length-1?"Về trang chủ":"Câu tiếp →";
  updateStats();}
-$("pPrev").onclick=()=>{if(idx>0){idx--;renderPractice();}};
-$("pNext").onclick=()=>{const n=visible().length;if(idx<n-1){idx++;renderPractice();window.scrollTo({top:0});}else location.hash="trang-chu";};
+const pFocus=()=>{const c=$("pCard"),d=$("pDots");if(d){const cur=d.querySelector(".cur");if(cur)d.scrollLeft=cur.offsetLeft-d.clientWidth/2+cur.offsetWidth/2;}
+ if(!c)return;const tb=document.querySelector(".topbar"),h=tb?Math.max(0,tb.getBoundingClientRect().bottom):0,anchor=d||c,at=anchor.getBoundingClientRect().top;
+ if(Math.abs(at-h-10)>24)scrollTo({top:at+scrollY-h-10,behavior:"smooth"});};
+$("pPrev").onclick=()=>{if(idx>0){idx--;renderPractice();pFocus();}};
+$("pNext").onclick=()=>{const n=visible().length;if(idx<n-1){idx++;renderPractice();pFocus();}else location.hash="trang-chu";};
 $("pReset").onclick=()=>{DATA[grade].forEach((_,i)=>delete answers[grade+"-"+i]);store.set("ttd2-answers",answers);idx=0;renderPractice();};
 
 /* ---------- mock ---------- */
