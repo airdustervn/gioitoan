@@ -10,7 +10,7 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="Giỏi Toán"><meta property="og:locale" content="vi_VN">
 <meta property="og:title" content="Giỏi Toán – Luyện toán mỗi ngày lớp 1–12"><meta property="og:description" content="Giỏi Toán – luyện toán online lớp 1–12 mỗi ngày: đề thi vào lớp 6 các trường CLC Hà Nội, đề thi vào lớp 10, đề thi tốt nghiệp THPT môn Toán, Kangaroo, AMC 8, Violympic. Chấm điểm ngay, có lời giải từng bước.">
 <meta property="og:url" content="https://gioitoan.com.vn/"><meta property="og:image" content="https://gioitoan.com.vn/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#c8102e">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#c8102e"><meta name="color-scheme" content="light only"><meta name="format-detection" content="telephone=no"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="sitemap" href="/sitemap.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "name": "Giỏi Toán", "alternateName": "gioitoan", "url": "https://gioitoan.com.vn/", "inLanguage": "vi"}, {"@type": "EducationalOrganization", "name": "Giỏi Toán", "url": "https://gioitoan.com.vn/", "logo": "https://gioitoan.com.vn/favicon.svg", "telephone": "+84388130130", "sameAs": ["https://www.facebook.com/gioitoan.com.vn"], "description": "Giỏi Toán – luyện toán online lớp 1–12 mỗi ngày: đề thi vào lớp 6 các trường CLC Hà Nội, đề thi vào lớp 10, đề thi tốt nghiệp THPT môn Toán, Kangaroo, AMC 8, Violympic. Chấm điểm ngay, có lời giải từng bước."}]}</script>
 <!--/SEO-->
@@ -679,6 +679,20 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 @media (max-width:1100px){.nav-in .acct-m:not([hidden])+.burger{margin-left:0!important}}
 .foot-hot,a[href^="tel:"]{white-space:nowrap}.foot-hot{display:inline-flex;align-items:center;gap:6px}
 @media (min-width:641px) and (max-width:1000px){.gpick{grid-template-columns:repeat(min(var(--n,5),3),minmax(0,1fr))!important}.price-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* ---- Tương thích điện thoại & máy tính bảng (iOS Safari, Android Chrome, Samsung Internet, Cốc Cốc…) ---- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;color-scheme:light only}
+body{-webkit-tap-highlight-color:rgba(200,16,46,.12);overflow-x:hidden;overflow-x:clip}
+button,a,.opt,.pill,.dot,label,summary{touch-action:manipulation}
+img,svg,video,canvas{max-width:100%}
+.mainnav{max-height:calc(100dvh - 120px)}
+.qmap{max-height:70dvh;bottom:calc(16px + env(safe-area-inset-bottom));right:calc(16px + env(safe-area-inset-right))}
+.wrap{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+footer{padding-bottom:env(safe-area-inset-bottom)}
+@media (hover:none) and (pointer:coarse),(max-width:1100px){input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px!important}
+ input[type=checkbox],input[type=radio]{width:20px;height:20px}}
+@media (max-width:640px){.qmap:not(.min){width:min(248px,calc(100vw - 32px))}}
+body:has(.qmap:not([hidden])) main,body:has(.qmap:not([hidden])) .page{padding-bottom:76px}
+@media (max-width:640px){.qmap.min .qm-head b{display:none}.qmap.min{right:calc(10px + env(safe-area-inset-right));bottom:calc(10px + env(safe-area-inset-bottom))}.qmap.min .qm-head{padding:8px 12px;gap:8px}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
