@@ -660,6 +660,13 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
 @media (max-width:640px){.acct-m:not([hidden]){position:relative;margin-right:-4px}.acct-m .prem{position:absolute;top:-8px;right:-6px;font-size:.55rem;padding:1px 4px;border:1.5px solid #fff}}
 @media (max-width:440px){.acct-m:not([hidden]){max-width:min(40vw,150px);padding:0 9px;gap:4px;font-size:.84rem;height:42px}.acct-m svg{width:18px;height:18px}}
 @media (max-width:350px){.acct-m:not([hidden]){max-width:31vw;padding:0 7px}.acct-m svg{display:none}}
+.util-gv{display:inline-flex;align-items:center;gap:6px;font-weight:900;color:#fff;background:linear-gradient(135deg,#1d6fd1,#2f7fd8);border:2px solid #fff;border-radius:999px;padding:4px 13px 4px 10px;text-decoration:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .15s}
+.util-gv:hover{transform:translateY(-1px);background:#1a5fb4}.util-gv svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+@media (max-width:640px){.util-gv{display:none!important}}
+.mainnav li.nav-gv>a,.mainnav li.nav-gv>button{color:#1d6fd1!important;font-weight:900}@media (max-width:1360px){.mainnav li.nav-gv>a,.mainnav li.nav-gv>button{background:#eaf2fd;border-radius:12px;padding-left:14px!important}}
+.acct-btn .prem,.acct-m .prem{font-weight:900;letter-spacing:.02em}
+.acct-btn .prem{font-size:.78rem;padding:2px 7px}
+@media (max-width:640px){.acct-m .prem{font-size:.7rem!important;padding:2px 6px!important;top:-11px!important;right:-8px!important;border:2px solid #fff!important;box-shadow:0 1px 4px rgba(0,0,0,.2)}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -671,7 +678,7 @@ button.kpi{font:inherit;cursor:pointer;width:100%;transition:border-color .15s,b
     <a href="tel:0388130130" class="util-a hotline"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z" fill="currentColor"/></svg><span class="hl-w">Hotline: </span><b>0388 130 130</b></a>
     <span class="stat-chip" title="Số sao (câu làm đúng)" hidden><span class="ic">★</span><span id="starN">0</span></span>
     <span class="stat-chip streak" title="Chuỗi câu đúng liên tiếp" hidden><span class="ic">▲</span><span id="streakN">0</span></span>
-    <a href="#giao-vien" class="util-a util-gv">Giáo viên</a><a href="#hot" class="util-hot">🔥 HOT</a><a href="#thanh-toan" class="util-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2"/></svg>Thanh toán</a>
+    <a href="#giao-vien" class="util-gv"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></svg>Giáo viên</a><a href="#hot" class="util-hot">🔥 HOT</a><a href="#thanh-toan" class="util-pay"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2"/></svg>Thanh toán</a>
     <a href="https://www.facebook.com/gioitoan.com.vn" class="util-a util-fb" target="_blank" rel="noopener" aria-label="Fanpage Facebook Giỏi Toán"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/></svg><span class="hl-w">Fanpage</span></a>
     <button class="btn acct-btn" id="acctBtn" type="button" hidden>Đăng nhập</button>
     <button class="icon-btn" id="fontBtn" type="button" aria-pressed="false" title="Cỡ chữ lớn">A+</button>
@@ -1418,7 +1425,7 @@ const NAV=[
  {label:"Thi vào lớp 6",views:["vao-lop-6"],items:[["Thông tin tuyển sinh các trường",{v:"vao-lop-6"}],["—"],["Đề mô phỏng Cầu Giấy",{v:"vao-lop-6",m:"CG"}],["Đề mô phỏng Nam Từ Liêm",{v:"vao-lop-6",m:"NTL"}],["Đề mô phỏng Thanh Xuân",{v:"vao-lop-6",m:"TX"}],["Đề mô phỏng Lê Lợi",{v:"vao-lop-6",m:"LL"}],["Đề mô phỏng Nguyễn Tất Thành",{v:"vao-lop-6",m:"NTT"}],["Đề mô phỏng Lương Thế Vinh",{v:"vao-lop-6",m:"LTV"}],["Đề mô phỏng Ngoại ngữ",{v:"vao-lop-6",m:"NN"}],["—"],["Đề mô phỏng Hà Nội – Amsterdam",{v:"vao-lop-6",m:"AMS"}],["Đề mô phỏng Ngôi Sao Hà Nội",{v:"vao-lop-6",m:"NS"}],["Đề mô phỏng Marie Curie",{v:"vao-lop-6",m:"MC"}],["Đề mô phỏng Archimedes",{v:"vao-lop-6",m:"ARC"}],["—"],["Đề chung các trường khác",{v:"vao-lop-6",m:"CHUNG"}]]},
  {label:"Thi vào lớp 10",views:["vao-lop-10"],items:[["Đề thi vào lớp 10 (Hà Nội và các tỉnh)",{v:"vao-lop-10"}],["—"],["Ôn thi vào lớp 10 theo dạng bài",{v:"luyen-tap",g:9,t:"Ôn thi vào lớp 10"}],["Luyện tập lớp 9 theo chương",{v:"luyen-tap",g:9}],["Nâng cao – Học sinh giỏi lớp 9",{v:"luyen-tap",g:9,t:"Nâng cao – Học sinh giỏi"}],["—"],["Đề thi thử lớp 9",{v:"thi-thu",g:9}]]},
  {label:"Thi THPT",views:["dai-hoc"],items:[["Đề thi tốt nghiệp THPT (thi đại học)",{v:"dai-hoc"}],["—"],["Luyện tập lớp 10 theo chương",{v:"luyen-tap",g:10}],["Luyện tập lớp 11 theo chương",{v:"luyen-tap",g:11}],["Luyện tập lớp 12 theo chương",{v:"luyen-tap",g:12}],["—"],["Nâng cao – Học sinh giỏi lớp 10",{v:"luyen-tap",g:10,t:"Nâng cao – Học sinh giỏi"}],["Nâng cao – Học sinh giỏi lớp 11",{v:"luyen-tap",g:11,t:"Nâng cao – Học sinh giỏi"}],["Nâng cao – Học sinh giỏi lớp 12",{v:"luyen-tap",g:12,t:"Nâng cao – Học sinh giỏi"}],["—"],["Đề thi thử lớp 10",{v:"thi-thu",g:10}],["Đề thi thử lớp 11",{v:"thi-thu",g:11}],["Đề thi thử lớp 12",{v:"thi-thu",g:12}]]},
- {label:"Góc giáo viên",views:["giao-vien"],go:"giao-vien",mob:true},
+ {label:"Góc giáo viên",views:["giao-vien"],go:"giao-vien",mob:true,gv:true},
  {label:"Đăng nhập →",views:["tai-khoan"],go:"tai-khoan",cta:true}];
 function closeMenus(){document.querySelectorAll(".mainnav li.open").forEach(li=>{li.classList.remove("open");li.querySelector("button").setAttribute("aria-expanded","false");});}
 function setMobile(open){document.body.classList.toggle("nav-open",open);$("burger").setAttribute("aria-expanded",String(open));}
@@ -1433,7 +1440,7 @@ function goTo(o){closeMenus();setMobile(false);
  if(location.hash.slice(1)===o.v)route();else location.hash=o.v;
  if(o.x)setTimeout(async()=>{if(o.m)await $("hStart").onclick();if(o.xm)$("xStart").onclick();const el=$(o.x);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});},60);}
 (function buildNav(){const ul=$("tabsTop");
- NAV.forEach((n,k)=>{const li=document.createElement("li");if(n.cta)li.className="cta-li";if(n.mob)li.classList.add("nav-mob");
+ NAV.forEach((n,k)=>{const li=document.createElement("li");if(n.cta)li.className="cta-li";if(n.mob)li.classList.add("nav-mob");if(n.gv)li.classList.add("nav-gv");
   const b=document.createElement("button");b.type="button";b.className="tab"+(n.cta?" tab-cta":"");b.id="nav-"+k;b.dataset.views=n.views.join(" ");
   b.innerHTML=n.label+(n.items?'<svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>':"");li.appendChild(b);
   if(n.items){b.setAttribute("aria-expanded","false");b.setAttribute("aria-haspopup","true");
@@ -2413,6 +2420,7 @@ function renderAcctBtn(){
   if(!ACCT.on){b.hidden=true;return;}
   b.hidden=false;const s=ACCT.status;
   b.innerHTML=s&&s.logged_in?`${escH(s.username)}${s.trial?' <span class="prem trial">THỬ</span>':s.premium?' <span class="prem">PRO</span>':''}`:"Đăng nhập";
+  document.querySelectorAll(".cta-li>a,.cta-li>button").forEach(e=>{e.textContent=s&&s.logged_in?"Tài khoản →":"Đăng nhập →";});
   const m=$("acctBtnM");if(m){m.hidden=false;m.innerHTML=s&&s.logged_in?`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="am-n">${escH(s.username)}</span>${s.trial?'<span class="prem trial">THỬ</span>':s.premium?'<span class="prem">PRO</span>':''}`:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="am-n">Đăng nhập</span>`;m.setAttribute("aria-label",s&&s.logged_in?"Tài khoản "+s.username:"Đăng nhập");}
 }
 
