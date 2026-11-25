@@ -698,6 +698,9 @@ body:has(.qmap:not([hidden])) main,body:has(.qmap:not([hidden])) .page{padding-b
 .rv-chart{display:flex;align-items:flex-end;gap:3px;height:150px;border-bottom:1px solid var(--line);padding-bottom:18px}.rv-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}.rv-col i{display:block;width:100%;max-width:28px;background:var(--red);border-radius:4px 4px 0 0;min-height:2px}.rv-col em{position:absolute;bottom:-17px;font-style:normal;font-size:.68rem;color:var(--muted)}
 .rv-t{width:100%;border-collapse:collapse}.rv-t td,.rv-t th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}.rv-t .n{text-align:right;white-space:nowrap}
 @media (max-width:640px){.rv-kpis .kpi.big{grid-column:span 1}}
+.foldable>:first-child h3,.foldable>h3:first-child{cursor:pointer;user-select:none}.fold-i{display:inline-block;margin-right:6px;transition:transform .15s;color:var(--red)}.foldable:not(.folded) .fold-i{transform:rotate(90deg)}
+.foldable.folded>:not(:first-child){display:none!important}.foldable.folded>:first-child:not(h3)>:not(h3){display:none!important}.foldable.folded{padding-top:14px;padding-bottom:14px}
+.fold-sum{font-size:.82rem;font-weight:700;color:var(--muted);margin-left:8px}.foldable:not(.folded) .fold-sum{display:none}.foldable.folded h3::after{content:"Bấm để xem";margin-left:10px;font-size:.75rem;font-weight:700;color:var(--red);border:1px solid var(--red);border-radius:999px;padding:1px 8px;vertical-align:middle}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23c8102e%22/%3E%3Crect%20x%3D%2252%22%20y%3D%224%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%23f2a900%22/%3E%3Crect%20x%3D%224%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%232f7fd8%22/%3E%3Crect%20x%3D%2252%22%20y%3D%2252%22%20width%3D%2244%22%20height%3D%2244%22%20rx%3D%2211%22%20fill%3D%22%231c1a17%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M26%2015v22M15%2026h22%22/%3E%3Cpath%20d%3D%22M63%2026h22%22%20stroke%3D%22%231c1a17%22/%3E%3Cpath%20d%3D%22M18%2066l16%2016M34%2066l-16%2016%22/%3E%3Cpath%20d%3D%22M63%2074h22%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2264.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%2283.5%22%20r%3D%224%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <script src="auto/manifest.js" onerror="window.AUTO_M=window.AUTO_M||[]"></script>
@@ -2536,6 +2539,15 @@ function activityHTML(d,err){if(err||!d)return `<div class="card"><p class="note
  </div>
  <p class="note" style="margin:0">Số liệu ghi nhận từ 19/11/2026 cho tài khoản đã đăng nhập. Phút học chỉ tính khi trang đang mở và có thao tác trong 2 phút gần nhất.</p></div>`;}
 
+/* Thu gọn các báo cáo trong trang Quản trị: mặc định gập, bấm tiêu đề để mở; nhớ trạng thái trên máy */
+function admFold(){document.querySelectorAll("#admBox .card").forEach(c=>{if(c.id==="admList")return;const head=c.firstElementChild,h=head&&(head.matches("h3")?head:head.querySelector("h3"));if(!h)return;
+ const key="gt-fold-"+h.textContent.replace(/[▸▾]/g,"").trim();let st=null;try{st=localStorage.getItem(key);}catch(_){}
+ c.classList.add("foldable");c.classList.toggle("folded",st!=="0");
+ if(!h.querySelector(".fold-i")){h.insertAdjacentHTML("afterbegin",'<span class="fold-i" aria-hidden="true">▸</span>');h.tabIndex=0;h.setAttribute("role","button");}
+ h.setAttribute("aria-expanded",String(!c.classList.contains("folded")));
+ const tg=()=>{const f=c.classList.toggle("folded");h.setAttribute("aria-expanded",String(!f));try{localStorage.setItem(key,f?"1":"0");}catch(_){}};
+ h.onclick=tg;h.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tg();}};});}
+
 /* ===== Báo cáo doanh thu (Quản trị) ===== */
 const RV={p:"month",from:"",to:""};
 const vnDate=d=>{const z=new Date(d.getTime()+7*3600e3);return z.toISOString().slice(0,10);};
@@ -2550,7 +2562,7 @@ async function renderRevenue(){const el=$("admRev");if(!el)return;const [f,t]=rv
  const S=R.series||[],mx=Math.max(1,...S.map(x=>+x.v||0)),lab=x=>R.unit==="month"?String(x.d).slice(5,7)+"/"+String(x.d).slice(2,4):String(x.d).slice(8,10),step=Math.ceil(S.length/16);
  const conv=R.created_count?Math.round(100*R.created_paid/R.created_count):0;
  const PL={today:"Hôm nay","7":"7 ngày","30":"30 ngày",month:"Tháng này",lastmonth:"Tháng trước",year:"Năm nay",custom:"Tùy chọn"};
- el.innerHTML=`<div class="card stack rv" id="rvCard"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h3 style="margin:0">💰 Báo cáo doanh thu</h3>
+ el.innerHTML=`<div class="card stack rv" id="rvCard"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><h3 style="margin:0">💰 Báo cáo doanh thu <span class="fold-sum">${(PL[RV.p]||"")}: ${V(R.revenue)} · ${N(R.paid_count)} đơn</span></h3>
   <div class="row rv-act" style="gap:6px"><button type="button" class="btn sm" id="rvCsv">⬇ Tải Excel (CSV)</button><button type="button" class="btn sm" id="rvPrint">🖨 In / PDF</button></div></div>
   <div class="rv-pills">${[["today","Hôm nay"],["7","7 ngày"],["30","30 ngày"],["month","Tháng này"],["lastmonth","Tháng trước"],["year","Năm nay"],["custom","Tùy chọn"]].map(([k,v])=>`<button type="button" class="pill${RV.p===k?" on":""}" data-rv="${k}" aria-pressed="${RV.p===k}">${v}</button>`).join("")}
    ${RV.p==="custom"?`<span class="rv-cust"><input type="date" id="rvF" class="sel" value="${f}"> → <input type="date" id="rvT" class="sel" value="${t}"><button type="button" class="btn sm primary" id="rvGo">Xem</button></span>`:""}</div>
@@ -2569,6 +2581,7 @@ async function renderRevenue(){const el=$("admRev");if(!el)return;const [f,t]=rv
   <div><p class="td-l">Doanh thu theo ${R.unit==="month"?"tháng":"ngày"}</p><div class="rv-chart" role="img" aria-label="Biểu đồ doanh thu">${S.map((x,i)=>`<div class="rv-col" title="${R.unit==="month"?"Tháng "+String(x.d).slice(5,7)+"/"+String(x.d).slice(0,4):fd(x.d)}: ${V(x.v)} · ${N(x.n)} đơn"><i style="height:${Math.round(100*(+x.v||0)/mx)}%"></i>${i%step===0?`<em>${lab(x)}</em>`:""}</div>`).join("")}</div></div>
   <div class="rv-split"><div><p class="td-l">Theo gói</p>${(R.by_plan||[]).length?`<table class="rv-t"><thead><tr><th>Gói</th><th>Số đơn</th><th>Doanh thu</th><th>Tỉ trọng</th></tr></thead><tbody>${R.by_plan.map(b=>`<tr><td>${escH(b.name)}${b.audience==="gv"?' <span class="chip">GV</span>':""}</td><td class="n">${N(b.n)}</td><td class="n">${V(b.v)}</td><td class="n">${R.revenue?Math.round(100*b.v/R.revenue):0}%</td></tr>`).join("")}</tbody></table>`:'<p class="note">Chưa có đơn đã thanh toán trong kỳ.</p>'}</div></div>
   <div><p class="td-l">Chi tiết đơn đã thanh toán (${N((R.orders||[]).length)})</p>${(R.orders||[]).length?`<div class="tablewrap"><table class="rv-t"><thead><tr><th>Thời gian</th><th>Mã đơn</th><th>Tài khoản</th><th>Gói</th><th>Số tiền</th><th></th></tr></thead><tbody>${R.orders.map(o=>`<tr><td class="n">${new Date(o.paid_at).toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</td><td class="n">${o.order_code}</td><td><b>${escH(o.username||"")}</b>${o.full_name?`<br><span class="note">${escH(o.full_name)}</span>`:""}</td><td>${escH(o.plan_name)}</td><td class="n">${V(o.amount)}</td><td>${o.is_new?'<span class="chip">Khách mới</span>':'<span class="note">Gia hạn</span>'}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có đơn đã thanh toán trong kỳ này.</p>'}</div></div>`;
+ admFold();
  el.querySelectorAll("[data-rv]").forEach(b=>b.onclick=()=>{RV.p=b.dataset.rv;renderRevenue();});
  if($("rvGo"))$("rvGo").onclick=()=>{RV.from=$("rvF").value;RV.to=$("rvT").value;if(RV.from&&RV.to&&RV.from<=RV.to)renderRevenue();};
  $("rvCsv").onclick=()=>{const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const rows=[["BÁO CÁO DOANH THU GIỎI TOÁN"],["Kỳ",fd(R.from)+" - "+fd(R.to)],["Doanh thu",R.revenue],["Số đơn đã thanh toán",R.paid_count],["Khách trả tiền",R.payers],["Khách mới",R.new_payers],["Gói học sinh",R.revenue_hs],["Gói giáo viên",R.revenue_gv],["Đơn chờ thanh toán",R.pending_count],[],["Theo "+(R.unit==="month"?"tháng":"ngày"),"Doanh thu","Số đơn"],...S.map(x=>[x.d,x.v,x.n]),[],["Gói","Số đơn","Doanh thu"],...(R.by_plan||[]).map(b=>[b.name,b.n,b.v]),[],["Thời gian","Mã đơn","Tài khoản","Họ tên","Gói","Số tiền","Loại"],...(R.orders||[]).map(o=>[new Date(o.paid_at).toLocaleString("vi-VN"),o.order_code,o.username,o.full_name,o.plan_name,o.amount,o.is_new?"Khách mới":"Gia hạn"])];
@@ -2597,7 +2610,7 @@ async function renderAdmin(){const box=$("admBox");
     <td><select class="sel adm-d" data-i="${i}" aria-label="Số ngày PRO cho ${escH(r.username)}"><option value="">—</option><option value="30">+30 ngày</option><option value="90">+90 ngày</option><option value="365">+1 năm</option><option value="0">Thu hồi</option><optgroup label="Gói giáo viên"><option value="gv30">GV +30 ngày</option><option value="gv90">GV +90 ngày</option><option value="gv365">GV +1 năm</option><option value="gv0">GV thu hồi</option></optgroup></select></td></tr>`).join("")}</tbody></table></div>
    <div class="row"><button class="btn" type="button" id="admPrev" ${ADM.off?"":"disabled"}>← Trước</button><button class="btn" type="button" id="admNext" ${ADM.off+R.length<(+data.matched||0)?"":"disabled"}>Sau →</button></div>
    <p class="err" id="admErr" hidden></p></div>`;
- renderRevenue();
+ renderRevenue();admFold();
  document.querySelectorAll("[data-days]").forEach(b=>b.onclick=()=>{ADM.days=+b.dataset.days;renderAdmin();});
  box.querySelectorAll("button.kpi[data-f]").forEach(b=>b.onclick=async()=>{ADM.f=ADM.f===b.dataset.f&&b.dataset.f!=="all"?"all":b.dataset.f;ADM.off=0;ADM.q="";await renderAdmin();const L=$("admList");if(L){const h=(document.querySelector(".topbar")||{}).offsetHeight||0;scrollTo({top:L.getBoundingClientRect().top+scrollY-h-70,behavior:"smooth"});}});
  if($("admClr"))$("admClr").onclick=()=>{ADM.f="all";ADM.off=0;renderAdmin();};
