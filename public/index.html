@@ -2574,7 +2574,7 @@ async function renderAcct(){
   const {data:allPlans}=await ACCT.sb.from("plans").select("*").order("sort");const plans=(allPlans||[]).filter(p=>(p.audience||"hs")!=="gv"),gvPlans=(allPlans||[]).filter(p=>p.audience==="gv");
   let gvs=null;try{const r=await ACCT.sb.rpc("teacher_status",{p_start:false});gvs=r.data;}catch(_){}let gvUsed=false;try{gvUsed=!!localStorage.getItem("gt_gv_first");}catch(_){}
   const showGv=gvPlans.length&&(gvUsed||(gvs&&gvs.started)||location.hash.includes("gv"));
-  const {data:orders}=await ACCT.sb.from("orders").select("order_code,plan_id,amount,status,created_at,paid_at").order("created_at",{ascending:false}).limit(10);
+  const {data:orders}=await ACCT.sb.from("orders").select("order_code,plan_id,amount,status,created_at,paid_at,qr_code,checkout_url").order("created_at",{ascending:false}).limit(10);
   box.innerHTML=`
   <div class="acct-grid">
     <div class="card stack">
@@ -2595,8 +2595,10 @@ async function renderAcct(){
    <p class="note">${gvs&&gvs.paid?`Gói giáo viên còn hạn đến <b>${fdate(gvs.teacher_until)}</b>.`:gvs&&gvs.trial?`Đang dùng thử Góc giáo viên đến <b>${fdate(gvs.trial_until)}</b>.`:gvs&&gvs.started?"Đã hết hạn dùng thử Góc giáo viên.":"Dùng thử miễn phí 7 ngày khi mở Góc giáo viên."} Gói giáo viên mở khóa ra đề kiểm tra 15 phút, 1 tiết, giữa kì, cuối kì không giới hạn; nhiều mã đề; tải Word, in/PDF; câu hỏi tự soạn, tải file, công thức LaTeX. Gói giáo viên tính riêng với gói học sinh.</p>
    <div class="plans">${gvPlans.map(p=>`<button class="plan" type="button" data-plan="${p.id}" id="plan-${p.id}"><b>${p.name}</b><span class="price">${vnd(p.price_vnd)}</span><span class="note">${p.days} ngày · khoảng ${vnd(Math.round(p.price_vnd/p.days*30/1000)*1000)}/tháng</span></button>`).join("")}</div>
    <a class="btn" href="#giao-vien" style="align-self:flex-start">Mở Góc giáo viên →</a></div>`:""}
-  <div class="card stack" id="payHistCard"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${orders.map(o=>`<tr><td class="n">${o.order_code}</td><td>${o.plan_id}</td><td class="n">${vnd(o.amount)}</td><td>${{pending:"Chờ thanh toán",paid:"Đã thanh toán",cancelled:"Đã hủy"}[o.status]}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
+  <div class="card stack" id="payHistCard"><h3>Lịch sử thanh toán</h3>${orders&&orders.length?`<div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Gói</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày</th></tr></thead><tbody>${(()=>{const seenP=new Set();return orders.map(o=>{const pl=(allPlans||[]).find(p=>p.id===o.plan_id),latest=o.status==="pending"&&!seenP.has(o.plan_id);if(o.status==="pending")seenP.add(o.plan_id);const fresh=latest&&Date.now()-Date.parse(o.created_at)<24*3600e3;return `<tr><td class="n">${o.order_code}</td><td>${pl?escH(pl.name):escH(o.plan_id)}</td><td class="n">${vnd(o.amount)}</td><td>${o.status==="pending"?(fresh&&(o.qr_code||o.checkout_url)?`<span class="chip" style="background:#fff4d6">Chờ thanh toán</span> <button type="button" class="btn sm pay-again" data-oc="${o.order_code}">Thanh toán tiếp →</button>`:`<span class="note">${latest?"Hết hạn – chọn gói để tạo mã mới":"Đã thay bằng mã mới"}</span>`):{paid:'<b style="color:var(--good)">Đã thanh toán</b>',cancelled:"Đã hủy"}[o.status]||o.status}</td><td class="n">${fdate(o.paid_at||o.created_at)}</td></tr>`;}).join("");})()}</tbody></table></div><div id="payBox2" hidden></div>`:'<p class="note">Chưa có giao dịch.</p>'}</div>`;
+  ACCT.orders=orders||[];
   {const ph=$("payHistCard"),pw=$("payHist");if(ph&&pw){pw.innerHTML="";pw.appendChild(ph);}}
+  document.querySelectorAll(".pay-again").forEach(b=>b.onclick=()=>{const o=ACCT.orders.find(x=>String(x.order_code)===b.dataset.oc);if(!o)return;const pb=$("payBox");if(pb){pb.remove();}const host=$("payBox2");host.id="payBox";host.hidden=false;showPay({order_code:o.order_code,amount:o.amount,qr_code:o.qr_code,checkout_url:o.checkout_url});host.scrollIntoView({behavior:"smooth",block:"center"});});
   $("acOut").onclick=async()=>{await ACCT.sb.auth.signOut();await renderAcct();};
   $("acGrade").onchange=async e=>{await ACCT.sb.from("profiles").update({grade:+e.target.value}).eq("username",s.username);};
   document.querySelectorAll(".plan").forEach(b=>b.onclick=()=>{window.gt&&gt("begin_checkout",{plan:b.dataset.plan});const pb=$("payBox"),pl=b.closest(".plans");if(pb&&pl&&pl.nextElementSibling!==pb)pl.after(pb);buy(b.dataset.plan);});
@@ -2636,9 +2638,13 @@ function bindAuth(){
 
 /* ----- Thanh toán VietQR ----- */
 async function buy(planId){
+  if(ACCT.buying)return;ACCT.buying=true;setTimeout(()=>ACCT.buying=false,8000);
   const box=$("payBox");box.hidden=false;box.innerHTML='<p class="note">Đang tạo mã thanh toán…</p>';
-  const {data,error}=await ACCT.sb.functions.invoke("create-order",{body:{plan_id:planId}});
+  const {data,error}=await ACCT.sb.functions.invoke("create-order",{body:{plan_id:planId}});ACCT.buying=false;
   if(error||!data||data.error){box.innerHTML=`<p class="err">${(data&&data.error)||"Không tạo được đơn. Vui lòng thử lại."}</p>`;return;}
+  showPay(data);
+}
+async function showPay(data){const box=$("payBox");box.hidden=false;
   ACCT.order=data;
   box.innerHTML=`<div class="paybox"><div id="qr" class="qr" role="img" aria-label="Mã QR chuyển khoản"></div>
     <div class="stack" style="gap:6px"><b>Quét mã bằng ứng dụng ngân hàng</b>
