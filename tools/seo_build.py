@@ -129,7 +129,7 @@ def page(slug, title, h1, desc, lead, body, hsh, kw):
 <a class="cta" href="/#{hsh}">Làm bài ngay – miễn phí →</a>{body}
 <div class="card"><h2>Vì sao luyện trên Giỏi Toán</h2>{FEAT}</div>
 <div class="card"><h2>Xem thêm</h2><div class="more">{others}<a href="/#hot">🔥 Đề thi nóng hổi</a></div></div></main>
-<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">Fanpage Facebook</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
+<footer><div class="w"><a href="/">Trang chủ</a><a href="/dieu-khoan">Điều khoản sử dụng</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/chinh-sach-thanh-toan">Chính sách thanh toán</a><a href="/chinh-sach-hoan-tien">Hoàn tiền &amp; đổi gói</a><a href="/chinh-sach-gia">Chính sách giá</a><a href="/dieu-kien-cung-cap-dich-vu">Điều kiện cung cấp dịch vụ</a><a href="/giai-quyet-khieu-nai">Giải quyết khiếu nại</a><a href="https://www.facebook.com/gioitoan.com.vn" target="_blank" rel="noopener">Fanpage Facebook</a><br><span style="display:block;margin:8px 0 4px">Chủ sở hữu website: <b>Lê Anh Tuấn</b> · Mã số thuế: 038088003952 · Địa chỉ: 02 Thành Công, Phường Đông Thọ, Thành Phố Thanh Hóa · Hotline 0388 130 130</span>© 2026 Giỏi Toán – Luyện toán mỗi ngày lớp 1–12</div></footer></body></html>
 """
 for p in PAGES:
     os.makedirs(os.path.join(ROOT, p[0]), exist_ok=True)
@@ -139,7 +139,7 @@ for p in PAGES:
 logo_svg = LOGO.replace('class="logo-mark" ', 'xmlns="http://www.w3.org/2000/svg" ').replace(' aria-hidden="true"', "")
 open(os.path.join(ROOT, "favicon.svg"), "w").write(logo_svg)
 # sitemap + robots
-LEGAL = ("chinh-sach-bao-mat", "dieu-khoan", "chinh-sach-thanh-toan", "chinh-sach-hoan-tien", "giai-quyet-khieu-nai")
+LEGAL = ("chinh-sach-bao-mat", "dieu-khoan", "chinh-sach-thanh-toan", "chinh-sach-hoan-tien", "giai-quyet-khieu-nai", "chinh-sach-gia", "dieu-kien-cung-cap-dich-vu")
 urls = [("", "daily", "1.0")] + [(p[0], "weekly", "0.8") for p in PAGES] + [(x, "yearly", "0.2") for x in LEGAL]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
     f"  <url><loc>{SITE}/{u}</loc><lastmod>{TODAY}</lastmod><changefreq>{c}</changefreq><priority>{pr}</priority></url>\n" for u, c, pr in urls) + "</urlset>\n"
