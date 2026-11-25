@@ -2540,8 +2540,8 @@ function activityHTML(d,err){if(err||!d)return `<div class="card"><p class="note
  <p class="note" style="margin:0">Số liệu ghi nhận từ 19/11/2026 cho tài khoản đã đăng nhập. Phút học chỉ tính khi trang đang mở và có thao tác trong 2 phút gần nhất.</p></div>`;}
 
 /* Thu gọn các báo cáo trong trang Quản trị: mặc định gập, bấm tiêu đề để mở; nhớ trạng thái trên máy */
-function admFold(){document.querySelectorAll("#admBox .card").forEach(c=>{if(c.id==="admList")return;const head=c.firstElementChild,h=head&&(head.matches("h3")?head:head.querySelector("h3"));if(!h)return;
- const key="gt-fold-"+h.textContent.replace(/[▸▾]/g,"").trim();let st=null;try{st=localStorage.getItem(key);}catch(_){}
+function admFold(){document.querySelectorAll("#admBox .card").forEach(c=>{if(c.id==="admList"&&(ADM.f!=="all"||ADM.q)){try{localStorage.setItem("gt-fold-👥 Danh sách tài khoản","0");}catch(_){}}const head=c.firstElementChild,h=head&&(head.matches("h3")?head:head.querySelector("h3"));if(!h)return;
+ const key="gt-fold-"+[...h.childNodes].filter(n=>!(n.classList&&(n.classList.contains("fold-sum")||n.classList.contains("fold-i")))).map(n=>n.textContent).join("").trim();let st=null;try{st=localStorage.getItem(key);}catch(_){}
  c.classList.add("foldable");c.classList.toggle("folded",st!=="0");
  if(!h.querySelector(".fold-i")){h.insertAdjacentHTML("afterbegin",'<span class="fold-i" aria-hidden="true">▸</span>');h.tabIndex=0;h.setAttribute("role","button");}
  h.setAttribute("aria-expanded",String(!c.classList.contains("folded")));
@@ -2601,7 +2601,7 @@ async function renderAdmin(){const box=$("admBox");
  ADM.data=data;const R=data.rows||[];const tr=await ACCT.sb.rpc("admin_traffic",{p_days:ADM.days||30});const ac=await ACCT.sb.rpc("admin_activity",{p_days:ADM.days||30});const pv={google:"Google",email:"Tên đăng nhập"};
  const kp=(n,t,f)=>`<button type="button" class="kpi${ADM.f===f?" on":""}" data-f="${f}" title="Bấm để xem danh sách tài khoản"><b>${(+n||0).toLocaleString("vi-VN")}</b><span>${t}</span></button>`;
  box.innerHTML='<div id="admRev"></div>'+activityHTML(ac.data,ac.error)+trafficHTML(tr.data,tr.error)+`<div class="kpis adm-kpis">${kp(data.total,"tài khoản","all")}${kp(data.today,"đăng ký hôm nay","today")}${kp(data.week,"đăng ký 7 ngày","week")}${kp(data.active,"đang học hôm nay","active")}${kp(data.premium,"gói PRO còn hạn","premium")}${data.trial!=null?kp(data.trial,"đang dùng thử","trial"):""}${kp(Math.max(0,(+data.total||0)-(+data.premium||0)-(+data.trial||0)),"gói miễn phí","free")}${kp(data.google,"đăng nhập Google","google")}</div>
-  <div class="card stack" id="admList">
+  <div class="card stack" id="admList"><h3 style="margin:0">👥 Danh sách tài khoản <span class="fold-sum">${(+data.matched||0).toLocaleString("vi-VN")} tài khoản${ADM.f!=="all"?" · "+escH(ADM_F[ADM.f]||ADM.f):""}</span></h3>
    ${ADM.f!=="all"?`<div class="adm-filter"><span>Đang xem: <b>${escH(ADM_F[ADM.f]||ADM.f)}</b>${/^(learned|examined|returning|new)/.test(ADM.f)?` (${ADM.days||30} ngày)`:""}</span><button class="btn" type="button" id="admClr">✕ Bỏ lọc</button></div>`:""}
    <form class="row" id="admF" role="search"><input id="admQ" class="sel" type="search" placeholder="Tìm tên đăng nhập, họ tên, email…" value="${escH(ADM.q)}" style="flex:1;min-width:200px"><button class="btn primary" type="submit">Tìm</button><button class="btn" type="button" id="admCsv">Tải CSV</button></form>
    <p class="note">${(+data.matched||0).toLocaleString("vi-VN")} kết quả · hiển thị ${R.length?ADM.off+1:0}–${ADM.off+R.length}</p>
